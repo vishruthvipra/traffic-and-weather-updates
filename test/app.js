@@ -5,10 +5,10 @@ module.exports = function(app)
     app.delete("/api/test/:id", deleteMessage);
 
  
- 	if(process.env.MONGODB_URI){
+ 	/*if(process.env.MONGODB_URI){
     	connectionString = process.env.MONGODB_URI
  	}
- 	//var connectionString = 'mongodb://someone:somepassword@ds111589.mlab.com:11589/firstone'
+ 	//*/var connectionString = 'mongodb://someone:somepassword@ds111589.mlab.com:11589/firstone'
     if(process.env.MLAB_USERNAME) {
         connectionString = process.env.MLAB_USERNAME + ":" +
             process.env.MLAB_PASSWORD + "@" +
