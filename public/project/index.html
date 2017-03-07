@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link href="styles.css" rel="stylesheet">
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery-ui.js"></script>
+
+    <script src="../js/angular.js"></script>
+    <script src="../js/angular-route.js"></script>
+
+    <script src="app.js"></script>
+    <script src="config.js"></script>
+
+    <!-- directives -->
+    <script src="directives/webdev-sortable.js"></script>
+
+    <!-- controllers -->
+    <script src="views/user/controllers/login.controller.client.js"></script>
+    <script src="views/user/controllers/register.controller.client.js"></script>
+    <script src="views/user/controllers/profile.controller.client.js"></script>
+    <script src="views/website/controllers/website-list-controller.js"></script>
+    <script src="views/website/controllers/website-edit-controller.js"> </script>
+    <script src="views/website/controllers/website-new-controller.js"> </script>
+    <script src="views/page/controllers/page-list-controller.js"></script>
+    <script src="views/page/controllers/page-edit-controller.js"></script>
+    <script src="views/page/controllers/page-new-controller.js"></script>
+    <script src="views/widget/controllers/widget-list-controller.js"></script>
+    <script src="views/widget/controllers/widget-edit-controller.js"></script>
+    <script src="views/widget/controllers/widget-choose-controller.js"></script>
+
+    <!-- services -->
+    <script src="services/user.service.client.js"></script>
+    <script src="services/website.service.client.js"></script>
+    <script src="services/page.service.client.js"></script>
+    <script src="services/widget.service.client.js"></script>
+
+
+
+</head>
+<body>
+    <div ng-view></div>
+</body>
+</html>

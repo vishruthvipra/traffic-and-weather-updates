@@ -1,0 +1,42 @@
+input.form-control {
+    margin-bottom: 5px;
+}
+
+body {
+    padding-top: 36px;
+    padding-bottom: 50px; /*50px for the height of the bottom navbar*/
+}
+
+#navi-header {
+    height: 10px;
+}
+
+.cog-right {
+    float: right;
+}
+
+.no-left-margin {
+    margin-left: 12px;
+}
+.no-right-margin {
+    margin-right: 14px;
+}
+
+.justifying {
+    margin-left: 5px;
+    z-index: 2;
+}
+
+.vk-toolbar {
+    position: absolute;
+    background-color: white;
+    right: 15px;
+    border-bottom-left-radius: 5px;
+    opacity: 0.9;
+    padding-left: 4px;
+}
+
+img {
+    width: 100%;
+}
+

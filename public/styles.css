@@ -1,0 +1,26 @@
+
+h1 {
+    background: mediumpurple;
+    text-align: center;
+    padding: 50px;
+    color: white;
+    font-family: sans-serif;
+}
+
+.h2-settings {
+    background: mediumpurple;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    color: white;
+    font-family: sans-serif;
+}
+body{
+    background: hotpink;
+}
+
+.iframe-container {
+    position: relative;
+    overflow: hidden;
+}
