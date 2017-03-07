@@ -16,11 +16,16 @@ h1 {
     color: white;
     font-family: sans-serif;
 }
-body{
+
+body {
     background: hotpink;
 }
 
 .iframe-container {
     position: relative;
     overflow: hidden;
+}
+
+.wrap-text {
+    white-space: normal;
 }

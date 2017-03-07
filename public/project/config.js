@@ -13,22 +13,22 @@
 
         $routeProvider
             .when("/login", {
-                templateUrl: "project/views/user/templates/login.view.client.html",
+                templateUrl: "views/user/templates/login.view.client.html",
                 controller: "LoginController",
                 controllerAs: "model"
             })
             .when("/register", {
-                templateUrl: "project/views/user/templates/register.view.client.html",
+                templateUrl: "views/user/templates/register.view.client.html",
                 controller: "RegisterController",
                 controllerAs: "model"
             })
             .when("/user/:uid", {
-                templateUrl: "project/views/user/templates/profile.view.client.html",
+                templateUrl: "views/user/templates/profile.view.client.html",
                 controller: "ProfileController",
                 controllerAs: "model"
             })
             .when("/user/:uid/website", {
-                templateUrl: "project/views/website/templates/website-list.view.client.html",
+                templateUrl: "views/website/templates/website-list.view.client.html",
                 controller: "WebsiteListController",
                 controllerAs: "model"
             })
