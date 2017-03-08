@@ -1,8 +1,13 @@
+html {
+    height: 100%;
+}
 
 h1 {
     background: mediumpurple;
     text-align: center;
     padding: 50px;
+    margin-top: 0px;
+    margin-bottom: 0px;
     color: white;
     font-family: sans-serif;
 }
@@ -18,7 +23,7 @@ h1 {
 }
 
 body {
-    background: hotpink;
+    background-color: deeppink;
 }
 
 .iframe-container {
@@ -28,4 +33,14 @@ body {
 
 .wrap-text {
     white-space: normal;
+}
+
+#demo {
+    text-align: right;
+    font-size: x-small;
+    color: white;
+}
+
+.navbar {
+    border-radius: 0px;
 }

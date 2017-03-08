@@ -4,9 +4,16 @@ input.form-control {
 
 body {
     padding-top: 36px;
-    padding-bottom: 50px; /*50px for the height of the bottom navbar*/
+    padding-bottom: 50px;
+    height: 100%;
+    background-image: url("../images/bk-img-home.jpg");
+    background-repeat:no-repeat;
+    background-size: cover;
+    background-position: bottom;
 }
-
+html {
+    height: 100%;
+}
 #navi-header {
     height: 10px;
 }

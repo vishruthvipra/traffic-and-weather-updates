@@ -11,19 +11,34 @@
 <body>
 
 <h1>Welcome to --websitename--!</h1>
+<nav class="navbar navbar-default">
+    <a class="navbar-brand pull-right no-right-margin" href="project/#/login">Sign In</a>
+    <a class="navbar-brand pull-right no-right-margin" href="project/#/register">Sign Up</a>
+</nav>
+
 <div class="container-fluid">
+    <div>
+        <h2 class="h2-settings">Weather Report</h2>
+        <p id="demo"></p>
+    </div>
 
+    <!-- this part will be deleted later-->
+    <script>
+        var x = document.getElementById("demo");
 
-<ul class="list-group">
-    <li class="list-group-item">
-        <a href="project/#/login">Login</a>
-    </li>
-    <li class="list-group-item">
-        <a href="project/#/register">Register</a>
-    </li>
-</ul>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
 
-    <h2 class="h2-settings">Weather Report</h2>
+        function showPosition(position) {
+            x.innerHTML = "Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude;
+        }
+    </script>
+
     <div class="row">
         <div class="iframe-container col-xs-8">
             <iframe
@@ -46,7 +61,7 @@
                     Pressure:
                 </li>
             </ul>
-            <button class="wrap-text btn btn-primary btn-block">What's happening near me?</button>
+            <button onclick="getLocation()" class="wrap-text btn btn-primary btn-block">What's happening near me?</button>
         </div>
     </div>
 
