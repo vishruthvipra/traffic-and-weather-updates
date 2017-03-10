@@ -13,8 +13,8 @@
 
         $routeProvider
             .when("/login", {
-                templateUrl: "views/user/templates/login.view.client.html",
-                controller: "LoginController",
+                templateUrl: "views/user/templates/home.view.client.html",
+                controller: "HomeController",
                 controllerAs: "model"
             })
             .when("/register", {

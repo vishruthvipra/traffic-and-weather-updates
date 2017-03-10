@@ -5,10 +5,11 @@
 (function() {
     angular
         .module("WebAppMaker")
-        .controller("LoginController", loginController)
-        function loginController(UserService, $location) {
+        .controller("HomeController", HomeController)
+        function HomeController(UserService, $location) {
             var vm = this;
             vm.login = login;
+            vm.register = register;
 
             function init() {
 
@@ -27,6 +28,20 @@
                         }
                     });
 
+            }
+
+            function register(user) {
+                var newUser = UserService
+                    .findUserByUsername(user.username)
+                    .success(function (user) {
+                        vm.error = "User already exists"; })
+                    .error(function (err) {
+                        UserService
+                            .createUser(user)
+                            .success(function (user) {
+                                $location.url("user/" + user._id);
+                            })
+                    });
             }
         }
 
