@@ -12,14 +12,9 @@
         $httpProvider.defaults.headers.put['Content-Type'] = 'application/json;charset=utf-8';
 
         $routeProvider
-            .when("/login", {
+            .when("/home", {
                 templateUrl: "views/user/templates/home.view.client.html",
                 controller: "HomeController",
-                controllerAs: "model"
-            })
-            .when("/register", {
-                templateUrl: "views/user/templates/register.view.client.html",
-                controller: "RegisterController",
                 controllerAs: "model"
             })
             .when("/user/:uid", {

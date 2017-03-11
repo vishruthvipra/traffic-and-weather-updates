@@ -5,7 +5,7 @@
 (function() {
     angular
         .module("WebAppMaker")
-        .controller("HomeController", HomeController)
+        .controller("HomeController", HomeController);
         function HomeController(UserService, $location) {
             var vm = this;
             vm.login = login;

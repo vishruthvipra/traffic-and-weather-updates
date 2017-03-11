@@ -43,8 +43,8 @@ html {
     padding-left: 4px;
 }
 
-img {
-    width: 100%;
+img#big-image {
+    width: inherit;
 }
 
 html {
@@ -89,6 +89,7 @@ a:hover {
 
 #regbar {
     height: 50px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
 
 .login {
