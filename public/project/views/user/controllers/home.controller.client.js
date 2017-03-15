@@ -39,7 +39,7 @@
                         UserService
                             .createUser(user)
                             .success(function (user) {
-                                $location.url("user/" + user._id);
+                                $location.url("user/" + user._id + "/profile");
                             })
                     });
             }

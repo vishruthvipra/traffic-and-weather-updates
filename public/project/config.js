@@ -18,6 +18,11 @@
                 controllerAs: "model"
             })
             .when("/user/:uid", {
+                templateUrl: "views/user/templates/dashboard.view.client.html",
+                controller: "DashboardController",
+                controllerAs: "model"
+            })
+            .when("/user/:uid/profile", {
                 templateUrl: "views/user/templates/profile.view.client.html",
                 controller: "ProfileController",
                 controllerAs: "model"
