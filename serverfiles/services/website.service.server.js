@@ -2,104 +2,95 @@
  * Created by vishruthkrishnaprasad on 20/2/17.
  */
 module.exports = function (app) {
-    app.post("/api/user/:userId/website", createWebsite);
-    app.get("/api/user/:userId/website", findWebsite);
-    app.get("/api/website/:websiteId", findWebsiteById);
-    app.put("/api/website/:websiteId", updateWebsite);
-    app.delete("/api/website/:websiteId", deleteWebsite);
+    app.post("/api/user", createUser);
+    app.get("/api/user", findUser);
+    app.get("/api/user/:userId", findUserById);
+    app.put("/api/user/:userId", updateUser);
+    app.delete("/api/user/:userId", deleteUser);
 
-    var autoincr = 800;
-    var websites = [
-        { "_id": "123", "name": "Facebook",    "developerId": "456", "description": "Lorem" },
-        { "_id": "234", "name": "Tweeter",     "developerId": "456", "description": "Lorem" },
-        { "_id": "456", "name": "Gizmodo",     "developerId": "456", "description": "Lorem" },
-        { "_id": "567", "name": "Tic Tac Toe", "developerId": "123", "description": "Lorem" },
-        { "_id": "678", "name": "Checkers",    "developerId": "123", "description": "Lorem" },
-        { "_id": "789", "name": "Chess",       "developerId": "234", "description": "Lorem" }
+    var autoincr = 500;
+    var users = [
+        {_id: "123", username: "alice",    email: "alice@wonderland.com", password: "alice",    firstName: "Alice",  lastName: "Wonder"},
+        {_id: "234", username: "bob",      email: "bob@marley.com", password: "bob",      firstName: "Bob",    lastName: "Marley"},
+        {_id: "345", username: "charly",   email: "charly@garcia.com", password: "charly",   firstName: "Charly", lastName: "Garcia"},
+        {_id: "456", username: "jannunzi", email: "jannunzi@jose.com", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi"}
     ];
 
-    function findWebsite(req, res) {
-        var userId = req.params.userId;
-        var name = req.query.name;
-        if (userId && name) {
-            findWebsiteByName(req, res);
+    function createUser(req, res) {
+        var newUser = req.body;
+        users.push({_id: String(autoincr),
+            username: newUser.username,
+            email: newUser.email,
+            password: newUser.password,
+            firstName: newUser.firstName,
+            lastName: newUser.lastName});
+        autoincr++;
+        res.json(users[users.length - 1]);
+        return;
+    }
+
+    function findUser(req, res) {
+        var username = req.query.username;
+        var password = req.query.password;
+        if (username && password) {
+            findUserByCredentials(req, res);
         }
-        else if (userId){
-            findAllWebsites(req, res);
+        else if (username){
+            findUserByUsername(req, res);
         }
     }
 
-    function findWebsiteByName(req, res) {
-        var name = req.query.name;
-        var website = websites.find(function (w) {
-            return w.name == name;
+    function findUserByCredentials (req, res) {
+        var username = req.query.username;
+        var password = req.query.password;
+
+        var user = users.find(function (user) {
+            return user.username == username && user.password == password;
         });
-        if (website) {
-            res.json(website);
+        res.json(user);
+    }
+
+    function findUserByUsername(req, res) {
+        var user = users.find(function (user) {
+            return user.username == req.query.username;
+        });
+        if (user) {
+            res.json(user);
         }
         else {
             res.sendStatus(400);
-            //console.log(website);
         }
     }
 
-
-    function createWebsite(req, res) {
-        var newWebsite = req.body;
+    function findUserById (req, res) {
         var userId = req.params.userId;
-        websites.push({_id: String(autoincr),
-            name: newWebsite.name,
-            developerId: userId,
-            description: newWebsite.description
+        var user = users.find(function (u) {
+            return u._id == userId;
         });
-        autoincr++;
-        res.json(websites[websites.length - 1]);
-        return;
+        res.json(user);
     }
-    
-    function findAllWebsites (req, res) {
+
+    function updateUser(req, res) {
         var userId = req.params.userId;
-        var sites = [];
-        for (var w in websites) {
-            if(userId == websites[w].developerId) {
-                sites.push(websites[w])
-            }
-        }
-        res.json(sites);
-    }
-
-    function findWebsiteById(req, res) {
-        var websiteId = req.params.websiteId;
-        var website = websites.find(function (w) {
-            if(w._id == websiteId) {
-                 return websiteId;
-            }
-        });
-        res.json(website);
-    }
-
-
-
-    function updateWebsite(req, res) {
-        var websiteId = req.params.websiteId;
-        var newWebsite = req.body;
-        for (var w in websites) {
-            if(websites[w]._id == websiteId) {
-                websites[w].name = newWebsite.name;
-                websites[w].description = newWebsite.description;
-                res.json(websites[w]);
+        var newUser = req.body;
+        for (var u in users) {
+            if (users[u]._id == userId) {
+                users[u].firstName = newUser.firstName;
+                users[u].email = newUser.email;
+                users[u].lastName = newUser.lastName;
+                res.json(users[u]);
                 return;
             }
         }
     }
 
-    function deleteWebsite(req, res) {
-        var websiteId = req.params.websiteId;
-        for (var w in websites) {
-            if(websites[w]._id == websiteId) {
-                var websiteDeleted = websites[w];
-                websites.splice(w,1);
-                res.send(websiteDeleted);
+    function deleteUser(req, res) {
+        var userId = req.params.userId;
+        for (var u in users) {
+            if(users[u]._id == userId) {
+                var userDeleted = users[u];
+                users.splice(u,1);
+                res.send(userDeleted);
                 return;
             }
         }

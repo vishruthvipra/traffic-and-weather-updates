@@ -129,17 +129,26 @@
                 </div>
                 <div class="col-xs-4">
                     <ul class="list-group">
-                        <li class="list-group-item">
+                        <li id="temperature" class="list-group-item">
                             Temperature:
+                            <div ng-show="model.temperature">
+                                {{model.temperature}}
+                            </div>
                         </li>
                         <li class="list-group-item">
                             Humidity:
+                            <div ng-show="model.humidity">
+                                {{model.humidity}}
+                            </div>
                         </li>
                         <li class="list-group-item">
                             Pressure:
+                            <div ng-show="model.pressure">
+                                {{model.pressure}}
+                            </div>
                         </li>
                     </ul>
-                    <button onclick="getLocation()" class="wrap-text btn btn-primary btn-block">What's happening near me?</button>
+                    <button ng-click="getLocationReadings()" class="wrap-text btn btn-primary btn-block">What's happening near me?</button>
                 </div>
             </div>
         </div>

@@ -1,11 +1,14 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
-
-    <div class="navbar-text pull-right no-right-margin">
-        <a ng-click="model.updateUser(model.user)"><span class="glyphicon glyphicon-ok"></span></a>
-    </div>
-
-    <div class="navbar-header">
-        <a class="navbar-brand" href="#/user/{{model.user._id}}/profile">Welcome</a>
+    <a class="navbar-brand" href="#/home">
+        <img alt="Brand" src="../../../../images/rsz_11rsz_1rsz_vedoot-logo.png" style="height: 30px;">
+    </a>
+    <div class="navbar-header pull-right">
+        <a class="navbar-brand" href="#/user/{{model.user._id}}/profile">
+            <span class="pull-right glyphicon glyphicon-user"></span>
+        </a>
+        <a class="navbar-brand" href="#/home">
+            <span class="pull-right glyphicon glyphicon-log-out"></span>
+        </a>
     </div>
 
 </nav>
@@ -24,13 +27,13 @@
         </div>
         <div class="col-xs-4">
             <ul class="list-group">
-                <button class="wrap-text btn btn-primary btn-block"> Government Services</button>
+                <button class="wrap-text btn btn-danger btn-block"> Government Services</button>
                 <button class="wrap-text btn btn-primary btn-block"> Transit</button>
                 <button class="wrap-text btn btn-primary btn-block"> City Intro</button>
                 <button class="wrap-text btn btn-primary btn-block"> Parking</button>
-                <button class="wrap-text btn btn-primary btn-block"> Report</button>
-                <button class="wrap-text btn btn-primary btn-block"> Ticketing</button>
-                <button class="wrap-text btn btn-primary btn-block"> Traffic</button>
+                <button class="wrap-text btn btn-info btn-block"> Report</button>
+                <button class="wrap-text btn btn-info btn-block"> Ticketing</button>
+                <button class="wrap-text btn btn-info btn-block"> Traffic</button>
             </ul>
             <button onclick="getLocation()" class="wrap-text btn btn-success btn-block">What's happening near me?</button>
         </div>

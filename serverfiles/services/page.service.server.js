@@ -2,98 +2,95 @@
  * Created by vishruthkrishnaprasad on 20/2/17.
  */
 module.exports = function (app) {
-    app.post("/api/website/:websiteId/page", createPage);
-    app.get("/api/website/:websiteId/page", findPage);
-    app.get("/api/page/:pageId", findPageById);
-    app.put("/api/page/:pageId", updatePage);
-    app.delete("/api/page/:pageId", deletePage);
+    app.post("/api/user", createUser);
+    app.get("/api/user", findUser);
+    app.get("/api/user/:userId", findUserById);
+    app.put("/api/user/:userId", updateUser);
+    app.delete("/api/user/:userId", deleteUser);
 
-    var autoincr = 600;
-    var pages = [
-        {"_id": "321", "name": "Post 1", "websiteId": "456", "description": "Lorem"},
-        {"_id": "432", "name": "Post 2", "websiteId": "789", "description": "Lorem"},
-        {"_id": "543", "name": "Post 3", "websiteId": "456", "description": "Lorem"},
-        {"_id": "430", "name": "Post 10", "websiteId": "789", "description": "Lorem"}
+    var autoincr = 500;
+    var users = [
+        {_id: "123", username: "alice",    email: "alice@wonderland.com", password: "alice",    firstName: "Alice",  lastName: "Wonder"},
+        {_id: "234", username: "bob",      email: "bob@marley.com", password: "bob",      firstName: "Bob",    lastName: "Marley"},
+        {_id: "345", username: "charly",   email: "charly@garcia.com", password: "charly",   firstName: "Charly", lastName: "Garcia"},
+        {_id: "456", username: "jannunzi", email: "jannunzi@jose.com", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi"}
     ];
 
-    function findPage(req, res) {
-        var websiteId = req.params.websiteId;
-        var name = req.query.name;
-        if (websiteId && name) {
-            findPageByName(req, res);
+    function createUser(req, res) {
+        var newUser = req.body;
+        users.push({_id: String(autoincr),
+            username: newUser.username,
+            email: newUser.email,
+            password: newUser.password,
+            firstName: newUser.firstName,
+            lastName: newUser.lastName});
+        autoincr++;
+        res.json(users[users.length - 1]);
+        return;
+    }
+
+    function findUser(req, res) {
+        var username = req.query.username;
+        var password = req.query.password;
+        if (username && password) {
+            findUserByCredentials(req, res);
         }
-        else if (websiteId){
-            findAllPages(req, res);
+        else if (username){
+            findUserByUsername(req, res);
         }
     }
 
-    function findPageByName(req, res) {
-        var name = req.query.name;
-        var page = pages.find(function (p) {
-            return p.name == name;
+    function findUserByCredentials (req, res) {
+        var username = req.query.username;
+        var password = req.query.password;
+
+        var user = users.find(function (user) {
+            return user.username == username && user.password == password;
         });
-        if (page) {
-            res.json(page);
+        res.json(user);
+    }
+
+    function findUserByUsername(req, res) {
+        var user = users.find(function (user) {
+            return user.username == req.query.username;
+        });
+        if (user) {
+            res.json(user);
         }
         else {
             res.sendStatus(400);
         }
     }
 
-    function createPage(req, res) {
-        var newPage = req.body;
-        var websiteId = req.params.websiteId;
-        pages.push({_id: String(autoincr),
-            name: newPage.name,
-            websiteId: websiteId,
-            description: newPage.description
+    function findUserById (req, res) {
+        var userId = req.params.userId;
+        var user = users.find(function (u) {
+            return u._id == userId;
         });
-        autoincr++;
-        res.json(pages[pages.length - 1]);
-        return;
+        res.json(user);
     }
 
-    function findAllPages (req, res) {
-        var websiteId = req.params.websiteId;
-        var sites = [];
-        for (var p in pages) {
-            if(websiteId == pages[p].websiteId) {
-                sites.push(pages[p])
-            }
-        }
-        res.json(sites);
-    }
-
-    function findPageById(req, res) {
-        var pageId = req.params.pageId;
-        var page = pages.find(function (p) {
-            if(p._id == pageId) {
-                return pageId;
-            }
-        });
-        res.json(page);
-    }
-
-    function updatePage(req, res) {
-        var pageId = req.params.pageId;
-        var newPage = req.body;
-        for (var p in pages) {
-            if(pages[p]._id == pageId) {
-                pages[p].name = newPage.name;
-                pages[p].description = newPage.description;
-                res.json(pages[p]);
+    function updateUser(req, res) {
+        var userId = req.params.userId;
+        var newUser = req.body;
+        for (var u in users) {
+            if (users[u]._id == userId) {
+                users[u].firstName = newUser.firstName;
+                users[u].email = newUser.email;
+                users[u].lastName = newUser.lastName;
+                res.json(users[u]);
                 return;
             }
         }
     }
 
-    function deletePage(req, res) {
-        var pageId = req.params.pageId;
-        for (var p in pages) {
-            if(pages[p]._id == pageId) {
-                var pageDeleted = pages[p];
-                pages.splice(p,1);
-                res.send(pageDeleted);
+    function deleteUser(req, res) {
+        var userId = req.params.userId;
+        for (var u in users) {
+            if(users[u]._id == userId) {
+                var userDeleted = users[u];
+                users.splice(u,1);
+                res.send(userDeleted);
                 return;
             }
         }

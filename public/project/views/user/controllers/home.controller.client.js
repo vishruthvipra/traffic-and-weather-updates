@@ -6,15 +6,57 @@
     angular
         .module("WebAppMaker")
         .controller("HomeController", HomeController);
-        function HomeController(UserService, $location) {
+        function HomeController(UserService, ReadingService, $location) {
             var vm = this;
             vm.login = login;
             vm.register = register;
+            vm.getLocationReadings = getLocationReadings;
+            var latitude = "12.9716", longitude = "77.5946";
 
             function init() {
-
+                getLocationReadings();
             }
             init();
+
+
+            function getLocationReadings() {
+                // if(navigator.geolocation){
+                //     var options = {timeout:60000};
+                //     navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
+                // }
+                // else{
+                //     alert("Sorry, browser does not support geolocation!");
+                // }
+
+                function showLocation(position) {
+                    var lat = position.coords.latitude;
+                    var long = position.coords.longitude;
+                    latitude = lat.toString();
+                    longitude = long.toString();
+                }
+
+                function errorHandler(err) {
+                    if(err.code == 1) {
+                        alert("Error: Access is denied!");
+                    }
+                    else if( err.code == 2) {
+                        alert("Error: Position is unavailable!");
+                    }
+                }
+
+                var promise = ReadingService
+                    .getReadings(latitude, longitude)
+                    .success(function (temperature) {
+                        if (temperature != "") {
+                            vm.temperature = temperature;
+                            vm.humidity = temperature;
+                            vm.pressure = temperature;
+                        }
+                        else {
+                            vm.error = "Incorrect credentials entered";
+                        }
+                    });
+            }
 
             function login(user) {
                 var promise = UserService
