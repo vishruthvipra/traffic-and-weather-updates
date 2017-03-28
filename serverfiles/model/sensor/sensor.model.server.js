@@ -26,48 +26,17 @@ module.exports = function (app, mongoose) {
     }
 
     function findSensors(latitude, longitude) {
+        var lat = parseFloat(latitude);
+        var lon = parseFloat(longitude);
         var deferred = q.defer();
-        sensorModel.findOne({latitude: latitude, longitude: longitude}, function(err, sensor) {
+        sensorModel.find({location: {$near: [lat, lon]}}, function (err, sensor) {
             if (err) {
                 deferred.reject(new Error(err));
             } else {
-                deferred.resolve(sensor.readings);
+                deferred.resolve(sensor[0].readings);
             }
         });
-        // sensorModel
-        //     .create({
-        //         latitude: latitude,
-        //         longitude: longitude,
-        //         location: "Bangalore"})
-        //         //readings: [_id : ObjectId("58d73251b6691107272aef9f")],
-        //         //dateCreated: {type: Date, default: Date.now}})
-        //     .then(function (err, status) {
-        //         if (err) {
-        //             deferred.reject(new Error(err));
-        //         } else {
-        //             deferred.resolve(status);
-        //         }
-        //     });
-
-
-        // sensorModel.find(function(err, sensor) {
-        //     if (err) {
-        //         deferred.reject(new Error(err));
-        //     } else {
-        //         console.log(sensor);
-        //         deferred.resolve(sensor.readings);
-        //     }
-        // });
-        // sensorModel.findOne({latitude: latitude, longitude: longitude})
-        //     .populate('readings')
-        //     .exec(function(err, sensor){
-        //         if(err) {
-        //             deferred.reject(new Error(err));
-        //         } else {
-        //             deferred.resolve(sensor.readings);
-        //         }
-        //     });
-         return deferred.promise;
+        return deferred.promise;
     }
 
     function updateSensor(sensorId, sensor) {

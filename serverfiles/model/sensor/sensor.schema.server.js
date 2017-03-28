@@ -3,12 +3,12 @@
  */
 module.exports = function(app, mongoose) {
     var sensorSchema = mongoose.Schema({
-        latitude: {type: String, required: true},
-        longitude: {type: String, required: true},
-        location: {type: String},
+        location: {latitude: {type: Number, required: true}, longitude: {type: Number, required: true}},
+        area: {type: String},
         readings: [{type: mongoose.Schema.Types.ObjectId, ref: 'ReadingModel'}],
         dateCreated: {type: Date, default: Date.now}
     }, {collection: 'SensorModel'});
 
+    sensorSchema.index({location: "2d"});
     return sensorSchema;
 };

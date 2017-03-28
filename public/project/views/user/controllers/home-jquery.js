@@ -7,26 +7,28 @@
         .directive('formsAppear', formsAppear);
 
     function formsAppear() {
+        $("#drop-down").hide();
+        $(".gov-level-2").hide();
 
-        $("#traffic-label").on('click',function() {
+        $(".traffic-label").on('click',function() {
             $('html, body').animate({
                 'scrollTop' : $("#traffic").position().top
             });
         });
 
-        $("#weather-label").on('click',function() {
+        $(".weather-label").on('click',function() {
             $('html, body').animate({
                 'scrollTop' : $("#weather").position().top
             });
         });
 
-        $("#contact-label").on('click',function() {
+        $(".contact-label").on('click',function() {
             $('html, body').animate({
                 'scrollTop' : $("#contact").position().top
             });
         });
 
-        $('#loginform').click(function () {
+        $('.loginform').click(function () {
 
             $('.login').fadeToggle('slow');
             $('#main-container').addClass('blur-background');
@@ -37,7 +39,7 @@
         });
 
         // To make register form appear and blur the background
-        $('#registerform').click(function () {
+        $('.registerform').click(function () {
             $('.register').fadeToggle('slow');
             $('#main-container').addClass('blur-background');
         });
@@ -55,6 +57,14 @@
                 container.hide();
                 $('#main-container').removeClass('blur-background');
             }
+        });
+
+        $(".arrow-down").on('click',function() {
+            $("#drop-down").toggle("fast");
+        });
+
+        $("#govt-services").on('click',function() {
+            $(".gov-level-2").slideToggle("fast");
         });
     }
 

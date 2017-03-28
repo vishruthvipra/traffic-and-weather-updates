@@ -9,7 +9,7 @@
     function readingService($http) {
 
         var api = {
-            "getReadings": getReadings,
+            "getReadings": getReadings
         };
 
         return api;

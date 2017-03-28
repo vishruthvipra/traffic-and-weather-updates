@@ -3,110 +3,126 @@
 <nav class="navbar navbar-default navbar-fixed-top">
 
     <div id="regbar" class="hidden-xs" forms-appear="">
+
         <a class="navbar-brand" href="#/home">
             <img alt="Brand" src="../../../../images/rsz_11rsz_1rsz_vedoot-logo.png" style="height: 30px;">
         </a>
-        <a class="navbar-brand pull-right no-right-margin" id="loginform">
-            Login
-        </a>
-
-        <a class="navbar-brand pull-right" id="registerform">
-            Register
-        </a>
-
-        <a class="navbar-brand pull-right" id="weather-label">Weather</a>
-        <a class="navbar-brand pull-right" id="traffic-label">Traffic</a>
-        <a class="navbar-brand pull-right" id="contact-label">Contact</a>
-
-        <div class="login">
-            <div class="login-arrow-up"></div>
-            <div class="formholder">
-                <div class="inside-pad container-fluid">
-                    <div ng-show="model.error" class="alert alert-danger" role="alert">
-                        <strong>Error!</strong> {{model.error}}
-                    </div>
-                    <fieldset>
-                        <label name="uname">Username</label>
-                        <input id="uname"
-                               ng-model="user.username"
-                               type="text"
-                               class="form-control"
-                               placeholder="username"/>
-
-                        <label name="pwd">Password</label>
-                        <input id="pwd"
-                               ng-model="user.password"
-                               type="password"
-                               class="form-control"
-                               placeholder="password"/>
-                        <br>
-                        <a ng-click="model.login(user)" class="btn btn-success btn-block" >Login</a>
-                    </fieldset>
-                </div>
-            </div>
-        </div>
-
-        <div class="register">
-            <div class="register-arrow-up"></div>
-            <div class="formholder">
-                <div class="inside-pad container-fluid">
-                    <div ng-show="model.message" class="alert alert-success" role="alert">
-                        <strong>Success!</strong> {{model.message}}
-                    </div>
-
-                    <div ng-show="model.error" class="alert alert-danger" role="alert">
-                        <strong>Error!</strong> {{model.error}}
-                    </div>
-                    <fieldset>
-                        <label name="fname">First Name</label>
-                        <input id="fname"
-                               ng-model="user.firstName"
-                               type="text"
-                               class="form-control"
-                               placeholder="First Name"/>
-
-                        <label name="lname">Last Name</label>
-                        <input id="lname"
-                               ng-model="user.lastName"
-                               type="text"
-                               class="form-control"
-                               placeholder="Last Name"/>
-
-                        <label name="username">Username</label>
-                        <input id="username"
-                               ng-model="user.username"
-                               type="text"
-                               class="form-control"
-                               placeholder="username"/>
-
-                        <label name="password">Password</label>
-                        <input id="password"
-                               ng-model="user.password"
-                               type="password"
-                               class="form-control"
-                               placeholder="password"/>
-
-                        <label name="verifypassword">Verify Password</label>
-                        <input id="verifypassword"
-                               ng-model="user.password"
-                               type="password"
-                               class="form-control"
-                               placeholder="verify password"/>
-
-                        <br>
-                        <a ng-click="model.register(user)" class="btn btn-primary btn-block">Register</a>
-                    </fieldset>
-                </div>
-            </div>
-        </div>
+        <a class="navbar-brand pull-right no-right-margin loginform">Login</a>
+        <a class="navbar-brand pull-right registerform">Register</a>
+        <a class="navbar-brand pull-right weather-label">Weather</a>
+        <a class="navbar-brand pull-right traffic-label">Traffic</a>
+        <a class="navbar-brand pull-right contact-label">Contact</a>
     </div>
 
     <div class="visible-xs">
         <a class="navbar-brand" href="#/home">
             <img alt="Brand" src="../../../../images/rsz_11rsz_1rsz_vedoot-logo.png" style="height: 30px;">
         </a>
-        do for mobile size
+        <div class="navbar-brand pull-right">
+            <span class="pull-right glyphicon glyphicon-menu-down arrow-down"></span>
+        </div>
+
+        <div id="drop-down">
+            <a class="navbar-brand pull-right no-right-margin loginform">
+                <span class="pull-right glyphicon glyphicon-log-in"></span>
+            </a>
+            <a class="navbar-brand pull-right registerform">
+                <span class="pull-right glyphicon glyphicon-registration-mark"></span>
+            </a>
+            <a class="navbar-brand pull-right weather-label">
+                <span class="pull-right glyphicon glyphicon-cloud"></span>
+            </a>
+            <a class="navbar-brand pull-right traffic-label">
+                <span class="pull-right glyphicon glyphicon-road"></span>
+            </a>
+            <a class="navbar-brand pull-right contact-label">
+                <span class="pull-right glyphicon glyphicon-earphone"></span>
+            </a>
+        </div>
     </div>
+
+    <div class="login">
+        <div class="login-arrow-up"></div>
+        <div class="formholder">
+            <div class="inside-pad container-fluid">
+                <div ng-show="model.error" class="alert alert-danger" role="alert">
+                    <strong>Error!</strong> {{model.error}}
+                </div>
+                <fieldset>
+                    <label name="uname">Username</label>
+                    <input id="uname"
+                           ng-model="user.username"
+                           type="text"
+                           class="form-control"
+                           placeholder="username"/>
+
+                    <label name="pwd">Password</label>
+                    <input id="pwd"
+                           ng-model="user.password"
+                           type="password"
+                           class="form-control"
+                           placeholder="password"/>
+                    <br>
+                    <a ng-click="model.login(user)" class="btn btn-success btn-block" >Login</a>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
+    <div class="register">
+        <div class="register-arrow-up"></div>
+        <div class="formholder">
+            <div class="inside-pad container-fluid">
+                <div ng-show="model.message" class="alert alert-success" role="alert">
+                    <strong>Success!</strong> {{model.message}}
+                </div>
+
+                <div ng-show="model.error" class="alert alert-danger" role="alert">
+                    <strong>Error!</strong> {{model.error}}
+                </div>
+                <fieldset>
+                    <label name="fname">First Name</label>
+                    <input id="fname"
+                           ng-model="user.firstName"
+                           type="text"
+                           class="form-control"
+                           placeholder="First Name"/>
+
+                    <label name="lname">Last Name</label>
+                    <input id="lname"
+                           ng-model="user.lastName"
+                           type="text"
+                           class="form-control"
+                           placeholder="Last Name"/>
+
+                    <label name="username">Username</label>
+                    <input id="username"
+                           ng-model="user.username"
+                           type="text"
+                           class="form-control"
+                           placeholder="username"/>
+
+                    <label name="password">Password</label>
+                    <input id="password"
+                           ng-model="user.password"
+                           type="password"
+                           class="form-control"
+                           placeholder="password"/>
+
+                    <label name="verifypassword">Verify Password</label>
+                    <input id="verifypassword"
+                           ng-model="user.password"
+                           type="password"
+                           class="form-control"
+                           placeholder="verify password"/>
+
+                    <br>
+                    <a ng-click="model.register(user)" class="btn btn-primary btn-block">Register</a>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
 
 </nav>
 
@@ -129,23 +145,23 @@
                 </div>
                 <div class="col-xs-4">
                     <ul class="list-group">
-                        <li id="temperature" class="list-group-item">
+                        <li id="temperature" class="wrap-text list-group-item">
                             Temperature:
-                            <div ng-show="model.temperature">
+                            <span ng-show="model.temperature">
                                 {{model.temperature}}
-                            </div>
+                            </span>
                         </li>
-                        <li class="list-group-item">
+                        <li class="wrap-text list-group-item">
                             Humidity:
-                            <div ng-show="model.humidity">
+                            <span ng-show="model.humidity">
                                 {{model.humidity}}
-                            </div>
+                            </span>
                         </li>
-                        <li class="list-group-item">
+                        <li class="wrap-text list-group-item">
                             Pressure:
-                            <div ng-show="model.pressure">
+                            <span ng-show="model.pressure">
                                 {{model.pressure}}
-                            </div>
+                            </span>
                         </li>
                     </ul>
                     <button ng-click="getLocationReadings()" class="wrap-text btn btn-primary btn-block">What's happening near me?</button>

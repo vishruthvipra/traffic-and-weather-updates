@@ -17,7 +17,7 @@ module.exports = function (app, model) {
                 return readingModel.findReadingById(readings[0]);
             })
             .then(function (reading) {
-                res.json(reading.temperature);
+                res.json(reading);
                 //res.sendStatus(200);
             }, function (error) {
                 res.sendStatus(500).send(error);
