@@ -8,7 +8,11 @@
 
     function formsAppear() {
         $("#drop-down").hide();
-        $(".gov-level-2").hide();
+        // $("#gov-level-2").hide();
+        $("#parking-level-2").hide();
+        $("#ticketing-level-2").hide();
+        $("#ticketing-level-3").hide();
+        $("#traffic-level-2").hide();
 
         $(".traffic-label").on('click',function() {
             $('html, body').animate({
@@ -63,8 +67,33 @@
             $("#drop-down").toggle("fast");
         });
 
-        $("#govt-services").on('click',function() {
-            $(".gov-level-2").slideToggle("fast");
+        // $(document).on('click','#govt-services',function(){
+        //     $("#gov-level-2").slideToggle("fast");
+        // });
+
+        $(document).on('click','#parking',function(){
+            $("#parking-level-2").slideToggle("fast");
+        });
+
+        $(document).on('click','#ticketing',function() {
+            $("#ticketing-level-2").slideToggle("fast");
+        });
+
+        /*$(document).on('click','#third-level',function() {
+            $("#ticketing-level-3").slideToggle("fast");
+        });
+
+        $(document).on('click','#traffic-drop-down',function() {
+            $("#traffic-level-2").slideToggle("fast");
+        });*/
+
+
+        $("#third-level").on('click',function() {
+            $("#ticketing-level-3").slideToggle("fast");
+        });
+
+        $("#traffic-drop-down").on('click',function() {
+            $("#traffic-level-2").slideToggle("fast");
         });
     }
 

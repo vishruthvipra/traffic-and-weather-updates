@@ -9,7 +9,6 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <link href="styles.css" rel="stylesheet">
-    <link href="dashboard.css" rel="stylesheet">
 
     <script src="../js/jquery.js"></script>
     <script src="../js/jquery-ui.js"></script>
@@ -17,17 +16,28 @@
 
     <script src="../js/angular.js"></script>
     <script src="../js/angular-route.js"></script>
+    <!--<script src="../js/require.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
 
     <script src="app.js"></script>
     <script src="config.js"></script>
 
     <!-- jquery files -->
-    <script src="views/user/controllers/home-jquery.js" defer="defer"></script>
+    <script src="jquery-files/home-jquery.js" defer="defer"></script>
+
+
 
     <!-- controllers -->
     <script src="views/user/controllers/home.controller.client.js"></script>
     <script src="views/user/controllers/dashboard.controller.client.js"></script>
     <script src="views/user/controllers/profile.controller.client.js"></script>
+    <script src="views/weather/controllers/weather.controller.client.js"></script>
+    <script src="views/traffic/controllers/traffic.controller.client.js"></script>
+
+    <!--&lt;!&ndash; map &ndash;&gt;-->
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBezTDHZ8PwtphxF-DaG9_lx8kFX-WBD24&callback=initMap"-->
+            <!--async defer>-->
+    <!--</script>-->
 
     <!-- services -->
     <script src="services/user.service.client.js"></script>

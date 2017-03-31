@@ -27,6 +27,16 @@
                 controller: "ProfileController",
                 controllerAs: "model"
             })
+            .when("/user/:uid/weather", {
+                templateUrl: "views/weather/templates/weather.view.client.html",
+                controller: "WeatherController",
+                controllerAs: "model"
+            })
+            .when("/user/:uid/traffic", {
+                templateUrl: "views/traffic/templates/traffic.view.client.html",
+                controller: "TrafficController",
+                controllerAs: "model"
+            })
             .when("/user/:uid/website", {
                 templateUrl: "views/website/templates/website-list.view.client.html",
                 controller: "WebsiteListController",

@@ -1,0 +1,136 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <a class="navbar-brand" href="#/user/{{model.user._id}}">
+        <img alt="Brand" src="../../../../images/rsz_11rsz_1rsz_vedoot-logo.png" style="height: 30px;">
+    </a>
+    <div class="navbar-header pull-right">
+        <a class="navbar-brand" href="#/user/{{model.user._id}}/profile">
+            <span class="pull-right glyphicon glyphicon-user"></span>
+        </a>
+        <a class="navbar-brand" href="#/home">
+            <span class="pull-right glyphicon glyphicon-log-out"></span>
+        </a>
+    </div>
+</nav>
+
+<h1></h1>
+<script>
+    var map;
+    function initMap() {
+        var myLatLng = {lat: 12.9716, lng: 77.5946};
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatLng,
+            zoom: 13
+        });
+
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            title: 'Hello World!'
+        });
+
+        google.maps.event.addListener(marker,'click',function() {
+            console.log("clicked");
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBezTDHZ8PwtphxF-DaG9_lx8kFX-WBD24&callback=initMap"
+        async defer></script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-4">
+            <div id="map"></div>
+            <!--<iframe-->
+                    <!--src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.55224307554!2d77.49085171689526!3d12.95429460015387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C+Karnataka%2C+India!5e0!3m2!1sen!2sus!4v1488839778639"-->
+                    <!--width="100%"-->
+                    <!--height="350px"-->
+                    <!--frameborder="0"-->
+                    <!--allowfullscreen>-->
+            <!--</iframe>-->
+        </div>
+
+        <div class="col-xs-4">
+            <ul class="list-group">
+                <li id="temperature" class="wrap-text list-group-item">
+                    Temperature:
+                    <span ng-show="model.temperature">{{model.temperature}}</span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    Humidity:
+                    <span ng-show="model.humidity">{{model.humidity}}</span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    Pressure:
+                    <span ng-show="model.pressure">{{model.pressure}}</span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    UV:
+                    <span ng-show="model.pressure">{{model.uvlevel}}</span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    Pm 2.5:
+                    <span ng-show="model.pressure">{{model.pm2}}</span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    PM 5.0:
+                    <span ng-show="model.pressure">{{model.pm5}}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-xs-4 charts">
+            <canvas id="tempChart" width="400" height="400"></canvas>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+
+
+    <div class="row">
+        <div class="charts col-xs-4">
+         <canvas id="humdChart" width="400" height="400"></canvas>
+        </div>
+
+        <div class="charts col-xs-4">
+            <canvas id="uvChart" width="400" height="400"></canvas>
+        </div>
+
+        <div class="charts col-xs-4">
+          <canvas id="pmChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <button ng-click="model.findReadingsForSensorId()" class="wrap-text btn btn-info btn-block" >imagine clicking here means clicking a sensor on the map</button>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br><br>
+
+
+
+
+
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#/user/{{model.user._id}}">
+                    <span class="pull-right glyphicon glyphicon-home"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

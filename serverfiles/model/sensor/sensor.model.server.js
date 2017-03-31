@@ -4,12 +4,12 @@
 module.exports = function (app, mongoose) {
     var q = require('q');
     var sensorSchema = require('./sensor.schema.server.js')(app, mongoose);
-    var sensorModel = mongoose.model('sensorModel', sensorSchema);
+    var sensorModel = mongoose.model('SensorModel', sensorSchema);
 
     var api = {
         findSensorById: findSensorById,
         findSensors: findSensors,
-        updateSensor: updateSensor
+        findReadingsForSensorId: findReadingsForSensorId
     };
     return api;
 
@@ -39,15 +39,17 @@ module.exports = function (app, mongoose) {
         return deferred.promise;
     }
 
-    function updateSensor(sensorId, sensor) {
+    function findReadingsForSensorId(sensorId) {
         var deferred = q.defer();
-        sensorModel.update({_id: sensorId}, {$set: sensor}, function (err, status) {
-            if (err) {
-                deferred.reject(new Error(err));
-            } else {
-                deferred.resolve(status);
-            }
-        });
+        sensorModel.findById(sensorId)
+            .populate('readings')
+            .exec(function(err, sensor) {
+                if (err) {
+                    deferred.reject(new Error(err));
+                } else {
+                    deferred.resolve(sensor.readings);
+                }
+            });
         return deferred.promise;
     }
 };

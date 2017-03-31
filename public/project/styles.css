@@ -51,7 +51,6 @@ body {
 }
 a {
     color: #ecf0f1;
-    /*color: #555;*/
     text-decoration: none;
 }
 a:hover {
@@ -144,6 +143,7 @@ a:hover {
     z-index: 2;
 }
 
+
 /*.login-arrow-up {
     width: 0;
     height: 0;
@@ -163,5 +163,76 @@ a:hover {
     position: fixed;
     top: 30px;
 }*/
+/* ----------- upto here for home screen ----------- */
+
+/* ----------- from here dashboard styles ----------- */
+body {
+    background-color: #333;
+    color: white;
+    /*text-align: center;*/
+}
+
+.sidebar ul li {
+    margin-top: 0px;
+    background-color: #555;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+label {
+    color: #777;
+}
+
+.sidebar .nav-second-level li,
+.sidebar .nav-third-level li {
+    border-bottom: none !important;
+}
+.sidebar .nav-second-level li a {
+    padding-left: 37px;
+}
+.sidebar .nav-third-level li a {
+    padding-left: 52px;
+}
+
+@media (min-width: 595px) {
+    .sidebar {
+        z-index: 10;
+        position: absolute;
+        /*top: 50px;*/
+        left: 0px;
+        width: 100%;
+        /*width: 250px;*/
+        margin-top: 0px;
+    }
+}
+@media (max-width: 595px) {
+    .sidebar {
+        display: none;
+    }
+    .col-xs-9 {
+        width: 100%;
+    }
+}
+
+.navbar-fixed-bottom {
+    z-index: 5;
+}
+
+ul {
+    color: black;
+}
 
 
+/* ----------- upto here for dashboard styles ----------- */
+
+.charts {
+    background: white;
+    border-radius: 4px;
+    border:1px solid #000000;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#map {
+    height: 350px;
+    background: white;
+}

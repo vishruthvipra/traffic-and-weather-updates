@@ -45,7 +45,7 @@
                 }
 
                 var promise = ReadingService
-                    .getReadings(latitude, longitude)
+                    .findReadingsForCoordinates(latitude, longitude)
                     .success(function (reading) {
                         if (reading.temperature != "") {
                             vm.temperature = reading.temperature;

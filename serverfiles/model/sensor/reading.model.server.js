@@ -4,12 +4,11 @@
 module.exports = function (app, mongoose) {
     var q = require('q');
     var readingSchema = require('./reading.schema.server.js')(app, mongoose);
-    var readingModel = mongoose.model('readingModel', readingSchema);
+    var readingModel = mongoose.model('ReadingModel', readingSchema);
 
     var api = {
         findReadingById: findReadingById,
-        findReadings: findReadings,
-        updateSensor: updateSensor
+        findReadingsForCoordinates: findReadingsForCoordinates,
     };
     return api;
 
@@ -25,25 +24,13 @@ module.exports = function (app, mongoose) {
         return deferred.promise;
     }
 
-    function findReadings(latitude, longitude) {
+    function findReadingsForCoordinates(latitude, longitude) {
         var deferred = q.defer();
         readingModel.findOne({latitude: latitude, longitude: longitude}, function(err, sensor) {
             if (err) {
                 deferred.reject(new Error(err));
             } else {
                 deferred.resolve(sensor);
-            }
-        });
-        return deferred.promise;
-    }
-
-    function updateSensor(sensorId, sensor) {
-        var deferred = q.defer();
-        readingModel.update({_id: sensorId}, {$set: sensor}, function (err, status) {
-            if (err) {
-                deferred.reject(new Error(err));
-            } else {
-                deferred.resolve(status);
             }
         });
         return deferred.promise;

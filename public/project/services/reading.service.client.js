@@ -9,13 +9,18 @@
     function readingService($http) {
 
         var api = {
-            "getReadings": getReadings
+            "findReadingsForCoordinates": findReadingsForCoordinates,
+            "findReadingsForSensorId": findReadingsForSensorId
         };
 
         return api;
 
-        function getReadings(latitude, longitude) {
+        function findReadingsForCoordinates(latitude, longitude) {
             return $http.get("/api/reading?latitude=" + latitude + "&longitude=" + longitude);
+        }
+
+        function findReadingsForSensorId(sensorId) {
+            return  $http.get("/api/" + sensorId + "/readings");
         }
     }
 })();

@@ -14,8 +14,15 @@
                 var promise = UserService.findUserById(userId);
                 promise.success(function (user) {
                     vm.user = user;
-
+                    vm.hidden = true;
                 });
+
+                // $("#drop-down").hide();
+                // $("#gov-level-2").hide();
+                // $("#parking-level-2").hide();
+                // $("#ticketing-level-2").hide();
+                // $("#ticketing-level-3").hide();
+                // $("#traffic-level-2").hide();
             }
 
             init();
