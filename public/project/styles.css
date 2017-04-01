@@ -236,3 +236,9 @@ ul {
     height: 350px;
     background: white;
 }
+
+table {
+    background: white;
+    color: black;
+    border-radius: 4px;
+}

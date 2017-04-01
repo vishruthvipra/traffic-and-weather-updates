@@ -27,9 +27,22 @@ module.exports = function (app, model) {
         if (username && password) {
             findUserByCredentials(req, res);
         }
-        else if (username){
+        else if (username) {
             findUserByUsername(req, res);
         }
+        else {
+            findAllUsers(req,res);
+        }
+    }
+
+    function findAllUsers(req, res) {
+        userModel
+            .findAllUsers()
+            .then(function (users) {
+                res.json(users);
+            }, function (error) {
+                res.sendStatus(500).send(error);
+            });
     }
 
     function findUserByCredentials (req, res) {

@@ -1,0 +1,178 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <a class="navbar-brand" href="#/user/{{model.user._id}}">
+        <img alt="Brand" src="../../../../images/rsz_11rsz_1rsz_vedoot-logo.png" style="height: 30px;">
+    </a>
+    <div class="navbar-header pull-right">
+        <a class="navbar-brand" href="#/user/{{model.user._id}}/profile">
+            <span class="pull-right glyphicon glyphicon-user"></span>
+        </a>
+        <a class="navbar-brand" href="#/home">
+            <span class="pull-right glyphicon glyphicon-log-out"></span>
+        </a>
+    </div>
+</nav>
+
+<h1></h1>
+
+<div class="container-fluid">
+    <ul class="list-group">
+        <button ng-click="model.modelClicked(0)" class="list-group-item">
+            Modify User Model:
+        </button>
+        <button ng-click="model.modelClicked(1)" class="list-group-item">
+            Modify Sensor Model:
+        </button>
+        <button ng-click="model.modelClicked(2)" class="list-group-item">
+            Modify Reading Model:
+        </button>
+    </ul>
+
+    <div ng-show="model.u">
+        <h1>User Details</h1>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="input-group container-fluid">
+                    <div class="radio">
+                        <label><input type="radio" ng-model="searchValue" ng-value="1">Search by id</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" ng-model="searchValue" ng-value="2">Search by username</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div  class="input-group container-fluid">
+                    <input ng-model="searchText" type="text" class="form-control" placeholder="Search here">
+                    <span class="input-group-btn">
+                        <a class="btn btn-default" type="button">
+                            <span ng-click="model.startSearch(searchValue, searchText)" class="glyphicon glyphicon-search"></span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>_id</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                </tr>
+                </thead>
+                <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
+                    <tr class="success">
+                        <td>{{search._id}}</td>
+                        <td>{{search.username}}</td>
+                        <td>{{search.email}}</td>
+                        <td>{{search.firstName}}</td>
+                        <td>{{search.lastName}}</td>
+                    </tr>
+                </tbody>
+
+                <tbody ng-show="model.search">
+                    <tr class="success">
+                        <td>{{model.search._id}}</td>
+                        <td>{{model.search.username}}</td>
+                        <td>{{model.search.email}}</td>
+                        <td>{{model.search.firstName}}</td>
+                        <td>{{model.search.lastName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div ng-show="model.s">
+        <h1>Sensor Details</h1>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="input-group container-fluid">
+                    <div class="radio">
+                        <label><input type="radio" ng-model="searchValue" ng-value="1">Search by id</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" ng-model="searchValue" ng-value="2">Search by coordinates [12.9716,77.5946]</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div  class="input-group container-fluid">
+                    <input ng-model="searchText" type="text" class="form-control" placeholder="Search here">
+                    <span class="input-group-btn">
+                        <a class="btn btn-default" type="button">
+                            <span ng-click="model.startSearch(searchValue, searchText)" class="glyphicon glyphicon-search"></span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>_id</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Area</th>
+                    <th>Readings</th>
+                </tr>
+                </thead>
+                <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
+                <tr class="success">
+                    <td>{{search._id}}</td>
+                    <td>{{search.location.latitude}}</td>
+                    <td>{{search.location.longitude}}</td>
+                    <td>{{search.area}}</td>
+                    <td>{{search.readings}}</td>
+                </tr>
+                </tbody>
+
+                <tbody ng-show="model.search">
+                <tr class="success">
+                    <td>{{model.search._id}}</td>
+                    <td>{{model.search.location.latitude}}</td>
+                    <td>{{model.search.location.longitude}}</td>
+                    <td>{{model.search.area}}</td>
+                    <td>{{model.search.readings}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div ng-show="model.r">
+        reading clicked
+    </div>
+
+</div>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#/user/{{model.user._id}}">
+                    <span class="pull-right glyphicon glyphicon-home"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

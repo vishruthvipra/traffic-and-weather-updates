@@ -7,11 +7,28 @@ module.exports = function (app, mongoose) {
     var sensorModel = mongoose.model('SensorModel', sensorSchema);
 
     var api = {
+        findSensorForCoordinates: findSensorForCoordinates,
         findSensorById: findSensorById,
-        findSensors: findSensors,
-        findReadingsForSensorId: findReadingsForSensorId
+        findSensorReading: findSensorReading,
+        findReadingsForSensorId: findReadingsForSensorId,
+        findAllSensors: findAllSensors
     };
     return api;
+
+    function findSensorForCoordinates(latitude, longitude) {
+        var lat = parseFloat(latitude);
+        var lon = parseFloat(longitude);
+        var deferred = q.defer();
+        sensorModel.findOne({location: {latitude: lat, longitude: lon}}, function (err, sensor) {
+            if (err) {
+                deferred.reject(new Error(err));
+            } else {
+                deferred.resolve(sensor);
+            }
+        });
+        return deferred.promise;
+
+    }
 
     function findSensorById(sensorId) {
         var deferred = q.defer();
@@ -25,7 +42,21 @@ module.exports = function (app, mongoose) {
         return deferred.promise;
     }
 
-    function findSensors(latitude, longitude) {
+    function findAllSensors() {
+        var deferred = q.defer();
+        sensorModel.find(function (err, status) {
+            if (err) {
+                deferred.reject(new Error(err));
+            } else if(status) {
+                deferred.resolve(status);
+            } else {
+                deferred.reject(new Error(err));
+            }
+        });
+        return deferred.promise;
+    }
+
+    function findSensorReading(latitude, longitude) {
         var lat = parseFloat(latitude);
         var lon = parseFloat(longitude);
         var deferred = q.defer();

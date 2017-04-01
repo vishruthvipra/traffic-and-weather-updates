@@ -14,7 +14,8 @@
             "findUserByUsername": findUserByUsername,
             "findUserByCredentials": findUserByCredentials,
             "updateUser": updateUser,
-            "deleteUser": deleteUser
+            "deleteUser": deleteUser,
+            "findAllUsers": findAllUsers
         };
 
         return api;
@@ -41,6 +42,10 @@
         
         function findUserByUsername(username) {
             return $http.get("/api/user?username=" + username);
+        }
+
+        function findAllUsers() {
+            return $http.get("/api/user");
         }
     }
 })();
