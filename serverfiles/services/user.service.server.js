@@ -30,18 +30,18 @@ module.exports = function (app, model, passport) {
 
     app.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'}));
     app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-        failureRedirect: 'http://localhost:3000/project/#/home'
+        failureRedirect: 'https://webdevproject.herokuapp.com/project/#/home'
     }), function (req, res) {
-        var url = 'http://localhost:3000/project/#/user/' + req.user._id.toString();
+        var url = 'https://webdevproject.herokuapp.com/project/#/user/' + req.user._id.toString();
         res.redirect(url);
     });
 
     app.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-            failureRedirect: 'http://localhost:3000/project/#/home'
+            failureRedirect: 'https://webdevproject.herokuapp.com/project/#/home'
         }), function (req, res) {
-            var url = 'http://localhost:3000/project/#/user/' + req.user._id.toString();
+            var url = 'https://webdevproject.herokuapp.com/project/#/user/' + req.user._id.toString();
             res.redirect(url);
         });
 
