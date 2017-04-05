@@ -13,7 +13,9 @@ module.exports = function (app, mongoose) {
         findUserByCredentials: findUserByCredentials,
         findAllUsers: findAllUsers,
         updateUser: updateUser,
-        deleteUser: deleteUser
+        deleteUser: deleteUser,
+        findUserByFacebookId: findUserByFacebookId,
+        findUserByGoogleId: findUserByGoogleId
     };
     return api;
 
@@ -106,6 +108,14 @@ module.exports = function (app, mongoose) {
             }
         });
         return deferred.promise;
+    }
+
+    function findUserByFacebookId(facebookId) {
+        return userModel.findOne({'facebook.id': facebookId});
+    }
+
+    function findUserByGoogleId(googleId) {
+        return userModel.findOne({'google.id': googleId});
     }
 };
 

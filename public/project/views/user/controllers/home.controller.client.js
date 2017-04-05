@@ -120,59 +120,58 @@
             }
 
             function login(user) {
-
-                // UserService
-                //     .login(user)
-                //     .then(function(response) {
-                //             var user = response.data;
-                //             $rootScope.currentUser = user;
-                //         $location.url("user/" + user._id);
-                //         });
-
-
-                var promise = UserService
-                    .findUserByCredentials(user.username, user.password)
-                    .success(function (user) {
-                        if (user != "") {
-                            $location.url("user/" + user._id);
-                        }
-                        else {
-                            vm.error = "Incorrect credentials entered";
-                        }
+                UserService
+                    .login(user)
+                    .then(function(response) {
+                        var user = response.data;
+                        $rootScope.currentUser = user;
+                        $location.url("user/" + user._id);
+                    },function (err) {
+                        vm.error = "Username/password does not match";
                     });
+
+
+                // var promise = UserService
+                //     .findUserByCredentials(user.username, user.password)
+                //     .success(function (user) {
+                //         if (user != "") {
+                //             $location.url("user/" + user._id);
+                //         }
+                //         else {
+                //             vm.error = "Incorrect credentials entered";
+                //         }
+                //     });
 
             }
 
             function register(user) {
-                // UserService
-                //     .findUserByUsername(user.username)
-                //     .success(function (user) {
-                //         vm.error = "User already exists";
-                //     })
-                //     .error(function (err) {
-                //         UserService
-                //             .register(user)
-                //             .then(function (response) {
-                //                 var user = response.data;
-                //                 $rootScope.currentUser = user;
-                //                 $location.url("user/" + user._id + "/profile");
-                //             });
-                //     });
-
-
-
-
-                var newUser = UserService
+                UserService
                     .findUserByUsername(user.username)
                     .success(function (user) {
-                        vm.error = "User already exists"; })
+                        vm.error = "User already exists";
+                    })
                     .error(function (err) {
                         UserService
-                            .createUser(user)
-                            .success(function (user) {
+                            .register(user)
+                            .then(function (response) {
+                                var user = response.data;
+                                $rootScope.currentUser = user;
                                 $location.url("user/" + user._id + "/profile");
-                            })
+                            });
                     });
+
+
+                // var newUser = UserService
+                //     .findUserByUsername(user.username)
+                //     .success(function (user) {
+                //         vm.error = "User already exists"; })
+                //     .error(function (err) {
+                //         UserService
+                //             .createUser(user)
+                //             .success(function (user) {
+                //                 $location.url("user/" + user._id + "/profile");
+                //             })
+                //     });
             }
         }
 

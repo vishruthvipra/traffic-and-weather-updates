@@ -6,33 +6,25 @@
         .module("WebAppMaker")
         .config(Config);
 
+    var checkLoggedIn = function($q, $timeout, $http, $location, $rootScope) {
+        return $http.get('/api/loggedin').success(function(user) {
+            $rootScope.errorMessage = null;
+            if (user !== '0') {
+                $rootScope.currentUser = user;
+            } else{
+                $location.url('/home');
+            }
+        });
+    };
+
+
+
     function Config($routeProvider, $httpProvider) {
 
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
         $httpProvider.defaults.headers.put['Content-Type'] = 'application/json;charset=utf-8';
 
         $routeProvider
-            // .when ("/user/:uid", {
-            //     templateUrl: "views/user/profile.view.client.html",
-            //     controller: "ProfileController",
-            //     controllerAs: "model",
-            //     resolve: {
-            //         loggedin: function ($q, $timeout, $http, $location, $rootScope) {
-            //             var deferred = $q.defer();
-            //             $http.get('/api/loggedin').success(function (user) {
-            //                 $rootScope.errorMessage = null;
-            //                 if (user !== '0') {
-            //                     $rootScope.currentUser = user;
-            //                     deferred.resolve();
-            //                 } else {
-            //                     deferred.reject();
-            //                     $location.url('/user/:uid/profile');
-            //                 }
-            //             });
-            //             return deferred.promise;
-            //         }
-            //     }
-            // })
             .when("/home", {
                 templateUrl: "views/user/templates/home.view.client.html",
                 controller: "HomeController",
@@ -41,48 +33,41 @@
             .when("/user/:uid", {
                 templateUrl: "views/user/templates/dashboard.view.client.html",
                 controller: "DashboardController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: { loggedin: checkLoggedIn }
             })
             .when("/user/:uid/profile", {
                 templateUrl: "views/user/templates/profile.view.client.html",
                 controller: "ProfileController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: { loggedin: checkLoggedIn }
             })
             .when("/user/:uid/weather", {
                 templateUrl: "views/weather/templates/weather.view.client.html",
                 controller: "WeatherController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: { loggedin: checkLoggedIn }
             })
             .when("/user/:uid/traffic", {
                 templateUrl: "views/traffic/templates/traffic.view.client.html",
                 controller: "TrafficController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: { loggedin: checkLoggedIn }
             })
             .when("/user/:uid/weather_domain", {
                 templateUrl: "views/weather.domain/templates/weather.domain.view.client.html",
                 controller: "weatherDomainController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: { loggedin: checkLoggedIn }
             })
             .when("/user/:uid/traffic_domain", {
                 templateUrl: "views/weather.domain/templates/weather.domain.view.client.html",
                 controller: "weatherDomainController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {loggedin: checkLoggedIn }
+            })
+            .otherwise({
+                templateUrl: "views/user/templates/home.view.client.html"
             });
-
-
-        // var checkLoggedin = function($q, $timeout, $http, $location, $rootScope) {
-        //     var deferred = $q.defer();
-        //     $http.get('/api/loggedin').success(function(user) {
-        //         $rootScope.errorMessage = null;
-        //         if (user !== '0') {
-        //             $rootScope.currentUser = user;
-        //             deferred.resolve();
-        //         } else {
-        //             deferred.reject();
-        //             $location.url('/');
-        //         }
-        //     });
-        //     return deferred.promise;
-        // };
     }
 })();
