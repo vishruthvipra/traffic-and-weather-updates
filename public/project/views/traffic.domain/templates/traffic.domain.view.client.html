@@ -54,51 +54,6 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-xs-4">
-                <button ng-click="model.add = true" class="wrap-text btn btn-primary btn-block">Add</button>
-            </div>
-            <div class="col-xs-4">
-                <button class="wrap-text btn btn-info btn-block">Update</button>
-            </div>
-            <div class="col-xs-4">
-                <button class="wrap-text btn btn-danger btn-block">Delete</button>
-            </div>
-        </div>
-        <br>
-
-        <div class="container" ng-show="model.add">
-            <form>
-
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input ng-model="model.newuser.username" type="text" class="form-control" id="username" placeholder="Username">
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input ng-model="model.newuser.password" type="text" class="form-control" id="password" placeholder="Password">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input ng-model="model.newuser.email"type="email" class="form-control" id="email" placeholder="email@address.com">
-                </div>
-
-                <div class="form-group">
-                    <label for="first-name">First Name</label>
-                    <input ng-model="model.newuser.firstName" type="text" class="form-control" id="first-name" placeholder="First name">
-                </div>
-
-                <div class="form-group">
-                    <label for="last-name">Last Name</label>
-                    <input ng-model="model.newuser.lastName" type="text" class="form-control" id="last-name" placeholder="Last name">
-                </div>
-
-                <button ng-click="model.createUser(model.newuser)" class="wrap-text btn btn-danger btn-block">Submit</button>
-            </form>
-            <br>
-        </div>
 
         <div class="container">
             <table class="table table-hover">
@@ -112,23 +67,23 @@
                 </tr>
                 </thead>
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
-                    <tr class="success">
-                        <td>{{search._id}}</td>
-                        <td>{{search.username}}</td>
-                        <td>{{search.email}}</td>
-                        <td>{{search.firstName}}</td>
-                        <td>{{search.lastName}}</td>
-                    </tr>
+                <tr class="success">
+                    <td>{{search._id}}</td>
+                    <td>{{search.username}}</td>
+                    <td>{{search.email}}</td>
+                    <td>{{search.firstName}}</td>
+                    <td>{{search.lastName}}</td>
+                </tr>
                 </tbody>
 
                 <tbody ng-show="model.search">
-                    <tr class="success">
-                        <td>{{model.search._id}}</td>
-                        <td>{{model.search.username}}</td>
-                        <td>{{model.search.email}}</td>
-                        <td>{{model.search.firstName}}</td>
-                        <td>{{model.search.lastName}}</td>
-                    </tr>
+                <tr class="success">
+                    <td>{{model.search._id}}</td>
+                    <td>{{model.search.username}}</td>
+                    <td>{{model.search.email}}</td>
+                    <td>{{model.search.firstName}}</td>
+                    <td>{{model.search.lastName}}</td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -161,6 +116,7 @@
             </div>
         </div>
 
+
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
@@ -169,17 +125,17 @@
                     <th>Latitude</th>
                     <th>Longitude</th>
                     <th>Area</th>
-                    <!--<th>Readings</th>-->
+                    <th>Readings</th>
                 </tr>
                 </thead>
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
-                    <tr class="success">
-                        <td>{{search._id}}</td>
-                        <td>{{search.location.latitude}}</td>
-                        <td>{{search.location.longitude}}</td>
-                        <td>{{search.area}}</td>
-                        <!--<td>{{seaweatherReadingsings}}</td>-->
-                    </tr>
+                <tr class="success">
+                    <td>{{search._id}}</td>
+                    <td>{{search.location.latitude}}</td>
+                    <td>{{search.location.longitude}}</td>
+                    <td>{{search.area}}</td>
+                    <td>{{search.readings}}</td>
+                </tr>
                 </tbody>
 
                 <tbody ng-show="model.search">
@@ -188,7 +144,7 @@
                     <td>{{model.search.location.latitude}}</td>
                     <td>{{model.search.location.longitude}}</td>
                     <td>{{model.search.area}}</td>
-                    <!--<td>{{model.seaweatherReadingsings}}</td>-->
+                    <td>{{model.search.readings}}</td>
                 </tr>
                 </tbody>
             </table>

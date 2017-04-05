@@ -143,6 +143,9 @@ a:hover {
     z-index: 2;
 }
 
+address {
+    color: #000;
+}
 
 /*.login-arrow-up {
     width: 0;
@@ -232,9 +235,21 @@ ul {
     margin-bottom: 10px;
 }
 
-#map {
+/*#map {*/
+    /*height: 350px;*/
+    /*background: white;*/
+/*}*/
+
+#gmaps {
     height: 350px;
+    color: black;
     background: white;
+}
+
+@media (max-width: 595px) {
+    #domains {
+
+    }
 }
 
 table {

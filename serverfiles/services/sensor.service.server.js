@@ -2,23 +2,64 @@
  * Created by vishruthkrishnaprasad on 20/2/17.
  */
 module.exports = function (app, model) {
+    app.get("/api/sensor/reading", findReadingsForCoordinates);
     app.get("/api/sensor", findSensor);
-    app.get("/api/:sensorId", findSensorForSensorId);
-    app.get("/api/reading", findReadingsForCoordinates);
-    app.get("/api/:sensorId/readings", findReadingsforSensorId);
+    //app.get("/api/:sensorId", findSensorForSensorId);
+    app.get("/api/:sensorId/weatherReadings", findReadingsforSensorId);
 
     var sensorModel = model.sensorModel;
-    var readingModel = model.readingModel;
+    var weatherModel = model.weatherModel;
 
     function findSensor(req, res) {
         var latitude = req.query.latitude;
         var longitude = req.query.longitude;
-        if (latitude && longitude) {
-            findSensorForCoordinates(req, res);
+        var sensorType = req.query.sensorType;
+        var sensorId = req.query.sensorId;
+
+        if (sensorType) {
+            if (latitude && longitude) {
+                findSensorForCoordinatesAndSensorType(req, res);
+            }
+            else if (sensorId) {
+                findSensorForSensorIdAndSensorType(req, res);
+            }
+            else {
+                findAllSensorsForSensorType(req,res);
+            }
         }
         else {
-            findAllSensors(req, res);
+            if (latitude && longitude) {
+                findSensorForCoordinates(req, res);
+            }
+            else if (sensorId) {
+                findSensorForSensorId(req, res);
+            }
+            else {
+                findAllSensors(req, res);
+            }
         }
+
+
+
+
+
+
+
+
+        // if(sensorType) {
+        //     if (latitude && longitude) {
+        //         findSensorForCoordinatesAndSensorType(req, res);
+        //     }
+        //     else {
+        //         findAllSensorsForSensorType(req,res);
+        //     }
+        // }
+        // else if (latitude && longitude) {
+        //     findSensorForCoordinates(req, res);
+        // }
+        // else {
+        //     findAllSensors(req, res);
+        // }
     }
 
     function findAllSensors(req, res) {
@@ -31,6 +72,19 @@ module.exports = function (app, model) {
             });
     }
 
+    function findSensorForCoordinatesAndSensorType(req, res) {
+        var latitude = req.query.latitude;
+        var longitude = req.query.longitude;
+        var sensorType = req.query.sensorType;
+        sensorModel
+            .findSensorForCoordinatesAndSensorType(latitude, longitude, sensorType)
+            .then(function (sensor) {
+                res.json(sensor);
+            }, function (error) {
+                res.sendStatus(500).send(error);
+            });
+    }
+
     function findSensorForCoordinates(req, res) {
         var latitude = req.query.latitude;
         var longitude = req.query.longitude;
@@ -38,16 +92,28 @@ module.exports = function (app, model) {
             .findSensorForCoordinates(latitude, longitude)
             .then(function (sensor) {
                 res.json(sensor);
-                //res.sendStatus(200);
             }, function (error) {
                 res.sendStatus(500).send(error);
             });
     }
 
-    function findSensorForSensorId(req, res) {
-        var sensorId = req.params.sensorId;
+    function findAllSensorsForSensorType(req,res) {
+        var sensorType = req.query.sensorType;
+        //var sensorType = sensortype.stype;
         sensorModel
-            .findSensorById(sensorId)
+            .findAllSensorsForSensorType(sensorType)
+            .then(function (sensors) {
+                res.json(sensors);
+            }, function (error) {
+                res.sendStatus(500).send(error);
+            });
+    }
+
+    function findSensorForSensorIdAndSensorType(req, res) {
+        var sensorId = req.query.sensorId;
+        var sensorType = req.query.sensorType;
+        sensorModel
+            .findSensorByIdAndSensorType(sensorId, sensorType)
             .then(function (sensor) {
                 res.json(sensor);
             }, function (error) {
@@ -55,14 +121,25 @@ module.exports = function (app, model) {
             });
     }
 
+    function findSensorForSensorId(req, res) {
+        var sensorId = req.query.sensorId;
+        sensorModel
+            .findSensorById(sensorId)
+            .then(function (sensor) {
+                res.json(sensor);
+            }, function (error) {
+                res.sendStatus(500).send(error);
+            });
+
+    }
+
     function findReadingsForCoordinates(req, res) {
         var latitude = req.query.latitude;
         var longitude = req.query.longitude;
-
         sensorModel
             .findSensorReading(latitude, longitude)
             .then(function (readings) {
-                return readingModel.findReadingById(readings[0]);
+                return weatherModel.findReadingById(readings[0]);
             })
             .then(function (reading) {
                 res.json(reading);

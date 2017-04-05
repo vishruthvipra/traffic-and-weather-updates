@@ -16,28 +16,34 @@
             var defuv = [12, 19, 3, 5, 2, 3];
             var defpm2 = [12, 19, 3, 5, 2, 3];
             var defpm5 = [1, 9, 13, 15, 12, 30];
-
             var defreadno = [1, 2, 3, 4, 5, 6];
+
+            vm.lati = latitude;
+            vm.long = longitude;
 
             function init() {
                 var promise = UserService.findUserById(userId);
                 promise.success(function (user) {
                     vm.user = user;
                     getLocationReadings();
-                    plotTemperature(defreadno, deftemp);
-                    plotHumidity(defreadno, defhumd);
-                    plotUVLevel(defreadno, defuv);
-                    plotPM(defreadno, defpm2, defpm5);
+                    plotTemperature(defreadno, deftemp, "tempChart");
+                    plotTemperature(defreadno, deftemp, "tempCharts");
+                    plotHumidity(defreadno, defhumd, "humdChart");
+                    plotHumidity(defreadno, defhumd, "humdCharts");
+                    plotUVLevel(defreadno, defuv, "uvChart");
+                    plotUVLevel(defreadno, defuv, "uvCharts");
+                    plotPM(defreadno, defpm2, defpm5, "pmChart");
+                    plotPM(defreadno, defpm2, defpm5, "pmCharts");
                 });
             }
             init();
 
             function findReadingsForSensorId() {
                 var data = [], temperature = [], humidity = [], uvlevel = [], pm2 = [], pm5 = [], readno = [];
-                var sensorId = "58d9d52182c3a80ae8508574";
+                var sensorId = "58e1f921734d1d01a23a5467";
                 var promise = ReadingService.findReadingsForSensorId(sensorId);
                 promise.success(function (readings) {
-                    for(var i in readings){
+                    for (var i in readings) {
                         data.push(readings[i].readno);
                         temperature.push(readings[i].temperature);
                         humidity.push(readings[i].humidity);
@@ -45,11 +51,18 @@
                         pm2.push(readings[i].pm2);
                         pm5.push(readings[i].pm5);
                     }
+                    vm.temperature = readings[readings.length - 1];
+                    console.log(vm.temperature);
                     readno = data.reverse();
-                    plotTemperature(readno, temperature);
-                    plotHumidity(readno, humidity);
-                    plotUVLevel(readno, uvlevel);
-                    plotPM(readno, pm2, pm5);
+
+                    plotTemperature(readno, temperature, "tempChart");
+                    plotTemperature(readno, temperature, "tempCharts");
+                    plotHumidity(readno, humidity, "humdChart");
+                    plotHumidity(readno, humidity, "humdCharts");
+                    plotUVLevel(readno, uvlevel, "uvChart");
+                    plotUVLevel(readno, uvlevel, "uvCharts");
+                    plotPM(readno, pm2, pm5, "pmChart");
+                    plotPM(readno, pm2, pm5, "pmCharts");
                 });
             }
 
@@ -95,8 +108,8 @@
                     });
             }
 
-            function plotTemperature(readno, temperature) {
-                var chart1 = document.getElementById("tempChart");
+            function plotTemperature(readno, temperature, id) {
+                var chart1 = document.getElementById(id);
                 var myChart = new Chart(chart1, {
                     type: 'line',
                     data: {
@@ -104,12 +117,8 @@
                         datasets: [{
                             label: 'Temperature',
                             data: temperature,
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(255,99,132,1)'
-                            ],
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255,99,132,1)',
                             borderWidth: 1
                         }]
                     },
@@ -136,8 +145,8 @@
                 });
             }
 
-            function plotHumidity(readno, humidity) {
-                var chart1 = document.getElementById("humdChart");
+            function plotHumidity(readno, humidity, id) {
+                var chart1 = document.getElementById(id);
                 var myChart = new Chart(chart1, {
                     type: 'line',
                     data: {
@@ -145,12 +154,8 @@
                         datasets: [{
                             label: 'Humidity',
                             data: humidity,
-                            backgroundColor: [
-                                'rgba(135, 206, 235, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(135, 206, 235, 1)'
-                            ],
+                            backgroundColor: 'rgba(135, 206, 235, 0.2)',
+                            borderColor: 'rgba(135, 206, 235, 1)',
                             borderWidth: 1
                         }]
                     },
@@ -177,8 +182,8 @@
                 });
             }
 
-            function plotUVLevel(readno, uv) {
-                var chart1 = document.getElementById("uvChart");
+            function plotUVLevel(readno, uv, id) {
+                var chart1 = document.getElementById(id);
                 var myChart = new Chart(chart1, {
                     type: 'line',
                     data: {
@@ -186,12 +191,8 @@
                         datasets: [{
                             label: 'UV Level',
                             data: uv,
-                            backgroundColor: [
-                                'rgba(204, 204, 0, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(204, 204, 0, 1)'
-                            ],
+                            backgroundColor: 'rgba(204, 204, 0, 0.2)',
+                            borderColor: 'rgba(204, 204, 0, 1)',
                             borderWidth: 1
                         }]
                     },
@@ -218,8 +219,8 @@
                 });
             }
 
-            function plotPM(readno, pm2, pm5) {
-                var chart1 = document.getElementById("pmChart");
+            function plotPM(readno, pm2, pm5, id) {
+                var chart1 = document.getElementById(id);
                 var myChart = new Chart(chart1, {
                     type: 'line',
                     data: {
@@ -227,23 +228,15 @@
                         datasets: [{
                             label: 'Particulate matter 2.5',
                             data: pm2,
-                            backgroundColor: [
-                                'rgba(210, 180, 140, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(210, 180, 140, 1)'
-                            ],
+                            backgroundColor: 'rgba(210, 180, 140, 0.2)',
+                            borderColor: 'rgba(210, 180, 140, 1)',
                             borderWidth: 1
                         },
                             {
                                 label: 'Particulate matter 5.0',
                                 data: pm5,
-                                backgroundColor: [
-                                    'rgba(160, 82 ,45, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(160, 82 ,45, 1)'
-                                ],
+                                backgroundColor: 'rgba(160, 82 ,45, 0.2)',
+                                borderColor: 'rgba(160, 82 ,45, 1)',
                                 borderWidth: 1
                             }]
                     },
@@ -269,30 +262,5 @@
                     }
                 });
             }
-
-
-
-            // var map;
-            // function initMap() {
-            //     var myLatLng = {lat: 12.9716, lng: 77.5946};
-            //     map = new google.maps.Map(document.getElementById('map'), {
-            //         center: myLatLng,
-            //         zoom: 13
-            //     });
-            //
-            //     var marker = new google.maps.Marker({
-            //         position: myLatLng,
-            //         map: map,
-            //         title: 'Hello World!'
-            //     });
-            //
-            //     google.maps.event.addListener(marker,'click',function() {
-            //         console.log("clicked");
-            //     });
-            // }
-
         }
-
-
-
 })();

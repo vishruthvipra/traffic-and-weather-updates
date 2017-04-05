@@ -1,9 +1,22 @@
-var express = require('express');
+var express       = require('express');
+var mongoose      = require("mongoose");
+var bodyParser    = require('body-parser');
+var passport      = require('passport');
+var cookieParser  = require('cookie-parser');
+var session       = require('express-session');
+
+
 var app = express();
 
-var mongoose = require("mongoose");
-var bodyParser = require('body-parser');
+app.use(session({
+    secret: 'this is the secret',
+    resave: true,
+    saveUninitialized: true
+}));
 
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -11,8 +24,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
 var connectionString = 'mongodb://username:password@ds143900.mlab.com:43900/project';
-
+// var connectionString = 'mongodb://username:password@ds149040.mlab.com:49040/project';
 //var connectionString = 'mongodb://127.0.0.1:27017/project';
+
 // mongoose.connect(connectionString);
 // if(process.env.MLAB_USERNAME) {
 //     connectionString = process.env.MLAB_USERNAME + ":" +
@@ -26,7 +40,7 @@ var connectionString = 'mongodb://username:password@ds143900.mlab.com:43900/proj
 console.log(connectionString);
 mongoose.connect(connectionString);
 
-require("./serverfiles/models.server.js")(app,mongoose);
+require("./serverfiles/models.server.js")(app, mongoose, passport);
 
 var port = process.env.PORT || 3000;
 

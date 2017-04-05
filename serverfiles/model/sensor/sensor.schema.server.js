@@ -4,8 +4,9 @@
 module.exports = function(app, mongoose) {
     var sensorSchema = mongoose.Schema({
         location: {latitude: {type: Number, required: true}, longitude: {type: Number, required: true}},
+        sensorType: {type: String, enum: ['WEATHER', 'TRAFFIC'], required: true},
         area: {type: String},
-        readings: [{type: mongoose.Schema.Types.ObjectId, ref: 'ReadingModel'}],
+        weatherReadings: [{type: mongoose.Schema.Types.ObjectId, ref: 'WeatherModel'}],
         dateCreated: {type: Date, default: Date.now}
     }, {collection: 'SensorModel'});
 

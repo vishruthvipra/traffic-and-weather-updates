@@ -16,11 +16,11 @@
         return api;
 
         function findReadingsForCoordinates(latitude, longitude) {
-            return $http.get("/api/reading?latitude=" + latitude + "&longitude=" + longitude);
+            return $http.get("/api/sensor/reading?latitude=" + latitude + "&longitude=" + longitude);
         }
 
         function findReadingsForSensorId(sensorId) {
-            return  $http.get("/api/" + sensorId + "/readings");
+            return  $http.get("/api/" + sensorId + "/weatherReadings");
         }
     }
 })();

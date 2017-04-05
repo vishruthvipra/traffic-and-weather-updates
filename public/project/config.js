@@ -12,6 +12,27 @@
         $httpProvider.defaults.headers.put['Content-Type'] = 'application/json;charset=utf-8';
 
         $routeProvider
+            // .when ("/user/:uid", {
+            //     templateUrl: "views/user/profile.view.client.html",
+            //     controller: "ProfileController",
+            //     controllerAs: "model",
+            //     resolve: {
+            //         loggedin: function ($q, $timeout, $http, $location, $rootScope) {
+            //             var deferred = $q.defer();
+            //             $http.get('/api/loggedin').success(function (user) {
+            //                 $rootScope.errorMessage = null;
+            //                 if (user !== '0') {
+            //                     $rootScope.currentUser = user;
+            //                     deferred.resolve();
+            //                 } else {
+            //                     deferred.reject();
+            //                     $location.url('/user/:uid/profile');
+            //                 }
+            //             });
+            //             return deferred.promise;
+            //         }
+            //     }
+            // })
             .when("/home", {
                 templateUrl: "views/user/templates/home.view.client.html",
                 controller: "HomeController",
@@ -42,6 +63,26 @@
                 controller: "weatherDomainController",
                 controllerAs: "model"
             })
+            .when("/user/:uid/traffic_domain", {
+                templateUrl: "views/weather.domain/templates/weather.domain.view.client.html",
+                controller: "weatherDomainController",
+                controllerAs: "model"
+            });
 
+
+        // var checkLoggedin = function($q, $timeout, $http, $location, $rootScope) {
+        //     var deferred = $q.defer();
+        //     $http.get('/api/loggedin').success(function(user) {
+        //         $rootScope.errorMessage = null;
+        //         if (user !== '0') {
+        //             $rootScope.currentUser = user;
+        //             deferred.resolve();
+        //         } else {
+        //             deferred.reject();
+        //             $location.url('/');
+        //         }
+        //     });
+        //     return deferred.promise;
+        // };
     }
 })();

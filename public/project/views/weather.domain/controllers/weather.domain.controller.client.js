@@ -9,6 +9,9 @@
             var vm = this;
             var userId = $routeParams["uid"];
             vm.u = false, vm.s = false, vm.r = false;
+            vm.add = false;
+            vm.newuser;
+            vm.createUser = createUser;
             vm.modelClicked = modelClicked;
             vm.startSearch = startSearch;
 
@@ -22,6 +25,25 @@
             }
 
             init();
+
+            function createUser(newUser) {
+                 UserService
+                    .findUserByUsername(newUser.username)
+                    .success(function (user) {
+                        vm.error = "User already exists"; })
+                    .error(function (err) {
+                        UserService
+                            .createUser(newUser)
+                            .success(function (user) {
+                                vm.add = false;
+                                UserService.findAllUsers();
+                                promise
+                                    .success(function (user) {
+                                        vm.searchResults = user;
+                                    });
+                            })
+                    });
+            }
 
             function modelClicked(num) {
                 if (num === 0) {
@@ -41,7 +63,7 @@
                     vm.u = false;
                     vm.s = true;
 
-                    var promise = SensorService.findAllSensors();
+                    var promise = SensorService.findAllSensorsForSensorType("WEATHER");
                     promise
                         .success(function (sensor) {
                             vm.searchResults = sensor;
@@ -81,7 +103,7 @@
                 }
                 else if(vm.s) {
                     if (searchValue === 1) {
-                        var promise = SensorService.findSensorById(searchText);
+                        var promise = SensorService.findSensorByIdWithSensorType(searchText, "WEATHER");
                         promise
                             .success(function (sensor) {
                                 vm.searchResults = null;
@@ -90,7 +112,7 @@
                     }
                     else {
                         var coordinates = searchText.split(",");
-                        var promise = SensorService.findSensorByCoordinates(coordinates[0], coordinates[1]);
+                        var promise = SensorService.findSensorByCoordinatesWithSensorType(coordinates[0], coordinates[1], "WEATHER");
                         promise
                             .success(function (sensor) {
                                 vm.searchResults = null;

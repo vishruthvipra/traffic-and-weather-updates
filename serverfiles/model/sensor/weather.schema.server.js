@@ -2,7 +2,7 @@
  * Created by vishruthkrishnaprasad on 11/3/17.
  */
 module.exports = function(app, mongoose) {
-    var readingSchema = mongoose.Schema({
+    var weatherSchema = mongoose.Schema({
         readno: {type: String, required: true},
         temperature: {type: String},
         humidity: {type: String},
@@ -10,9 +10,10 @@ module.exports = function(app, mongoose) {
         uvlevel: {type: String},
         pressure: {type: String},
         colevel: {type: String},
-        noofcars: {type: String},
+        pm2: {type: String},
+        pm5: {type: String},
         dateCreated: {type: Date, default: Date.now}
-    }, {collection: 'ReadingModel'});
+    }, {collection: 'weatherModel'});
 
-    return readingSchema;
+    return weatherSchema;
 };
