@@ -8,7 +8,7 @@
         function profileController($routeParams, UserService, $location, $route, $timeout) {
             var vm = this;
             var userId = $routeParams["uid"];
-            //vm.back = back;
+            vm.back = back;
 
             function init() {
                 var promise = UserService.findUserById(userId);
@@ -20,6 +20,11 @@
             init();
             vm.updateUser = updateUser;
             vm.deleteUser = deleteUser;
+
+            function back() {
+                // $timeout(function(){$route.reload();},1000);
+                $location.url("/user/" + vm.user._id);
+            }
 
             function updateUser(newUser) {
                 var update = UserService
