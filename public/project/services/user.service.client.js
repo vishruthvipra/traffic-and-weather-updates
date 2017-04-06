@@ -51,8 +51,8 @@
             return $http.put("/api/user/" + userId, user);
         }
 
-        function deleteUser(userId, user) {
-            return $http.delete("/api/user/" + userId, user);
+        function deleteUser(userId) {
+            return $http.delete("/api/user/" + userId);
         }
         
         function findUserByUsername(username) {

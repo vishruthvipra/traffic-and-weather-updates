@@ -7,8 +7,6 @@
         .directive('myMap', myMap);
 
     function myMap() {
-
-
         var link = function(scope, element, attrs) {
 
             var vm = scope.model;
@@ -42,7 +40,7 @@
                 };
 
                 marker = new google.maps.Marker(markerOptions);
-                markers.push(marker); // add marker to array
+                markers.push(marker); // addUser marker to array
 
                 google.maps.event.addListener(marker, 'click', function () {
                     // close window if not undefined
@@ -61,7 +59,7 @@
             // show the map and place some markers
             initMap();
 
-            setMarker(map, new google.maps.LatLng(12.9716, 77.5946), 'Blore', 'Jujyhdjghfhgfjfgjhgfjfjfjfhjgfjst some content');
+            setMarker(map, new google.maps.LatLng(12.9716, 77.5946), 'Bangalore', 'some content');
             // setMarker(map, new google.maps.LatLng(52.370216, 4.895168), 'Amsterdam', 'More content');
             // setMarker(map, new google.maps.LatLng(48.856614, 2.352222), 'Paris', 'Text here');
         };

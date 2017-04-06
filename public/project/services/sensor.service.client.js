@@ -9,6 +9,9 @@
     function sensorService($http) {
 
         var api = {
+            "createSensor": createSensor,
+            "updateSensor": updateSensor,
+            "deleteSensor": deleteSensor,
             "findSensorByCoordinates": findSensorByCoordinates,
             "findSensorById": findSensorById,
             "findAllSensors" :findAllSensors,
@@ -18,6 +21,18 @@
         };
 
         return api;
+
+        function createSensor(sensor) {
+            return $http.post("/api/sensor", sensor);
+        }
+
+        function updateSensor(sensorId, sensor) {
+            return $http.put("/api/sensor/" + sensorId, sensor);
+        }
+
+        function deleteSensor(sensorId) {
+            return $http.delete("/api/sensor/" + sensorId);
+        }
 
         function findSensorByCoordinates(latitude, longitude) {
             return $http.get("/api/sensor?latitude=" + latitude + "&longitude=" + longitude);

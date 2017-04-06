@@ -7,6 +7,9 @@ module.exports = function (app, mongoose) {
     var sensorModel = mongoose.model('SensorModel', sensorSchema);
 
     var api = {
+        createSensor: createSensor,
+        updateSensor: updateSensor,
+        deleteSensor: deleteSensor,
         findSensorForCoordinates: findSensorForCoordinates,
         findSensorForCoordinatesAndSensorType: findSensorForCoordinatesAndSensorType,
         findSensorById: findSensorById,
@@ -17,6 +20,42 @@ module.exports = function (app, mongoose) {
         findAllSensors: findAllSensors
     };
     return api;
+
+    function createSensor(sensor) {
+        var deferred = q.defer();
+        sensorModel.create(sensor, function (err, status) {
+            if(err) {
+                deferred.reject(new Error(err));
+            } else {
+                deferred.resolve(status);
+            }
+        });
+        return deferred.promise;
+    }
+
+    function updateSensor(sensorId, sensor) {
+        var deferred = q.defer();
+        sensorModel.update({_id: sensorId}, {$set: sensor}, function (err, status) {
+            if (err) {
+                deferred.reject(new Error(err));
+            } else {
+                deferred.resolve(status);
+            }
+        });
+        return deferred.promise;
+    }
+
+    function deleteSensor(sensorId) {
+        var deferred = q.defer();
+        sensorModel.remove({_id: sensorId}, function (err, status) {
+            if (err) {
+                deferred.reject(new Error(err));
+            } else {
+                deferred.resolve(status);
+            }
+        });
+        return deferred.promise;
+    }
 
     function findSensorForCoordinates(latitude, longitude) {
         var lat = parseFloat(latitude);

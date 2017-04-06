@@ -1,5 +1,5 @@
 /**
- * Created by vishruthkrishnaprasad on 20/2/17.
+ * Created by vishruthkrishnaprasad on 5/4/17.
  */
 module.exports = function (app, model) {
     app.post("/api/sensor", createSensor);
@@ -13,7 +13,7 @@ module.exports = function (app, model) {
     var sensorModel = model.sensorModel;
     var weatherModel = model.weatherModel;
 
-    function createSensor(req, res) {
+    function createReading(req, res) {
         var newSensor = req.body;
         sensorModel
             .createSensor(newSensor)
@@ -24,7 +24,7 @@ module.exports = function (app, model) {
             });
     }
 
-    function updateSensor(req, res) {
+    function updateReading(req, res) {
         var sensorId = req.params.sensorId;
         var sensor = req.body;
         sensorModel
@@ -36,7 +36,7 @@ module.exports = function (app, model) {
             });
     }
 
-    function deleteSensor(req, res) {
+    function deleteReading(req, res) {
         var sensorId = req.params.sensorId;
         sensorModel
             .deleteSensor(sensorId)

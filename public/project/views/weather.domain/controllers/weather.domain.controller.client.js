@@ -9,12 +9,27 @@
             var vm = this;
             var userId = $routeParams["uid"];
             vm.u = false, vm.s = false, vm.r = false;
-            vm.add = false;
-            vm.newuser;
+
+            vm.addUser = false, vm.changeUser = false;
             vm.createUser = createUser;
+            vm.changedUser = changedUser;
+            vm.updateUser = updateUser;
+            vm.deleteUser = deleteUser;
+
+            vm.addSensor = false, vm.changeSensor = false;
+            vm.changedSensor = changedSensor;
+            vm.createSensor = createSensor;
+            vm.updateSensor = updateSensor;
+            vm.deleteSensor = deleteSensor;
+
+            vm.addReading = false, vm.changeReading = false;
+            vm.changedReading = changedReading;
+            vm.createReading = createReading;
+            vm.updateReading = updateReading;
+            vm.deleteReading = deleteReading;
+
             vm.modelClicked = modelClicked;
             vm.startSearch = startSearch;
-
 
             function init() {
                 var promise = UserService.findUserById(userId);
@@ -26,24 +41,198 @@
 
             init();
 
+            function changedUser(chgUser) {
+                vm.addUser = false;
+                if (vm.opUser === 1) {
+                    updateUser(chgUser);
+                }
+                else {
+                    deleteUser(chgUser);
+                }
+            }
+
             function createUser(newUser) {
+                vm.changeUser = false;
                  UserService
                     .findUserByUsername(newUser.username)
                     .success(function (user) {
                         vm.error = "User already exists"; })
                     .error(function (err) {
                         UserService
-                            .createUser(newUser)
+                            .register(newUser)
                             .success(function (user) {
                                 vm.add = false;
-                                UserService.findAllUsers();
-                                promise
+                                UserService.findAllUsers()
                                     .success(function (user) {
                                         vm.searchResults = user;
                                     });
                             })
                     });
             }
+
+            function updateUser(updUser) {
+                var update = UserService
+                    .updateUser(updUser._id, updUser)
+                    .success(function (user) {
+                        if(update != null)
+                        {
+                            vm.changeUser = false;
+                            UserService.findAllUsers()
+                                .success(function (user) {
+                                    vm.searchResults = user;
+                                });
+                        }
+                        else {
+                            vm.error = "Unable to update..."
+                        }
+                    });
+            }
+
+            function deleteUser(delUser) {
+                var update = UserService
+                    .deleteUser(delUser._id)
+                    .success(function (user) {
+                        if (user != null) {
+                            vm.changeUser = false;
+                            UserService.findAllUsers()
+                                .success(function (user) {
+                                    vm.searchResults = user;
+                                });
+                        }
+                        else {
+                            vm.error = "Could not delete user";
+                        }
+                    })
+            }
+
+
+            function changedSensor(chgSensor) {
+                vm.addSensor = false;
+                if (vm.opSensor === 1) {
+                    updateSensor(chgSensor);
+                }
+                else {
+                    deleteSensor(chgSensor);
+                }
+            }
+
+            function createSensor(newSensor) {
+                vm.changeSensor = false;
+                newSensor.weatherReadings = newSensor.weatherReadings.split(/[\s,]+/);
+                newSensor.sensorType = "WEATHER";
+                SensorService
+                    .createSensor(newSensor)
+                    .success(function (sensor) {
+                        vm.addSensor = false;
+                        SensorService.findAllSensors()
+                            .success(function (sensor) {
+                                vm.searchResults = sensor;
+                            });
+                    });
+            }
+
+            function updateSensor(updSensor) {
+                updSensor.weatherReadings = updSensor.weatherReadings.split(/[\s,]+/);
+                updSensor.sensorType = "WEATHER";
+                var update = SensorService
+                    .updateSensor(updSensor._id, updSensor)
+                    .success(function (sensor) {
+                        if(update != null)
+                        {
+                            vm.changeSensor = false;
+                            SensorService.findAllSensors()
+                                .success(function (sensor) {
+                                    vm.searchResults = sensor;
+                                });
+                        }
+                        else {
+                            vm.error = "Unable to update..."
+                        }
+                    });
+            }
+
+            function deleteSensor(delSensor) {
+                var update = SensorService
+                    .deleteSensor(delSensor._id)
+                    .success(function (sensor) {
+                        if (sensor != null) {
+                            vm.changeSensor = false;
+                            SensorService.findAllSensors()
+                                .success(function (sensor) {
+                                    vm.searchResults = sensor;
+                                });
+                        }
+                        else {
+                            vm.error = "Could not delete user";
+                        }
+                    })
+            }
+
+
+            function changedReading(chgReading) {
+                vm.addReading = false;
+                if (vm.opReading === 1) {
+                    updateReading(chgReading);
+                }
+                else {
+                    deleteReading(chgReading);
+                }
+            }
+
+            function createReading(newSensor) {
+                vm.changeReading = false;
+                UserService
+                    .findUserByUsername(newSensor.username)
+                    .success(function (user) {
+                        vm.error = "User already exists"; })
+                    .error(function (err) {
+                        UserService
+                            .register(newSensor)
+                            .success(function (user) {
+                                vm.add = false;
+                                UserService.findAllUsers()
+                                    .success(function (user) {
+                                        vm.searchResults = user;
+                                    });
+                            })
+                    });
+            }
+
+            function updateReading(updSensor) {
+                var update = UserService
+                    .updateUser(updSensor._id, updSensor)
+                    .success(function (user) {
+                        if(update != null)
+                        {
+                            vm.changeUser = false;
+                            UserService.findAllUsers()
+                                .success(function (user) {
+                                    vm.searchResults = user;
+                                });
+                        }
+                        else {
+                            vm.error = "Unable to update..."
+                        }
+                    });
+            }
+
+            function deleteReading(delSensor) {
+                var update = UserService
+                    .deleteUser(delSensor._id)
+                    .success(function (user) {
+                        if (user != null) {
+                            vm.changeUser = false;
+                            UserService.findAllUsers()
+                                .success(function (user) {
+                                    vm.searchResults = user;
+                                });
+                        }
+                        else {
+                            vm.error = "Could not delete user";
+                        }
+                    })
+            }
+
 
             function modelClicked(num) {
                 if (num === 0) {

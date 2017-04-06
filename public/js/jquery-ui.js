@@ -279,7 +279,7 @@ $.fn.extend({
 
 // $.ui.plugin is deprecated. Use $.widget() extensions instead.
 $.ui.plugin = {
-	add: function( module, option, set ) {
+	add: function(module, option, set ) {
 		var i,
 			proto = $.ui[ module ].prototype;
 		for ( i in set ) {
@@ -4867,7 +4867,7 @@ var sortable = $.widget("ui.sortable", $.ui.mouse, {
 					break;
 				}
 
-				this._trigger("change", event, this._uiHash());
+				this._trigger("changeUser", event, this._uiHash());
 				break;
 			}
 		}
@@ -5389,8 +5389,8 @@ var sortable = $.widget("ui.sortable", $.ui.mouse, {
 			}
 
 			itemWithLeastDistance ? this._rearrange(event, itemWithLeastDistance, null, true) : this._rearrange(event, null, this.containers[innermostIndex].element, true);
-			this._trigger("change", event, this._uiHash());
-			this.containers[innermostIndex]._trigger("change", event, this._uiHash(this));
+			this._trigger("changeUser", event, this._uiHash());
+			this.containers[innermostIndex]._trigger("changeUser", event, this._uiHash(this));
 			this.currentContainer = this.containers[innermostIndex];
 
 			//Update the placeholder
@@ -7444,7 +7444,7 @@ $.widget( "ui.autocomplete", {
 
 	_change: function( event ) {
 		if ( this.previous !== this._value() ) {
-			this._trigger( "change", event, { item: this.selectedItem } );
+			this._trigger( "changeUser", event, { item: this.selectedItem } );
 		}
 	},
 
@@ -7703,7 +7703,7 @@ $.widget( "ui.button", {
 		});
 
 		if ( toggleButton ) {
-			this.element.bind( "change" + this.eventNamespace, function() {
+			this.element.bind( "changeUser" + this.eventNamespace, function() {
 				that.refresh();
 			});
 		}
@@ -9018,7 +9018,7 @@ $.extend(Datepicker.prototype, {
 		if (onSelect) {
 			onSelect.apply((inst.input ? inst.input[0] : null), [dateStr, inst]);  // trigger custom callback
 		} else if (inst.input) {
-			inst.input.trigger("change"); // fire the change event
+			inst.input.trigger("changeUser"); // fire the change event
 		}
 
 		if (inst.inline){
@@ -11052,7 +11052,7 @@ var progressbar = $.widget( "ui.progressbar", {
 
 		if ( this.oldValue !== value ) {
 			this.oldValue = value;
-			this._trigger( "change" );
+			this._trigger( "changeUser" );
 		}
 		if ( value === this.options.max ) {
 			this._trigger( "complete" );
@@ -11529,7 +11529,7 @@ var selectmenu = $.widget( "ui.selectmenu", {
 		this._trigger( "select", event, { item: item } );
 
 		if ( item.index !== oldIndex ) {
-			this._trigger( "change", event, { item: item } );
+			this._trigger( "changeUser", event, { item: item } );
 		}
 
 		this.close( event );
@@ -12023,7 +12023,7 @@ var slider = $.widget( "ui.slider", $.ui.mouse, {
 			//store the last changed value index for reference when handles overlap
 			this._lastChangedValue = index;
 
-			this._trigger( "change", event, uiHash );
+			this._trigger( "changeUser", event, uiHash );
 		}
 	},
 
@@ -12380,7 +12380,7 @@ function spinner_modifier( fn ) {
 		fn.apply( this, arguments );
 		this._refresh();
 		if ( previous !== this.element.val() ) {
-			this._trigger( "change" );
+			this._trigger( "changeUser" );
 		}
 	};
 }
@@ -12468,7 +12468,7 @@ var spinner = $.widget( "ui.spinner", {
 			this._stop();
 			this._refresh();
 			if ( this.previous !== this.element.val() ) {
-				this._trigger( "change", event );
+				this._trigger( "changeUser", event );
 			}
 		},
 		mousewheel: function( event, delta ) {
