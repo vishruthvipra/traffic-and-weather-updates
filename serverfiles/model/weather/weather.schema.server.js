@@ -14,7 +14,7 @@ module.exports = function(app, mongoose) {
         pm2: {type: String},
         pm5: {type: String},
         dateCreated: {type: Date, default: Date.now}
-    }, {collection: 'weatherModel'});
+    }, {collection: 'WeatherModel'});
 
     return weatherSchema;
 };

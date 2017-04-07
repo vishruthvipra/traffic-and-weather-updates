@@ -434,7 +434,7 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-hover text-center">
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>_id</th>
@@ -443,7 +443,7 @@
                 </tr>
                 </thead>
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
-                <tr class="success text-center">
+                <tr class="success">
                     <td>{{search._id}}</td>
                     <td>{{search.readno}}</td>
                     <td>{{search.noofcars}}</td>
@@ -451,7 +451,7 @@
                 </tbody>
 
                 <tbody ng-show="model.search">
-                <tr class="success text-center">
+                <tr class="success">
                     <td>{{model.search._id}}</td>
                     <td>{{model.search.readno}}</td>
                     <td>{{model.search.noofcars}}</td>

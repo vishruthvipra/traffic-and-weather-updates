@@ -6,7 +6,7 @@ module.exports = function(app, mongoose) {
         readno: {type: String, required: true},
         noofcars: {type: String},
         dateCreated: {type: Date, default: Date.now}
-    }, {collection: 'trafficModel'});
+    }, {collection: 'TrafficModel'});
 
     return trafficSchema;
 };
