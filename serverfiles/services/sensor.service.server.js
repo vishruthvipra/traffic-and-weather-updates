@@ -76,13 +76,6 @@ module.exports = function (app, model) {
             }
         }
 
-
-
-
-
-
-
-
         // if(sensorType) {
         //     if (latitude && longitude) {
         //         findSensorForCoordinatesAndSensorType(req, res);

@@ -15,8 +15,6 @@ module.exports = function (app, model, passport) {
         profileFields: ['id', 'displayName', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified']
     };
 
-    console.log(facebookConfig);
-
     var googleConfig = {
         clientID: "668761646032-b2298dh6dhsnenpu1joe1h5q3h35beci.apps.googleusercontent.com",//process.env.GOOGLE_CLIENT_ID,
         clientSecret: "Lyd0Xi48a64Sws_ycTZrBabB",//process.env.GOOGLE_CLIENT_SECRET,

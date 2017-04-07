@@ -3,8 +3,8 @@
  */
 module.exports = function (app, mongoose) {
     var q = require('q');
-    var weatherSchema = require('./weather.schema.server.js')(app, mongoose);
-    var weatherModel = mongoose.model('weatherModel', weatherSchema);
+    var trafficSchema = require('./traffic.schema.server.js')(app, mongoose);
+    var trafficModel = mongoose.model('trafficModel', trafficSchema);
 
     var api = {
         createReading: createReading,
@@ -17,7 +17,7 @@ module.exports = function (app, mongoose) {
 
     function createReading(reading) {
         var deferred = q.defer();
-        weatherModel.create(reading, function (err, status) {
+        trafficModel.create(reading, function (err, status) {
             if(err) {
                 deferred.reject(new Error(err));
             } else {
@@ -29,7 +29,7 @@ module.exports = function (app, mongoose) {
 
     function updateReading(readingId, reading) {
         var deferred = q.defer();
-        weatherModel.update({_id: readingId}, {$set: reading}, function (err, status) {
+        trafficModel.update({_id: readingId}, {$set: reading}, function (err, status) {
             if (err) {
                 deferred.reject(new Error(err));
             } else {
@@ -41,7 +41,7 @@ module.exports = function (app, mongoose) {
 
     function deleteReading(readingId) {
         var deferred = q.defer();
-        weatherModel.remove({_id: readingId}, function (err, status) {
+        trafficModel.remove({_id: readingId}, function (err, status) {
             if (err) {
                 deferred.reject(new Error(err));
             } else {
@@ -54,7 +54,7 @@ module.exports = function (app, mongoose) {
 
     function findReadingById(readingId) {
         var deferred = q.defer();
-        weatherModel.findById(readingId, function (err, status) {
+        trafficModel.findById(readingId, function (err, status) {
             if (err) {
                 deferred.reject(new Error(err));
             } else {
@@ -66,7 +66,7 @@ module.exports = function (app, mongoose) {
 
     function findAllReadings() {
         var deferred = q.defer();
-        weatherModel.find(function(err, sensor) {
+        trafficModel.find(function(err, sensor) {
             if (err) {
                 deferred.reject(new Error(err));
             } else {

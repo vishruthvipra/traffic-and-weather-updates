@@ -1,17 +1,36 @@
 /**
- * Created by vishruthkrishnaprasad on 3/4/17.
+ * Created by vishruthkrishnaprasad on 12/2/17.
  */
 (function () {
     angular
         .module("WebAppMaker")
-        .controller("weatherDomainController", weatherDomainController)
-    function weatherDomainController($routeParams, UserService, SensorService, ReadingService) {
+        .controller("trafficDomainController", trafficDomainController)
+    function trafficDomainController($routeParams, UserService, SensorService, ReadingService) {
         var vm = this;
         var userId = $routeParams["uid"];
         vm.u = false, vm.s = false, vm.r = false;
+        vm.search = false;
+
+        vm.addUser = false, vm.changeUser = false;
+        vm.createUser = createUser;
+        vm.changedUser = changedUser;
+        vm.updateUser = updateUser;
+        vm.deleteUser = deleteUser;
+
+        vm.addSensor = false, vm.changeSensor = false;
+        vm.changedSensor = changedSensor;
+        vm.createSensor = createSensor;
+        vm.updateSensor = updateSensor;
+        vm.deleteSensor = deleteSensor;
+
+        vm.addReading = false, vm.changeReading = false;
+        vm.changedReading = changedReading;
+        vm.createReading = createReading;
+        vm.updateReading = updateReading;
+        vm.deleteReading = deleteReading;
+
         vm.modelClicked = modelClicked;
         vm.startSearch = startSearch;
-
 
         function init() {
             var promise = UserService.findUserById(userId);
@@ -23,8 +42,204 @@
 
         init();
 
+        function changedUser(chgUser) {
+            vm.addUser = false;
+            if (vm.opUser === 1) {
+                updateUser(chgUser);
+            }
+            else {
+                deleteUser(chgUser);
+            }
+        }
+
+        function createUser(newUser) {
+            vm.changeUser = false;
+            UserService
+                .findUserByUsername(newUser.username)
+                .success(function (user) {
+                    vm.error = "User already exists"; })
+                .error(function (err) {
+                    UserService
+                        .register(newUser)
+                        .success(function (user) {
+                            vm.add = false;
+                            UserService.findAllUsers()
+                                .success(function (user) {
+                                    vm.searchResults = user;
+                                });
+                        })
+                });
+        }
+
+        function updateUser(updUser) {
+            var update = UserService
+                .updateUser(updUser._id, updUser)
+                .success(function (user) {
+                    if(update != null)
+                    {
+                        vm.changeUser = false;
+                        UserService.findAllUsers()
+                            .success(function (user) {
+                                vm.searchResults = user;
+                            });
+                    }
+                    else {
+                        vm.error = "Unable to update..."
+                    }
+                });
+        }
+
+        function deleteUser(delUser) {
+            var update = UserService
+                .deleteUser(delUser._id)
+                .success(function (user) {
+                    if (user != null) {
+                        vm.changeUser = false;
+                        UserService.findAllUsers()
+                            .success(function (user) {
+                                vm.searchResults = user;
+                            });
+                    }
+                    else {
+                        vm.error = "Could not delete user";
+                    }
+                })
+        }
+
+
+        function changedSensor(chgSensor) {
+            vm.addSensor = false;
+            if (vm.opSensor === 1) {
+                updateSensor(chgSensor);
+            }
+            else {
+                deleteSensor(chgSensor);
+            }
+        }
+
+        function createSensor(newSensor) {
+            vm.changeSensor = false;
+            newSensor.weatherReadings = newSensor.weatherReadings.split(/[\s,]+/);
+            newSensor.sensorType = "TRAFFIC";
+            SensorService
+                .createSensor(newSensor)
+                .success(function (sensor) {
+                    vm.addSensor = false;
+                    SensorService.findAllSensors()
+                        .success(function (sensor) {
+                            vm.searchResults = sensor;
+                        });
+                });
+        }
+
+        function updateSensor(updSensor) {
+            updSensor.weatherReadings = updSensor.weatherReadings.split(/[\s,]+/);
+            updSensor.sensorType = "TRAFFIC";
+            var update = SensorService
+                .updateSensor(updSensor._id, updSensor)
+                .success(function (sensor) {
+                    if(update != null)
+                    {
+                        vm.changeSensor = false;
+                        SensorService.findAllSensors()
+                            .success(function (sensor) {
+                                vm.searchResults = sensor;
+                            });
+                    }
+                    else {
+                        vm.error = "Unable to update..."
+                    }
+                });
+        }
+
+        function deleteSensor(delSensor) {
+            var update = SensorService
+                .deleteSensor(delSensor._id)
+                .success(function (sensor) {
+                    if (sensor != null) {
+                        vm.changeSensor = false;
+                        SensorService.findAllSensors()
+                            .success(function (sensor) {
+                                vm.searchResults = sensor;
+                            });
+                    }
+                    else {
+                        vm.error = "Could not delete user";
+                    }
+                })
+        }
+
+
+        function changedReading(chgReading) {
+            vm.addReading = false;
+            if (vm.opReading === 1) {
+                updateReading(chgReading);
+            }
+            else {
+                deleteReading(chgReading);
+            }
+        }
+
+        function createReading(newReading) {
+            vm.changeReading = false;
+            ReadingService
+                .createReading(newReading)
+                .success(function (sensor) {
+                    vm.addReading = false;
+                    ReadingService.findAllReadings("TRAFFIC")
+                        .success(function (reading) {
+                            vm.searchResults = reading;
+                        });
+                });
+        }
+
+        function updateReading(updReading) {
+            var update = ReadingService
+                .updateReading(updReading, "TRAFFIC")
+                .success(function (user) {
+                    if(update != null)
+                    {
+                        vm.changeReading = false;
+                        ReadingService.findAllReadings("TRAFFIC")
+                            .success(function (reading) {
+                                vm.searchResults = reading;
+                            });
+                    }
+                    else {
+                        vm.error = "Unable to update..."
+                    }
+                });
+        }
+
+        function deleteReading(delReading) {
+            var update = ReadingService
+                .findReadingForId(delReading._id, "TRAFFIC")
+                .success(function (reading) {
+                    ReadingService
+                        .deleteReading(reading)
+                        .success(function (user) {
+                            if(update != null)
+                            {
+                                vm.changeReading = false;
+                                ReadingService.findAllReadings("TRAFFIC")
+                                    .success(function (reading) {
+                                        vm.searchResults = reading;
+                                    });
+                            }
+                            else {
+                                vm.error = "Could not delete reading";
+                            }
+                        });
+                });
+
+        }
+
+
         function modelClicked(num) {
+            vm.search = false;
             if (num === 0) {
+                vm.addUser = false;
+                vm.changeUser = false;
                 vm.s = false;
                 vm.r = false;
                 vm.u = true;
@@ -37,6 +252,8 @@
             }
 
             else if (num === 1) {
+                vm.addSensor = false;
+                vm.changeSensor = false;
                 vm.r = false;
                 vm.u = false;
                 vm.s = true;
@@ -48,11 +265,13 @@
                     });
             }
             else {
+                vm.addReading = false;
+                vm.changeReading = false;
                 vm.s = false;
                 vm.u = false;
                 vm.r = true;
 
-                var promise = ReadingService.findAllUsers();
+                var promise = ReadingService.findAllReadings("TRAFFIC");
                 promise
                     .success(function (reading) {
                         vm.searchResults = reading;
@@ -61,6 +280,8 @@
         }
 
         function startSearch(searchValue, searchText) {
+            vm.search = true;
+            vm.searchResults = false;
             if(vm.u) {
                 if (searchValue === 1) {
                     var promise = UserService.findUserById(searchText);
@@ -97,6 +318,14 @@
                             vm.search = sensor;
                         });
                 }
+            }
+            else if(vm.r) {
+                var promise = ReadingService.findReadingForId(searchText, "TRAFFIC");
+                promise
+                    .success(function (reading) {
+                        vm.searchResults = null;
+                        vm.search = reading;
+                    });
             }
         }
     }

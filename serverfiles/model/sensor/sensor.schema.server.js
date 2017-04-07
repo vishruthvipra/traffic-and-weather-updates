@@ -7,6 +7,7 @@ module.exports = function(app, mongoose) {
         sensorType: {type: String, enum: ['WEATHER', 'TRAFFIC'], required: true},
         area: {type: String},
         weatherReadings: [{type: mongoose.Schema.Types.ObjectId, ref: 'WeatherModel'}],
+        trafficReadings: [{type: mongoose.Schema.Types.ObjectId, ref: 'TrafficModel'}],
         dateCreated: {type: Date, default: Date.now}
     }, {collection: 'SensorModel'});
 

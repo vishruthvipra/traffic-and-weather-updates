@@ -18,6 +18,7 @@ module.exports = function (app, mongoose) {
         findReadingsForSensorId: findReadingsForSensorId,
         findAllSensorsForSensorType: findAllSensorsForSensorType,
         findAllSensors: findAllSensors
+
     };
     return api;
 

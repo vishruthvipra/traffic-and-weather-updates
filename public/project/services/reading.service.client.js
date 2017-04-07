@@ -13,7 +13,9 @@
             "updateReading": updateReading,
             "deleteReading": deleteReading,
             "findReadingsForCoordinates": findReadingsForCoordinates,
-            "findReadingsForSensorId": findReadingsForSensorId
+            "findReadingsForSensorId": findReadingsForSensorId,
+            "findReadingForId": findReadingForId,
+            "findAllReadings": findAllReadings
         };
 
         return api;
@@ -22,12 +24,12 @@
             return $http.post("/api/reading", reading);
         }
 
-        function updateReading(readingId, reading) {
-            return $http.put("/api/reading/" + readingId, reading);
+        function updateReading(reading, sType) {
+            return $http.put("/api/reading/sType/" + sType, reading);
         }
 
-        function deleteReading(readingId) {
-            return $http.delete("/api/reading/" + readingId);
+        function deleteReading(reading) {
+            return $http.delete("/api/reading/" + reading._id + "/sensor/" + reading._sensorId);
         }
 
         function findReadingsForCoordinates(latitude, longitude) {
@@ -36,6 +38,14 @@
 
         function findReadingsForSensorId(sensorId) {
             return $http.get("/api/" + sensorId + "/weatherReadings");
+        }
+
+        function findReadingForId(readingId, sType) {
+            return $http.get("/api/reading/" + readingId + "/sType/" + sType);
+        }
+
+        function findAllReadings(sType) {
+            return $http.get("/api/reading/sType/" + sType);
         }
     }
 })();

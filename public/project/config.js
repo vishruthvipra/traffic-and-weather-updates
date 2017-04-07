@@ -61,8 +61,8 @@
                 resolve: { loggedin: checkLoggedIn }
             })
             .when("/user/:uid/traffic_domain", {
-                templateUrl: "views/weather.domain/templates/weather.domain.view.client.html",
-                controller: "weatherDomainController",
+                templateUrl: "views/traffic.domain/templates/traffic.domain.view.client.html",
+                controller: "trafficDomainController",
                 controllerAs: "model",
                 resolve: {loggedin: checkLoggedIn }
             })

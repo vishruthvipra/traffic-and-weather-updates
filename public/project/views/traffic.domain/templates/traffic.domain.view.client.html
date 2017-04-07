@@ -14,6 +14,7 @@
 
 <h1></h1>
 
+
 <div class="container-fluid">
     <ul class="list-group">
         <button ng-click="model.modelClicked(0)" class="list-group-item">
@@ -32,7 +33,7 @@
 
         <div class="row">
             <div class="col-xs-6">
-                <div class="input-group container-fluid">
+                <div class="input-group">
                     <div class="radio">
                         <label><input type="radio" ng-model="searchValue" ng-value="1">Search by id</label>
                     </div>
@@ -43,7 +44,7 @@
             </div>
 
             <div class="col-xs-6">
-                <div  class="input-group container-fluid">
+                <div class="input-group">
                     <input ng-model="searchText" type="text" class="form-control" placeholder="Search here">
                     <span class="input-group-btn">
                         <a class="btn btn-default" type="button">
@@ -54,8 +55,92 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-xs-4">
+                <button ng-click="model.addUser = true; model.changeUser = false" class="wrap-text btn btn-primary btn-block">Add</button>
+            </div>
+            <div class="col-xs-4">
+                <button ng-click="model.changeUser = true; model.addUser = false; model.opUser = 1" class="wrap-text btn btn-info btn-block">Update</button>
+            </div>
+            <div class="col-xs-4">
+                <button ng-click="model.changeUser = true; model.addUser = false; model.opUser = 2" class="wrap-text btn btn-danger btn-block">Delete</button>
+            </div>
+        </div>
+        <br>
 
-        <div class="container">
+        <div ng-show="model.addUser">
+            <form>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input ng-model="model.newuser.username" type="text" class="form-control" id="username" placeholder="Username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input ng-model="model.newuser.password" type="password" class="form-control" id="password" placeholder="Password">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input ng-model="model.newuser.email"type="email" class="form-control" id="email" placeholder="email@address.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="first-name">First Name</label>
+                    <input ng-model="model.newuser.firstName" type="text" class="form-control" id="first-name" placeholder="First name">
+                </div>
+
+                <div class="form-group">
+                    <label for="last-name">Last Name</label>
+                    <input ng-model="model.newuser.lastName" type="text" class="form-control" id="last-name" placeholder="Last name">
+                </div>
+
+                <button ng-click="model.createUser(model.newuser)" class="wrap-text btn btn-danger btn-block">Submit</button>
+            </form>
+            <br>
+        </div>
+
+        <div ng-show="model.changeUser">
+            <form>
+                <div class="form-group">
+                    <label for="id">Id</label>
+                    <input ng-model="model.newuser._id" type="text" class="form-control" id="id" placeholder="ID">
+                </div>
+
+                <div ng-hide="model.opUser === 2">
+
+                    <div class="form-group">
+                        <label for="usernam">Username</label>
+                        <input ng-model="model.newuser.username" type="text" class="form-control" id="usernam" placeholder="Username">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pwd">Password</label>
+                        <input ng-model="model.newuser.password" type="password" class="form-control" id="pwd" placeholder="Password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emails">Email address</label>
+                        <input ng-model="model.newuser.email"type="email" class="form-control" id="emails" placeholder="email@address.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fname">First Name</label>
+                        <input ng-model="model.newuser.firstName" type="text" class="form-control" id="fname" placeholder="First name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lname">Last Name</label>
+                        <input ng-model="model.newuser.lastName" type="text" class="form-control" id="lname" placeholder="Last name">
+                    </div>
+                </div>
+                <button ng-click="model.changedUser(model.newuser)" class="wrap-text btn btn-danger btn-block">Submit</button>
+            </form>
+            <br>
+        </div>
+
+        <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -94,7 +179,7 @@
 
         <div class="row">
             <div class="col-xs-6">
-                <div class="input-group container-fluid">
+                <div class="input-group">
                     <div class="radio">
                         <label><input type="radio" ng-model="searchValue" ng-value="1">Search by id</label>
                     </div>
@@ -105,7 +190,7 @@
             </div>
 
             <div class="col-xs-6">
-                <div  class="input-group container-fluid">
+                <div  class="input-group">
                     <input ng-model="searchText" type="text" class="form-control" placeholder="Search here">
                     <span class="input-group-btn">
                         <a class="btn btn-default" type="button">
@@ -116,6 +201,97 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-xs-4">
+                <button ng-click="model.addSensor = true; model.changeSensor = false" class="wrap-text btn btn-primary btn-block">Add</button>
+            </div>
+            <div class="col-xs-4">
+                <button ng-click="model.changeSensor = true; model.addSensor = false; model.opSensor = 1" class="wrap-text btn btn-info btn-block">Update</button>
+            </div>
+            <div class="col-xs-4">
+                <button ng-click="model.changeSensor = true; model.addSensor = false; model.opSensor = 2" class="wrap-text btn btn-danger btn-block">Delete</button>
+            </div>
+        </div>
+        <br>
+
+        <div ng-show="model.addSensor">
+            <form>
+
+                <div class="form-group">
+                    <label for="loclati">Latitude</label>
+                    <input ng-model="model.newsensor.location.latitude"
+                           type="text" class="form-control"
+                           id="loclati" placeholder="12.0000">
+                </div>
+
+                <div class="form-group">
+                    <label for="loclong">Longitude</label>
+                    <input ng-model="model.newsensor.location.longitude"
+                           type="text" class="form-control"
+                           id="loclong" placeholder="77.0000">
+                </div>
+
+                <div class="form-group">
+                    <label for="area">Area</label>
+                    <input ng-model="model.newsensor.area"
+                           type="text" class="form-control"
+                           id="area" placeholder="Bangalore">
+                </div>
+
+                <div class="form-group">
+                    <label for="readings">Weather Reading IDs (separated by commas)</label>
+                    <input ng-model="model.newsensor.weatherReadings"
+                           type="text" class="form-control"
+                           id="readings" placeholder="12345, 23456">
+                </div>
+
+                <button ng-click="model.createSensor(model.newsensor)" class="wrap-text btn btn-danger btn-block">Submit</button>
+            </form>
+            <br>
+        </div>
+
+        <div ng-show="model.changeSensor">
+            <form>
+                <div class="form-group">
+                    <label for="sid">Id</label>
+                    <input ng-model="model.newsensor._id" type="text" class="form-control" id="sid" placeholder="ID">
+                </div>
+
+                <div ng-hide="model.opSensor === 2">
+
+                    <div class="form-group">
+                        <label for="loclatitude">Latitude</label>
+                        <input ng-model="model.newsensor.location.latitude"
+                               type="text" class="form-control"
+                               id="loclatitude" placeholder="12.0000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loclongitude">Longitude</label>
+                        <input ng-model="model.newsensor.location.longitude"
+                               type="text" class="form-control"
+                               id="loclongitude" placeholder="77.0000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="area-name">Area</label>
+                        <input ng-model="model.newsensor.area"
+                               type="text" class="form-control"
+                               id="area-name" placeholder="Bangalore">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reading">Reading IDs</label>
+                        <input ng-model="model.newsensor.readings"
+                               type="text" class="form-control"
+                               id="reading" placeholder="Object IDs of weather">
+                    </div>
+
+                </div>
+                <button ng-click="model.changedSensor(model.newsensor)" class="wrap-text btn btn-danger btn-block">Submit</button>
+            </form>
+            <br>
+        </div>
 
         <div class="table-responsive">
             <table class="table table-hover">
@@ -134,7 +310,7 @@
                     <td>{{search.location.latitude}}</td>
                     <td>{{search.location.longitude}}</td>
                     <td>{{search.area}}</td>
-                    <td>{{search.readings}}</td>
+                    <td>{{search.weatherReadings}}</td>
                 </tr>
                 </tbody>
 
@@ -144,14 +320,145 @@
                     <td>{{model.search.location.latitude}}</td>
                     <td>{{model.search.location.longitude}}</td>
                     <td>{{model.search.area}}</td>
-                    <td>{{model.search.readings}}</td>
+                    <td>{{model.search.weatherReadings}}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
+
     </div>
+
     <div ng-show="model.r">
-        reading clicked
+        <h1>Reading Details</h1>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="input-group">
+                    <div class="radio">
+                        <label><input type="radio" ng-model="searchValue" ng-value="1">Search by id</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div  class="input-group">
+                    <input ng-model="searchText" type="text" class="form-control" placeholder="Search here">
+                    <span class="input-group-btn">
+                        <a class="btn btn-default" type="button">
+                            <span ng-click="model.startSearch(searchValue, searchText)" class="glyphicon glyphicon-search"></span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">
+                <button ng-click="model.addReading = true; model.changeReading = false"
+                        class="wrap-text btn btn-primary btn-block">Add</button>
+            </div>
+            <div class="col-xs-4">
+                <button ng-click="model.changeReading = true; model.addReading = false; model.opReading = 1"
+                        class="wrap-text btn btn-info btn-block">Update</button>
+            </div>
+            <div class="col-xs-4">
+                <button ng-click="model.changeReading = true; model.addReading = false; model.opReading = 2"
+                        class="wrap-text btn btn-danger btn-block">Delete</button>
+            </div>
+        </div>
+        <br>
+
+        <div ng-show="model.addReading">
+            <form>
+                <div class="form-group">
+                    <label for="sens">Sensor ID</label>
+                    <input ng-model="model.newreading._sensorId"
+                           type="text" class="form-control"
+                           id="sens" placeholder="12345">
+                </div>
+
+                <div class="form-group">
+                    <label for="read">Read Number</label>
+                    <input ng-model="model.newreading.readno"
+                           type="text" class="form-control"
+                           id="read" placeholder="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="noc">Number of Cars</label>
+                    <input ng-model="model.newreading.noofcars"
+                           type="text" class="form-control"
+                           id="noc" placeholder="25">
+                </div>
+
+                <button ng-click="model.createReading(model.newreading)" class="wrap-text btn btn-danger btn-block">Submit</button>
+            </form>
+            <br>
+        </div>
+
+        <div ng-show="model.changeReading">
+            <form>
+                <div class="form-group">
+                    <label for="readid">Reading Id</label>
+                    <input ng-model="model.newreading._id" type="text"
+                           class="form-control" id="readid"
+                           placeholder="ID">
+                </div>
+
+                <div ng-hide="model.opReading === 2">
+
+                    <div class="form-group">
+                        <label for="sensid">Sensor ID</label>
+                        <input ng-model="model.newreading._sensorId"
+                               type="text" class="form-control"
+                               id="sensid" placeholder="12345">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="readn">Read number</label>
+                        <input ng-model="model.newreading.readno"
+                               type="text" class="form-control"
+                               id="readn" placeholder="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nof">Number of Cars</label>
+                        <input ng-model="model.newreading.noofcars"
+                               type="text" class="form-control"
+                               id="nof" placeholder="25">
+                    </div>
+                </div>
+                <button ng-click="model.changedReading(model.newreading)" class="wrap-text btn btn-danger btn-block">Submit</button>
+            </form>
+            <br>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover text-center">
+                <thead>
+                <tr>
+                    <th>_id</th>
+                    <th>Read number</th>
+                    <th>Number of Cars</th>
+                </tr>
+                </thead>
+                <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
+                <tr class="success text-center">
+                    <td>{{search._id}}</td>
+                    <td>{{search.readno}}</td>
+                    <td>{{search.noofcars}}</td>
+                </tr>
+                </tbody>
+
+                <tbody ng-show="model.search">
+                <tr class="success text-center">
+                    <td>{{model.search._id}}</td>
+                    <td>{{model.search.readno}}</td>
+                    <td>{{model.search.noofcars}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </div>

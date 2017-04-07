@@ -3,6 +3,7 @@
  */
 module.exports = function(app, mongoose) {
     var weatherSchema = mongoose.Schema({
+        _sensorId: {type: String, required: true},
         readno: {type: String, required: true},
         temperature: {type: String},
         humidity: {type: String},

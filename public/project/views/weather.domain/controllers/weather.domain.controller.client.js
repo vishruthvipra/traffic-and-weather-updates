@@ -9,6 +9,7 @@
             var vm = this;
             var userId = $routeParams["uid"];
             vm.u = false, vm.s = false, vm.r = false;
+            vm.search = false;
 
             vm.addUser = false, vm.changeUser = false;
             vm.createUser = createUser;
@@ -179,35 +180,29 @@
                 }
             }
 
-            function createReading(newSensor) {
+            function createReading(newReading) {
                 vm.changeReading = false;
-                UserService
-                    .findUserByUsername(newSensor.username)
-                    .success(function (user) {
-                        vm.error = "User already exists"; })
-                    .error(function (err) {
-                        UserService
-                            .register(newSensor)
-                            .success(function (user) {
-                                vm.add = false;
-                                UserService.findAllUsers()
-                                    .success(function (user) {
-                                        vm.searchResults = user;
-                                    });
-                            })
+                ReadingService
+                    .createReading(newReading)
+                    .success(function (sensor) {
+                        vm.addReading = false;
+                        ReadingService.findAllReadings("WEATHER")
+                            .success(function (reading) {
+                                vm.searchResults = reading;
+                            });
                     });
             }
 
-            function updateReading(updSensor) {
-                var update = UserService
-                    .updateUser(updSensor._id, updSensor)
+            function updateReading(updReading) {
+                var update = ReadingService
+                    .updateReading(updReading, "WEATHER")
                     .success(function (user) {
                         if(update != null)
                         {
-                            vm.changeUser = false;
-                            UserService.findAllUsers()
-                                .success(function (user) {
-                                    vm.searchResults = user;
+                            vm.changeReading = false;
+                            ReadingService.findAllReadings("WEATHER")
+                                .success(function (reading) {
+                                    vm.searchResults = reading;
                                 });
                         }
                         else {
@@ -216,26 +211,35 @@
                     });
             }
 
-            function deleteReading(delSensor) {
-                var update = UserService
-                    .deleteUser(delSensor._id)
-                    .success(function (user) {
-                        if (user != null) {
-                            vm.changeUser = false;
-                            UserService.findAllUsers()
-                                .success(function (user) {
-                                    vm.searchResults = user;
-                                });
-                        }
-                        else {
-                            vm.error = "Could not delete user";
-                        }
-                    })
+            function deleteReading(delReading) {
+                var update = ReadingService
+                    .findReadingForId(delReading._id, "WEATHER")
+                    .success(function (reading) {
+                        ReadingService
+                            .deleteReading(reading)
+                            .success(function (user) {
+                                if(update != null)
+                                {
+                                    vm.changeReading = false;
+                                    ReadingService.findAllReadings("WEATHER")
+                                        .success(function (reading) {
+                                            vm.searchResults = reading;
+                                        });
+                                }
+                                else {
+                                    vm.error = "Could not delete reading";
+                                }
+                            });
+                    });
+
             }
 
 
             function modelClicked(num) {
+                vm.search = false;
                 if (num === 0) {
+                    vm.addUser = false;
+                    vm.changeUser = false;
                     vm.s = false;
                     vm.r = false;
                     vm.u = true;
@@ -248,6 +252,8 @@
                 }
 
                 else if (num === 1) {
+                    vm.addSensor = false;
+                    vm.changeSensor = false;
                     vm.r = false;
                     vm.u = false;
                     vm.s = true;
@@ -259,11 +265,13 @@
                         });
                 }
                 else {
+                    vm.addReading = false;
+                    vm.changeReading = false;
                     vm.s = false;
                     vm.u = false;
                     vm.r = true;
 
-                    var promise = ReadingService.findAllUsers();
+                    var promise = ReadingService.findAllReadings("WEATHER");
                     promise
                         .success(function (reading) {
                             vm.searchResults = reading;
@@ -272,6 +280,8 @@
             }
 
             function startSearch(searchValue, searchText) {
+                vm.search = true;
+                vm.searchResults = false;
                 if(vm.u) {
                     if (searchValue === 1) {
                         var promise = UserService.findUserById(searchText);
@@ -308,6 +318,14 @@
                                 vm.search = sensor;
                             });
                     }
+                }
+                else if(vm.r) {
+                    var promise = ReadingService.findReadingForId(searchText, "WEATHER");
+                    promise
+                        .success(function (reading) {
+                            vm.searchResults = null;
+                            vm.search = reading;
+                        });
                 }
             }
         }
