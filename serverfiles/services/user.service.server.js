@@ -18,7 +18,7 @@ module.exports = function (app, model, passport) {
     var googleConfig = {
         clientID: "668761646032-b2298dh6dhsnenpu1joe1h5q3h35beci.apps.googleusercontent.com",//process.env.GOOGLE_CLIENT_ID,
         clientSecret: "Lyd0Xi48a64Sws_ycTZrBabB",//process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "https://webdevproject.herokuapp.com/auth/google/callback"//process.env.GOOGLE_CALLBACK_URL
+        callbackURL: "http://webdevproject.herokuapp.com/auth/google/callback"//process.env.GOOGLE_CALLBACK_URL
     };
 
     passport.use(new LocalStrategy(localStrategy));
@@ -39,9 +39,9 @@ module.exports = function (app, model, passport) {
 
     app.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
     app.get('/auth/google/callback', passport.authenticate('google', {
-        failureRedirect: 'https://webdevproject.herokuapp.com/project/#/home'
+        failureRedirect: 'http://webdevproject.herokuapp.com/project/#/home'
     }), function (req, res) {
-            var url = 'https://webdevproject.herokuapp.com/project/#/user/' + req.user._id.toString();
+            var url = 'http://webdevproject.herokuapp.com/project/#/user/' + req.user._id.toString();
             res.redirect(url);
         });
 
