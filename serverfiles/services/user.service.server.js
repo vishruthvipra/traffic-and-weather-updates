@@ -11,7 +11,7 @@ module.exports = function (app, model, passport) {
         // clientID: "1448775658506982",//process.env.FACEBOOK_CLIENT_ID,
         clientID: process.env.FACEBOOK_CLIENT_ID,
         clientSecret: "1a0732340195b6d4c9e0ab0ca43c2882",//process.env.FACEBOOK_CLIENT_SECRET,
-        callbackURL: "https://webdevproject.herokuapp.com/auth/facebook/callback",//process.env.FACEBOOK_CALLBACK_URL,
+        callbackURL: "http://webdevproject.herokuapp.com/auth/facebook/callback",//process.env.FACEBOOK_CALLBACK_URL,
         profileFields: ['id', 'displayName', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified']
     };
 
@@ -31,9 +31,9 @@ module.exports = function (app, model, passport) {
 
     app.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'}));
     app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-        failureRedirect: 'https://webdevproject.herokuapp.com/project/#/home'
+        failureRedirect: 'http://webdevproject.herokuapp.com/project/#/home'
     }), function (req, res) {
-        var url = 'https://webdevproject.herokuapp.com/project/#/user/' + req.user._id.toString();
+        var url = 'http://webdevproject.herokuapp.com/project/#/user/' + req.user._id.toString();
         res.redirect(url);
     });
 
@@ -58,6 +58,7 @@ module.exports = function (app, model, passport) {
                             username: names[0],
                             firstName: names[0],
                             lastName: names[1],
+                            role: "NORMAL",
                             facebook: {
                                 id: profile.id,
                                 token: token
@@ -95,6 +96,7 @@ module.exports = function (app, model, passport) {
                         var email = profile.emails[0].value;
                         var emailParts = email.split("@");
                         var newGoogleUser = {
+                            role: "NORMAL",
                             username: emailParts[0],
                             firstName: profile.name.givenName,
                             lastName: profile.name.familyName,
