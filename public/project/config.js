@@ -66,6 +66,12 @@
                 controllerAs: "model",
                 resolve: {loggedin: checkLoggedIn }
             })
+            .when("/user/:uid/admin", {
+                templateUrl: "views/admin/templates/admin.view.client.html",
+                controller: "adminController",
+                controllerAs: "model",
+                resolve: {loggedin: checkLoggedIn }
+            })
             .otherwise({
                 templateUrl: "views/user/templates/home.view.client.html"
             });

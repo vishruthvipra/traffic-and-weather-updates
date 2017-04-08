@@ -12,6 +12,66 @@
     </div>
 </nav>
 
+<h1></h1>
+
+<div class="container-fluid hidden-xs">
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="gmaps"></div>
+        </div>
+
+        <div class="col-xs-4">
+            <ul class="list-group">
+                <li class="wrap-text list-group-item">
+                    Number of Cars:
+                    <span ng-show="model.noofcars">{{model.noofcars}}</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-xs-4 charts">
+            <canvas id="carChart" width="400" height="400"></canvas>
+        </div>
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br><br>
+
+</div>
+
+<div class="visible-xs container">
+    <div class="gmaps"></div>
+
+    <ul class="list-group">
+        <li class="wrap-text list-group-item">
+            Number of Cars:
+            <span ng-show="model.noofcars">{{model.noofcars}}</span>
+        </li>
+    </ul>
+
+    <div class="charts container">
+        <canvas id="carCharts" width="400" height="200"></canvas>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br><br>
+</div>
+
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">
         <ul class="nav navbar-nav navbar-right">

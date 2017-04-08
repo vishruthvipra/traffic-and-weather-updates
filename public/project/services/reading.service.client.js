@@ -32,8 +32,8 @@
             return $http.delete("/api/reading/" + reading._id + "/sensor/" + reading._sensorId);
         }
 
-        function findReadingsForCoordinates(latitude, longitude) {
-            return $http.get("/api/sensor/reading?latitude=" + latitude + "&longitude=" + longitude);
+        function findReadingsForCoordinates(latitude, longitude, sType) {
+            return $http.get("/api/sensor/" + sType + "/reading?latitude=" + latitude + "&longitude=" + longitude);
         }
 
         function findReadingsForSensorId(sensorId) {

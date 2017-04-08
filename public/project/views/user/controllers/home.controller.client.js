@@ -12,12 +12,17 @@
             vm.register = register;
             vm.getLocationCoordinates = getLocationCoordinates;
             vm.getLocationReadings = getLocationReadings;
-            var latitude = "12.9716", longitude = "77.5946";
+            //12.9718	77.6411 12.9722	77.6011
+            var latitude = "12.9718", longitude = "77.6411";
+            var markers = [];
+            var map1, map2, infoWindow, weathermap, trafficmap;
 
             function init() {
                 $("#drop-down").hide();
                 uiEvents();
-                getLocationCoordinates();
+                getLocationCoordinates("init");
+                initWeatherMap();
+                initTrafficMap();
             }
             init();
 
@@ -76,7 +81,7 @@
                 });
             }
 
-            function getLocationCoordinates() {
+            function getLocationCoordinates(mapType) {
                 if (navigator.geolocation) {
                     var options = {timeout: 60000};
                     navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
@@ -90,34 +95,90 @@
                     var long = position.coords.longitude;
                     latitude = lat.toString();
                     longitude = long.toString();
+
+                    if (mapType === "WEATHER")
+                        initWeatherMap();
+                    else if (mapType === "TRAFFIC")
+                        initTrafficMap();
+                    else {
+                        initWeatherMap();
+                        initTrafficMap();
+                    }
                 }
 
                 function errorHandler(err) {
-                    if (err.code == 1) {
-                        alert("Error: Access is denied!");
-                    }
-                    else if (err.code == 2) {
-                        console.log("Error: Position is unavailable!");
-                    }
+                    // if (err.code == 1) {
+                    //     alert("Error: Access is denied!");
+                    // }
+                    // else if (err.code == 2) {
+                    //     console.log("Error: Position is unavailable!");
+                    // }
                 }
-
-                getLocationReadings();
+                getLocationReadings("WEATHER");
+                getLocationReadings("TRAFFIC");
             }
 
-            function getLocationReadings() {
+            function getLocationReadings(sensorType) {
                 var promise = ReadingService
-                    .findReadingsForCoordinates(latitude, longitude)
+                    .findReadingsForCoordinates(latitude, longitude, sensorType)
                     .success(function (reading) {
-                        if (reading.temperature != "") {
+                        if (sensorType === "WEATHER" && reading.temperature != "") {
                             vm.temperature = reading.temperature;
                             vm.humidity = reading.humidity;
                             vm.pressure = reading.pressure;
                         }
+                        else if (sensorType === "TRAFFIC" && reading.noofcars != "")
+                            vm.noofcars = reading.noofcars;
                         else {
                             vm.error = "Incorrect credentials entered";
                         }
                     });
             }
+
+            function initWeatherMap() {
+                weathermap = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+                map1 = new google.maps.Map($(".gmaps")[0], {
+                    zoom: 13,
+                    center: weathermap
+                });
+            }
+
+            function initTrafficMap() {
+                trafficmap = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+                map2 = new google.maps.Map($(".gmaps")[1], {
+                    zoom: 13,
+                    center: trafficmap
+                });
+            }
+
+            function setMarker(map, position, title, content) {
+                var markerOptions = {
+                    position: position,
+                    map: map,
+                    title: title
+                };
+
+                var marker = new google.maps.Marker(markerOptions);
+                markers.push(marker);
+
+                google.maps.event.addListener(marker, 'click', function () {
+                    // close window if not undefined
+                    if (infoWindow !== void 0) {
+                        infoWindow.close();
+                    }
+                    // create new window
+                    var infoWindowOptions = {
+                        content: content
+                    };
+                    infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+                    infoWindow.open(map, marker);
+                });
+
+            }
+
+            setMarker(map1, weathermap, 'Bangalore', 'some content');
+            setMarker(map2, trafficmap, 'SahaNAga', 'some content');
+
 
             function login(user) {
                 UserService
@@ -129,19 +190,6 @@
                     },function (err) {
                         vm.error = "Username/password does not match";
                     });
-
-
-                // var promise = UserService
-                //     .findUserByCredentials(user.username, user.password)
-                //     .success(function (user) {
-                //         if (user != "") {
-                //             $location.url("user/" + user._id);
-                //         }
-                //         else {
-                //             vm.error = "Incorrect credentials entered";
-                //         }
-                //     });
-
             }
 
             function register(user) {
@@ -159,19 +207,6 @@
                                 $location.url("user/" + user._id + "/profile");
                             });
                     });
-
-
-                // var newUser = UserService
-                //     .findUserByUsername(user.username)
-                //     .success(function (user) {
-                //         vm.error = "User already exists"; })
-                //     .error(function (err) {
-                //         UserService
-                //             .createUser(user)
-                //             .success(function (user) {
-                //                 $location.url("user/" + user._id + "/profile");
-                //             })
-                //     });
             }
         }
 

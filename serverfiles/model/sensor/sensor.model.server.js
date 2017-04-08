@@ -15,7 +15,7 @@ module.exports = function (app, mongoose) {
         findSensorById: findSensorById,
         findSensorByIdAndSensorType: findSensorByIdAndSensorType,
         findSensorReading: findSensorReading,
-        findReadingsForSensorId: findReadingsForSensorId,
+        // findReadingsForSensorId: findReadingsForSensorId,
         findAllSensorsForSensorType: findAllSensorsForSensorType,
         findAllSensors: findAllSensors
 
@@ -62,7 +62,7 @@ module.exports = function (app, mongoose) {
         var lat = parseFloat(latitude);
         var lon = parseFloat(longitude);
         var deferred = q.defer();
-        sensorModel.findOne({location: {latitude: lat, longitude: lon}}, function (err, sensor) {
+        sensorModel.findOne({location: {$near: [lat, lon]}}, function (err, sensor) {
             if (err) {
                 deferred.reject(new Error(err));
             } else {
@@ -77,7 +77,7 @@ module.exports = function (app, mongoose) {
         var lat = parseFloat(latitude);
         var lon = parseFloat(longitude);
         var deferred = q.defer();
-        sensorModel.findOne({location: {latitude: lat, longitude: lon}, sensorType: sensorType}, function (err, sensor) {
+        sensorModel.findOne({location: {$near: [lat, lon]}, sensorType: sensorType}, function (err, sensor) {
             if (err) {
                 deferred.reject(new Error(err));
             } else {
@@ -140,31 +140,37 @@ module.exports = function (app, mongoose) {
         return deferred.promise;
     }
 
-    function findSensorReading(latitude, longitude) {
+    function findSensorReading(latitude, longitude, sensorType) {
         var lat = parseFloat(latitude);
         var lon = parseFloat(longitude);
+        //,{location: {$near: [lat, lon]}}
         var deferred = q.defer();
-        sensorModel.find({location: {$near: [lat, lon]}}, function (err, sensor) {
+        sensorModel.findOne({location: {$near: [lat, lon]}, sensorType: sensorType}, function (err, sensor) {
             if (err) {
                 deferred.reject(new Error(err));
-            } else {
-                deferred.resolve(sensor[0].weatherReadings);
+            } else if (sensorType === "WEATHER"){
+                deferred.resolve(sensor.weatherReadings);
+            }
+            else {
+                deferred.resolve(sensor.trafficReadings);
             }
         });
         return deferred.promise;
     }
 
-    function findReadingsForSensorId(sensorId) {
-        var deferred = q.defer();
-        sensorModel.findById(sensorId)
-            .populate('weatherReadings')
-            .exec(function(err, sensor) {
-                if (err || sensor === null) {
-                    deferred.reject(new Error(err));
-                } else {
-                    deferred.resolve(sensor.weatherReadings);
-                }
-            });
-        return deferred.promise;
-    }
+
+
+    // function findReadingsForSensorId(sensorId) {
+    //     var deferred = q.defer();
+    //     sensorModel.findById(sensorId)
+    //         .populate('weatherReadings')
+    //         .exec(function(err, sensor) {
+    //             if (err || sensor === null) {
+    //                 deferred.reject(new Error(err));
+    //             } else {
+    //                 deferred.resolve(sensor.weatherReadings);
+    //             }
+    //         });
+    //     return deferred.promise;
+    // }
 };

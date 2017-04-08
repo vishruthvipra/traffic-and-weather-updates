@@ -5,13 +5,14 @@ module.exports = function (app, model) {
     app.post("/api/sensor", createSensor);
     app.put("/api/sensor/:sensorId", updateSensor);
     app.delete("/api/sensor/:sensorId", deleteSensor);
-    app.get("/api/sensor/reading", findReadingsForCoordinates);
+    app.get("/api/sensor/:sType/reading", findReadingsForCoordinates);
     app.get("/api/sensor", findSensor);
     //app.get("/api/:sensorId", findSensorForSensorId);
     app.get("/api/:sensorId/weatherReadings", findReadingsforSensorId);
 
     var sensorModel = model.sensorModel;
     var weatherModel = model.weatherModel;
+    var trafficModel = model.trafficModel;
 
     function createSensor(req, res) {
         var newSensor = req.body;
@@ -166,14 +167,18 @@ module.exports = function (app, model) {
     function findReadingsForCoordinates(req, res) {
         var latitude = req.query.latitude;
         var longitude = req.query.longitude;
+        var sensorType = req.params.sType;
         sensorModel
-            .findSensorReading(latitude, longitude)
+            .findSensorReading(latitude, longitude, sensorType)
             .then(function (readings) {
-                return weatherModel.findReadingById(readings[0]);
+                if (sensorType === "WEATHER")
+                    return weatherModel.findReadingById(readings[0]);
+                else {
+                    return trafficModel.findReadingById(readings[0]);
+                }
             })
             .then(function (reading) {
                 res.json(reading);
-                //res.sendStatus(200);
             }, function (error) {
                 res.sendStatus(500).send(error);
             });

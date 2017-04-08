@@ -49,18 +49,6 @@
                     <strong>Error!</strong> {{model.error}}
                 </div>
                 <fieldset>
-                    <!--<a href="/auth/google" class="btn btn-danger btn-block">-->
-                        <!--<span class="fa fa-google-plus"></span>-->
-                        <!--Google-->
-                    <!--</a>-->
-
-                    <a href="/auth/facebook" class="btn btn-info btn-block">
-                        <span class="fa fa-facebook"></span> Login with Facebook
-                    </a>
-                    <a href="/auth/google" class="btn btn-danger btn-block">
-                        <span class="fa fa-google-plus"></span> Login with Google
-                    </a>
-
                     <label name="uname">Username</label>
                     <input id="uname"
                            ng-model="user.username"
@@ -76,6 +64,12 @@
                            placeholder="password"/>
                     <br>
                     <a ng-click="model.login(user)" class="btn btn-success btn-block" >Login</a>
+                    <a href="/auth/facebook" class="btn btn-primary btn-block">
+                        <span class="fa fa-facebook"></span> Login with Facebook
+                    </a>
+                    <a href="/auth/google" class="btn btn-danger btn-block">
+                        <span class="fa fa-google-plus"></span> Login with Google
+                    </a>
                 </fieldset>
             </div>
         </div>
@@ -147,13 +141,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="iframe-container col-xs-8">
-                    <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.55224307554!2d77.49085171689526!3d12.95429460015387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C+Karnataka%2C+India!5e0!3m2!1sen!2sus!4v1488839778639"
-                            width="100%"
-                            height="450"
-                            frameborder="0"
-                            allowfullscreen>
-                    </iframe>
+                    <div class="gmaps"></div>
                 </div>
                 <div class="col-xs-4">
                     <ul class="list-group">
@@ -176,7 +164,7 @@
                             </span>
                         </li>
                     </ul>
-                    <button ng-click="model.getLocationReadings()" class="wrap-text btn btn-primary btn-block">What's happening near me?</button>
+                    <button ng-click="model.getLocationCoordinates('WEATHER')" class="wrap-text btn btn-primary btn-block">What's happening near me?</button>
                 </div>
             </div>
         </div>
@@ -189,24 +177,15 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="iframe-container col-xs-8">
-                    <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.55224307554!2d77.49085171689526!3d12.95429460015387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C+Karnataka%2C+India!5e0!3m2!1sen!2sus!4v1488839778639"
-                            width="100%"
-                            height="450"
-                            frameborder="0"
-                            allowfullscreen>
-                    </iframe>
+                    <div class="gmaps"></div>
                 </div>
                 <div class="col-xs-4">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            Traffic density:
-                        </li>
-                        <li class="list-group-item">
-                            Bus tracking:
+                            Number of cars around you: {{model.noofcars}}
                         </li>
                     </ul>
-                    <button class="wrap-text btn btn-primary btn-block">What's happening near me?</button>
+                    <button ng-click="model.getLocationCoordinates('TRAFFIC')" class="wrap-text btn btn-primary btn-block">What's happening near me?</button>
                 </div>
             </div>
         </div>

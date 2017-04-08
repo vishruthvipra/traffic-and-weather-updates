@@ -5,107 +5,172 @@
     angular
         .module("WebAppMaker")
         .controller("WeatherController", weatherController)
-        function weatherController($routeParams, UserService, ReadingService) {
+        function weatherController($routeParams, UserService, SensorService, ReadingService) {
             var vm = this;
             var userId = $routeParams["uid"];
             vm.getLocationReadings = getLocationReadings;
             vm.findReadingsForSensorId = findReadingsForSensorId;
             var latitude = "12.9716", longitude = "77.5946";
-            var deftemp = [12, 19, 3, 5, 2, 3];
-            var defhumd = [12, 19, 3, 5, 2, 3];
-            var defuv = [12, 19, 3, 5, 2, 3];
-            var defpm2 = [12, 19, 3, 5, 2, 3];
-            var defpm5 = [1, 9, 13, 15, 12, 30];
-            var defreadno = [1, 2, 3, 4, 5, 6];
-
             vm.lati = latitude;
             vm.long = longitude;
+
+            var markers = [];
+            var map1, map2, infoWindow, weathermap;
+            var stopInit = true;
 
             function init() {
                 var promise = UserService.findUserById(userId);
                 promise.success(function (user) {
                     vm.user = user;
                     getLocationReadings();
-                    plotTemperature(defreadno, deftemp, "tempChart");
-                    plotTemperature(defreadno, deftemp, "tempCharts");
-                    plotHumidity(defreadno, defhumd, "humdChart");
-                    plotHumidity(defreadno, defhumd, "humdCharts");
-                    plotUVLevel(defreadno, defuv, "uvChart");
-                    plotUVLevel(defreadno, defuv, "uvCharts");
-                    plotPM(defreadno, defpm2, defpm5, "pmChart");
-                    plotPM(defreadno, defpm2, defpm5, "pmCharts");
+                    stopInit = false;
                 });
+
+                initMap();
+                findAllSensors();
             }
             init();
 
-            function findReadingsForSensorId() {
-                var data = [], temperature = [], humidity = [], uvlevel = [], pm2 = [], pm5 = [], readno = [];
-                var sensorId = "58e1f921734d1d01a23a5467";
-                var promise = ReadingService.findReadingsForSensorId(sensorId);
-                promise.success(function (readings) {
-                    for (var i in readings) {
-                        data.push(readings[i].readno);
-                        temperature.push(readings[i].temperature);
-                        humidity.push(readings[i].humidity);
-                        uvlevel.push(readings[i].uvlevel);
-                        pm2.push(readings[i].pm2);
-                        pm5.push(readings[i].pm5);
-                    }
-                    vm.temperature = readings[readings.length - 1];
-                    console.log(vm.temperature);
-                    readno = data.reverse();
-
-                    plotTemperature(readno, temperature, "tempChart");
-                    plotTemperature(readno, temperature, "tempCharts");
-                    plotHumidity(readno, humidity, "humdChart");
-                    plotHumidity(readno, humidity, "humdCharts");
-                    plotUVLevel(readno, uvlevel, "uvChart");
-                    plotUVLevel(readno, uvlevel, "uvCharts");
-                    plotPM(readno, pm2, pm5, "pmChart");
-                    plotPM(readno, pm2, pm5, "pmCharts");
+            function initMap() {
+                weathermap = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+                map1 = new google.maps.Map($(".gmaps")[0], {
+                    zoom: 11,
+                    center: weathermap
+                });
+                map2 = new google.maps.Map($(".gmaps")[1], {
+                    zoom: 11,
+                    center: weathermap
                 });
             }
 
+            function setMarker(map, location, title, content, sensorId) {
+                latitude = parseFloat(location.latitude);
+                longitude = parseFloat(location.longitude);
+
+                var markerOptions = {
+                    position: {lat: latitude, lng: longitude},
+                    map: map,
+                    title: title
+                    /*icon: new google.maps.MarkerImage("../../../images/green.png",
+                        null,
+                        null,
+                        null,
+                        new google.maps.Size(21, 34))*/
+                };
+
+
+                var marker = new google.maps.Marker(markerOptions);
+                markers.push(marker);
+
+                google.maps.event.addListener(marker, 'click', function () {
+                    // close window if not undefined
+                    if (infoWindow !== void 0) {
+                        infoWindow.close();
+                    }
+                    // create new window
+                    var infoWindowOptions = {
+                        content: content
+                    };
+                    infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+                    infoWindow.open(map, marker);
+
+                    // console.log(sensorId);
+                    findReadingsForSensorId(sensorId);
+
+                });
+
+            }
+
+            function findAllSensors() {
+                var promise = SensorService.findAllSensorsForSensorType("WEATHER");
+                promise.success(function (sensors) {
+                    for (var i in sensors) {
+                        setMarker(map1, sensors[i].location, sensors[i].area, sensors[i].area, sensors[i]._id);
+                        setMarker(map2, sensors[i].location, sensors[i].area, sensors[i].area, sensors[i]._id);
+                    }
+
+                });
+            }
+
+            function findReadingsForSensorId(sensorId) {
+                var data = [], temperature = [], humidity = [], pressure = [], uvlevel = [], pm2 = [], pm5 = [], readno;
+                var promise = SensorService.findSensorByIdWithSensorType(sensorId, "WEATHER");
+                promise.success(function (sensors) {
+                    for (var i in sensors.weatherReadings) {
+                        var status = ReadingService.findReadingForId(sensors.weatherReadings[i], "WEATHER")
+                            .success(function (reading) {
+                                plotChart(data, temperature, humidity, pressure, uvlevel, pm2, pm5, readno, reading);
+                            })
+                    }
+                });
+            }
+
+            function plotChart(data, temperature, humidity, pressure, uvlevel, pm2, pm5, readno, reading) {
+                data.push(parseInt(reading.readno));
+                temperature.push(parseInt(reading.temperature));
+                humidity.push(parseInt(reading.humidity));
+                pressure.push(parseInt(reading.pressure));
+                uvlevel.push(parseInt(reading.uvlevel));
+                pm2.push(parseInt(reading.pm2));
+                pm5.push(parseInt(reading.pm5));
+
+                readno = data.reverse();
+
+                plotTemperature(readno, temperature, "tempChart");
+                plotTemperature(readno, temperature, "tempCharts");
+                plotHumidity(readno, humidity, "humdChart");
+                plotHumidity(readno, humidity, "humdCharts");
+                plotUVLevel(readno, uvlevel, "uvChart");
+                plotUVLevel(readno, uvlevel, "uvCharts");
+                plotPM(readno, pm2, pm5, "pmChart");
+                plotPM(readno, pm2, pm5, "pmCharts");
+                vm.temperature = temperature[temperature.length - 1];
+                vm.humidity = humidity[humidity.length - 1];
+                vm.pressure = pressure[pressure.length - 1];
+                vm.uvlevel = uvlevel[uvlevel.length - 1];
+                vm.pm2 = pm2[pm2.length - 1];
+                vm.pm5 = pm5[pm5.length - 1];
+            }
+
             function getLocationReadings() {
-                if(navigator.geolocation){
-                    var options = {timeout:60000};
-                    navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
-                }
-                else{
-                    alert("Sorry, browser does not support geolocation!");
-                }
-
-                function showLocation(position) {
-                    var lat = position.coords.latitude;
-                    var long = position.coords.longitude;
-                    latitude = lat.toString();
-                    longitude = long.toString();
-                }
-
-                function errorHandler(err) {
-                    if(err.code == 1) {
-                        alert("Error: Access is denied!");
+                if (stopInit) {
+                    if (navigator.geolocation) {
+                        var options = {timeout: 60000};
+                        navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
                     }
-                    else if( err.code == 2) {
-                        console.log("Error: Position is unavailable!");
+                    else {
+                        alert("Sorry, browser does not support geolocation!");
                     }
-                }
 
-                var promise = ReadingService
-                    .findReadingsForCoordinates(latitude, longitude)
-                    .success(function (reading) {
-                        if (reading.temperature != "") {
-                            vm.temperature = reading.temperature;
-                            vm.humidity = reading.humidity;
-                            vm.pressure = reading.pressure;
-                            vm.uvlevel = reading.uvlevel;
-                            vm.pm2 = "60";
-                            vm.pm5 = "70";
-                        }
-                        else {
-                            vm.error = "Incorrect credentials entered";
-                        }
-                    });
+                    function showLocation(position) {
+                        var lat = position.coords.latitude;
+                        var long = position.coords.longitude;
+                        latitude = lat.toString();
+                        longitude = long.toString();
+                    }
+
+                    function errorHandler(err) {
+                        // if (err.code == 1) {
+                        //     alert("Error: Access is denied!");
+                        // }
+                        // else if (err.code == 2) {
+                        //     console.log("Error: Position is unavailable!");
+                        // }
+                    }
+
+                    var data = [], temperature = [], humidity = [], pressure = [], uvlevel = [], pm2 = [], pm5 = [], readno;
+                    var promise = SensorService
+                        .findSensorByCoordinatesWithSensorType(latitude, longitude, "WEATHER")
+                        .success(function (sensor) {
+                            console.log(sensor);
+                            for (var i in sensor.weatherReadings) {
+                                var status = ReadingService.findReadingForId(sensor.weatherReadings[i], "WEATHER")
+                                    .success(function (reading) {
+                                        plotChart(data, temperature, humidity, pressure, uvlevel, pm2, pm5, readno, reading);
+                                    });
+                            }
+                        });
+                }
             }
 
             function plotTemperature(readno, temperature, id) {
@@ -254,7 +319,7 @@
                                     labelString: 'in ppm'
                                 },
                                 ticks: {
-                                    max: 50,
+                                    max: 5,
                                     beginAtZero:true
                                 }
                             }]
