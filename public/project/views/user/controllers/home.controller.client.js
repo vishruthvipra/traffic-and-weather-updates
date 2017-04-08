@@ -16,6 +16,7 @@
             var latitude = "12.9718", longitude = "77.6411";
             var markers = [];
             var map1, map2, infoWindow, weathermap, trafficmap;
+            var stopInit = true;
 
             function init() {
                 $("#drop-down").hide();
@@ -23,6 +24,7 @@
                 getLocationCoordinates("init");
                 initWeatherMap();
                 initTrafficMap();
+                stopInit = false;
             }
             init();
 
@@ -136,19 +138,23 @@
             }
 
             function initWeatherMap() {
-                weathermap = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
-                map1 = new google.maps.Map($(".gmaps")[0], {
-                    zoom: 13,
-                    center: weathermap
-                });
+                if (stopInit) {
+                    weathermap = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+                    map1 = new google.maps.Map($(".gmaps")[0], {
+                        zoom: 13,
+                        center: weathermap
+                    });
+                }
             }
 
             function initTrafficMap() {
-                trafficmap = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
-                map2 = new google.maps.Map($(".gmaps")[1], {
-                    zoom: 13,
-                    center: trafficmap
-                });
+                if (stopInit) {
+                    trafficmap = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+                    map2 = new google.maps.Map($(".gmaps")[1], {
+                        zoom: 13,
+                        center: trafficmap
+                    });
+                }
             }
 
             function setMarker(map, position, title, content) {
