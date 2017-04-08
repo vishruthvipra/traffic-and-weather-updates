@@ -199,6 +199,7 @@
             }
 
             function register(user) {
+                user.role = "NORMAL";
                 UserService
                     .findUserByUsername(user.username)
                     .success(function (user) {

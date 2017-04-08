@@ -20,6 +20,7 @@ module.exports = function (app, mongoose) {
     return api;
 
     function createUser(user) {
+        console.log(user);
         var deferred = q.defer();
         userModel.create(user, function (err, status) {
             if(err) {
