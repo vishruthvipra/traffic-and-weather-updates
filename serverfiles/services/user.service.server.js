@@ -129,7 +129,8 @@ module.exports = function (app, model, passport) {
     app.post('/api/logout', logout);
     app.get('/api/loggedin', loggedin);
     app.post('/api/register', register);
-    // app.post("/api/user", createUser);
+    app.put("/api/user/:userId/message", updateMessage);
+    app.delete("/api/user/:userId/message/:messageId",deleteMessage);
     app.get("/api/user", findUser);
     app.get("/api/user/:userId", findUserById);
     app.put("/api/user/:userId", updateUser);
@@ -206,16 +207,29 @@ module.exports = function (app, model, passport) {
     }
 
 
-    // function createUser(req, res) {
-    //     var newUser = req.body;
-    //     userModel
-    //         .createUser(newUser)
-    //         .then(function(user) {
-    //             res.json(user);
-    //         }, function (error) {
-    //             res.sendStatus(500).send(error);
-    //         });
-    // }
+    function updateMessage(req, res) {
+        var userId = req.params.userId;
+        var message = req.body;
+        userModel
+            .updateMessage(userId, message)
+            .then(function (status) {
+                res.sendStatus(200).send(status);
+            }, function (error) {
+                res.sendStatus(500).send(error);
+            });
+    }
+
+    function deleteMessage(req, res) {
+        var userId = req.params.userId;
+        var messageId = req.params.messageId;
+        userModel
+            .deleteMessage(userId, messageId)
+            .then(function (status) {
+                res.sendStatus(200).send(status);
+            }, function (error) {
+                res.sendStatus(500).send(error);
+            });
+    }
 
     function findUser(req, res) {
         var username = req.query.username;

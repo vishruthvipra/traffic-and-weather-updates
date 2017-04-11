@@ -12,7 +12,14 @@ module.exports = function(app, mongoose) {
         phone: {type: String},
         facebook: {id: String, token: String},
         google: {id: String, token: String},
-        messages: [{type: String}],
+        messages: [{
+            domain: {type: String},
+            username: {type: String},
+            subject: {type: String},
+            body: {type: String},
+            dateOfMessage: {type: Date},
+            senderId: {type: String}
+        }],
         dateCreated: {type: Date, default: Date.now}
     }, {collection: 'UserModel'});
 

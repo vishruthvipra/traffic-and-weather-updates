@@ -14,6 +14,8 @@ module.exports = function (app, mongoose) {
         findAllUsers: findAllUsers,
         updateUser: updateUser,
         deleteUser: deleteUser,
+        updateMessage: updateMessage,
+        deleteMessage: deleteMessage,
         findUserByFacebookId: findUserByFacebookId,
         findUserByGoogleId: findUserByGoogleId
     };
@@ -110,6 +112,31 @@ module.exports = function (app, mongoose) {
         return deferred.promise;
     }
 
+    function updateMessage(userId, message) {
+        var deferred = q.defer();
+        userModel.update({_id: userId}, {$push: {messages: message}}, function (err, status) {
+            if (err) {
+                deferred.reject(new Error(err));
+            } else {
+                deferred.resolve(status);
+            }
+        });
+        return deferred.promise;
+    }
+
+    function deleteMessage(userId, messageId) {
+        var deferred = q.defer();
+        userModel
+            .findById(userId, function (err, user) {
+                var index = user.messages.indexOf(messageId);
+                user.messages.splice(index, 1);
+                user.save();
+                deferred.resolve(user);
+            });
+        return deferred.promise;
+
+    }
+
     function findUserByFacebookId(facebookId) {
         return userModel.findOne({'facebook.id': facebookId});
     }
@@ -118,10 +145,3 @@ module.exports = function (app, mongoose) {
         return userModel.findOne({'google.id': googleId});
     }
 };
-
-//
-// userModel.create({username: "alice",    email: "alice@wonderland.com", password: "alice",    firstName: "Alice",  lastName: "Wonder"});
-// userModel.create({username: "bob",      email: "bob@marley.com", password: "bob",      firstName: "Bob",    lastName: "Marley"});
-// userModel.create({username: "charly",   email: "charly@garcia.com", password: "charly",   firstName: "Charly", lastName: "Garcia"});
-// userModel.create({username: "jannunzi", email: "jannunzi@jose.com", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi"});
-//

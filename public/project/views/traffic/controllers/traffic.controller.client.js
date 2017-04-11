@@ -85,26 +85,40 @@
             }
 
             function findReadingsForSensorId(sensorId) {
-                var data = [], noofcars = [], readno;
+                var data = [], noofcars = [], colevel = [], solevel = [], nolevel = [], readno;
                 var promise = SensorService.findSensorByIdWithSensorType(sensorId, "TRAFFIC");
                 promise.success(function (sensors) {
                     for (var i in sensors.trafficReadings) {
                         var status = ReadingService.findReadingForId(sensors.trafficReadings[i], "TRAFFIC")
                             .success(function (reading) {
-                                plotChart(data, noofcars, readno, reading);
+                                console.log(reading);
+                                plotChart(data, noofcars, colevel, solevel, nolevel, readno, reading);
                             })
                     }
                 });
             }
 
-            function plotChart(data, noofcars, readno, reading) {
+            function plotChart(data, noofcars, colevel, solevel, nolevel, readno, reading) {
                 data.push(parseInt(reading.readno));
                 noofcars.push(parseInt(reading.noofcars));
+                colevel.push(parseInt(reading.colevel));
+                solevel.push(parseInt(reading.solevel));
+                nolevel.push(parseInt(reading.nolevel));
                 readno = data.reverse();
 
                 plotNoofcars(readno, noofcars, "carChart");
                 plotNoofcars(readno, noofcars, "carCharts");
+                plotCoLevel(readno, colevel, "coChart");
+                plotCoLevel(readno, colevel, "coCharts");
+                plotSoLevel(readno, solevel, "soChart");
+                plotSoLevel(readno, solevel, "soCharts");
+                plotNoLevel(readno, nolevel, "noChart");
+                plotNoLevel(readno, nolevel, "noCharts");
+
                 vm.noofcars = noofcars[noofcars.length - 1];
+                vm.colevel = colevel[colevel.length - 1];
+                vm.solevel = solevel[solevel.length - 1];
+                vm.nolevel = nolevel[nolevel.length - 1];
             }
 
             function getLocationReadings() {
@@ -133,14 +147,14 @@
                         // }
                     }
 
-                    var data = [], noofcars = [], readno;
+                    var data = [], noofcars = [], colevel= [], solevel = [], nolevel = [], readno;
                     var promise = SensorService
                         .findSensorByCoordinatesWithSensorType(latitude, longitude, "TRAFFIC")
                         .success(function (sensor) {
                             for (var i in sensor.trafficReadings) {
                                 var status = ReadingService.findReadingForId(sensor.trafficReadings[i], "TRAFFIC")
                                     .success(function (reading) {
-                                        plotChart(data, noofcars, readno, reading);
+                                        plotChart(data, noofcars, colevel, solevel, nolevel, readno, reading);
                                     });
                             }
                         });
@@ -152,7 +166,7 @@
                 var myChart = new Chart(chart1, {
                     type: 'line',
                     data: {
-                        labels: readno,
+                        labels: readno.sort(),
                         datasets: [{
                             label: 'Number of Cars',
                             data: noofcars,
@@ -176,6 +190,117 @@
                                 },
                                 ticks: {
                                     max: 100,
+                                    beginAtZero:true
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+
+            function plotCoLevel(readno, colevel, id) {
+                var chart1 = document.getElementById(id);
+                var myChart = new Chart(chart1, {
+                    type: 'line',
+                    data: {
+                        labels: readno.sort(),
+                        datasets: [{
+                            label: 'Carbon Dioxide Level',
+                            data: colevel,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255,99,132,1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'reading number'
+                                }
+                            }],
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'in °C'
+                                },
+                                ticks: {
+                                    max: 60,
+                                    beginAtZero:true
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+
+            function plotSoLevel(readno, solevel, id) {
+                var chart1 = document.getElementById(id);
+                var myChart = new Chart(chart1, {
+                    type: 'line',
+                    data: {
+                        labels: readno.sort(),
+                        datasets: [{
+                            label: 'Carbon Dioxide Level',
+                            data: solevel,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255,99,132,1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'reading number'
+                                }
+                            }],
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'in °C'
+                                },
+                                ticks: {
+                                    max: 60,
+                                    beginAtZero:true
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+
+            function plotNoLevel(readno, nolevel, id) {
+                var chart1 = document.getElementById(id);
+                var myChart = new Chart(chart1, {
+                    type: 'line',
+                    data: {
+                        labels: readno.sort(),
+                        datasets: [{
+                            label: 'Carbon Dioxide Level',
+                            data: nolevel,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255,99,132,1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'reading number'
+                                }
+                            }],
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'in °C'
+                                },
+                                ticks: {
+                                    max: 60,
                                     beginAtZero:true
                                 }
                             }]

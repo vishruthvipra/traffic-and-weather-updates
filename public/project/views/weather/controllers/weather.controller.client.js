@@ -178,7 +178,7 @@
                 var myChart = new Chart(chart1, {
                     type: 'line',
                     data: {
-                        labels: readno,
+                        labels: readno.sort(),
                         datasets: [{
                             label: 'Temperature',
                             data: temperature,
@@ -215,7 +215,7 @@
                 var myChart = new Chart(chart1, {
                     type: 'line',
                     data: {
-                        labels: readno,
+                        labels: readno.sort(),
                         datasets: [{
                             label: 'Humidity',
                             data: humidity,
@@ -252,7 +252,7 @@
                 var myChart = new Chart(chart1, {
                     type: 'line',
                     data: {
-                        labels: readno,
+                        labels: readno.sort(),
                         datasets: [{
                             label: 'UV Level',
                             data: uv,
@@ -289,7 +289,7 @@
                 var myChart = new Chart(chart1, {
                     type: 'line',
                     data: {
-                        labels: readno,
+                        labels: readno.sort(),
                         datasets: [{
                             label: 'Particulate matter 2.5',
                             data: pm2,

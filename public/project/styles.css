@@ -170,7 +170,7 @@ address {
 
 /* ----------- from here dashboard styles ----------- */
 body {
-    background-color: #333;
+    background-color: #1a8786;
     color: white;
     /*text-align: center;*/
 }
@@ -181,9 +181,9 @@ body {
     border-bottom: 1px solid #e7e7e7;
 }
 
-label {
-    color: #777;
-}
+/*label {*/
+    /*color: #777;*/
+/*}*/
 
 .sidebar .nav-second-level li,
 .sidebar .nav-third-level li {
@@ -263,4 +263,54 @@ table {
     background: white;
     color: black;
     border-radius: 4px;
+}
+
+#inbox-body {
+    color: black;
+}
+
+#messages {
+    background: #ffffff;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+#messages:hover {
+    background-color: #1abc9c;
+}
+
+#sender {
+    float: left;
+}
+
+#domain {
+    text-align: right;
+    padding-right: 20px;
+}
+
+#subject {
+    float: left;
+}
+
+#date-sent {
+    text-align: right;
+    padding-right: 20px;
+}
+
+.fa-reply {
+    padding-right: 15px;
+}
+
+.splitview {
+    width: 50%;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#content-body {
+    white-space: pre-line;
 }

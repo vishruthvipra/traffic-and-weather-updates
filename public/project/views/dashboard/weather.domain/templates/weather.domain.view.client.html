@@ -159,6 +159,7 @@
                     <th>Email</th>
                     <th>First Name</th>
                     <th>Last Name</th>
+                    <th>Role</th>
                 </tr>
                 </thead>
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
@@ -168,6 +169,7 @@
                         <td>{{search.email}}</td>
                         <td>{{search.firstName}}</td>
                         <td>{{search.lastName}}</td>
+                        <td>{{search.role}}</td>
                     </tr>
                 </tbody>
 
@@ -178,6 +180,7 @@
                         <td>{{model.search.email}}</td>
                         <td>{{model.search.firstName}}</td>
                         <td>{{model.search.lastName}}</td>
+                        <td>{{model.search.role}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -291,10 +294,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="reading">Reading IDs</label>
+                        <label for="reading">Weather Reading IDs (separated by commas)</label>
                         <input ng-model="model.newsensor.readings"
                                type="text" class="form-control"
-                               id="reading" placeholder="Object IDs of weather">
+                               id="reading" placeholder="12345, 23456">
                     </div>
 
                 </div>

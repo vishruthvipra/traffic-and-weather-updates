@@ -26,11 +26,38 @@
                     Number of Cars:
                     <span ng-show="model.noofcars">{{model.noofcars}}</span>
                 </li>
+                <li class="wrap-text list-group-item">
+                    Carbon Dioxide Level:
+                    <span ng-show="model.colevel">{{model.colevel}}</span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    Sulphur Dioxide Level:
+                    <span ng-show="model.solevel">{{model.solevel}}</span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    Nitrous Oxide Level:
+                    <span ng-show="model.nolevel">{{model.nolevel}}</span>
+                </li>
             </ul>
         </div>
 
         <div class="col-xs-4 charts">
             <canvas id="carChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-xs-4 charts">
+            <canvas id="coChart" width="400" height="400"></canvas>
+        </div>
+
+        <div class="col-xs-4 charts">
+            <canvas id="soChart" width="400" height="400"></canvas>
+        </div>
+
+        <div class="col-xs-4 charts">
+            <canvas id="noChart" width="400" height="400"></canvas>
         </div>
 
     </div>
@@ -55,10 +82,26 @@
             Number of Cars:
             <span ng-show="model.noofcars">{{model.noofcars}}</span>
         </li>
+        <li class="wrap-text list-group-item">
+            Carbon Dioxide Level:
+            <span ng-show="model.colevel">{{model.colevel}}</span>
+        </li>
     </ul>
 
     <div class="charts container">
         <canvas id="carCharts" width="400" height="200"></canvas>
+    </div>
+
+    <div class="col-xs-4 charts">
+        <canvas id="coCharts" width="400" height="400"></canvas>
+    </div>
+
+    <div class="col-xs-4 charts">
+        <canvas id="soCharts" width="400" height="400"></canvas>
+    </div>
+
+    <div class="col-xs-4 charts">
+        <canvas id="noCharts" width="400" height="400"></canvas>
     </div>
 
     <br>

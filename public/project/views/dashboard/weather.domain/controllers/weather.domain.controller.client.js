@@ -43,69 +43,94 @@
             init();
 
             function changedUser(chgUser) {
-                vm.addUser = false;
-                if (vm.opUser === 1) {
-                    updateUser(chgUser);
-                }
-                else {
-                    deleteUser(chgUser);
-                }
+
+                    vm.addUser = false;
+                    if (vm.opUser === 1) {
+                        updateUser(chgUser);
+                    }
+                    else {
+                        deleteUser(chgUser);
+                    }
+
             }
 
             function createUser(newUser) {
-                vm.changeUser = false;
-                 UserService
-                    .findUserByUsername(newUser.username)
-                    .success(function (user) {
-                        vm.error = "User already exists"; })
-                    .error(function (err) {
-                        UserService
-                            .register(newUser)
-                            .success(function (user) {
-                                vm.add = false;
-                                UserService.findAllUsers()
-                                    .success(function (user) {
-                                        vm.searchResults = user;
-                                    });
-                            })
-                    });
+                if (user.role === "ADMIN" || user.role === "TADMIN" || user == null) {
+                    vm.changeUser = false;
+                    UserService
+                        .findUserByUsername(newUser.username)
+                        .success(function (user) {
+                            vm.error = "User already exists";
+                        })
+                        .error(function (err) {
+                            UserService
+                                .register(newUser)
+                                .success(function (user) {
+                                    vm.add = false;
+                                    UserService.findAllUsers()
+                                        .success(function (user) {
+                                            vm.searchResults = user;
+                                        });
+                                })
+                        });
+                }
+                else {
+                    vm.error = "Role cannot be Admin or TAdmin";
+                }
             }
 
             function updateUser(updUser) {
-                var update = UserService
-                    .updateUser(updUser._id, updUser)
+                UserService
+                    .findUserById(updUser._id)
                     .success(function (user) {
-                        if(update != null)
-                        {
-                            vm.changeUser = false;
-                            UserService.findAllUsers()
-                                .success(function (user) {
-                                    vm.searchResults = user;
-                                });
+                        if (user.role === "ADMIN" || user.role === "TADMIN" || user == null) {
+                            vm.error = "Cannot delete mentioned id";
                         }
                         else {
-                            vm.error = "Unable to update..."
+                            var update = UserService
+                                .updateUser(updUser._id, updUser)
+                                .success(function (user) {
+                                    if (update != null) {
+                                        vm.changeUser = false;
+                                        UserService.findAllUsers()
+                                            .success(function (user) {
+                                                vm.searchResults = user;
+                                            });
+                                    }
+                                    else {
+                                        vm.error = "Unable to update..."
+                                    }
+                                });
                         }
                     });
+
             }
 
             function deleteUser(delUser) {
-                var update = UserService
-                    .deleteUser(delUser._id)
+                UserService
+                    .findUserById(delUser._id)
                     .success(function (user) {
-                        if (user != null) {
-                            vm.changeUser = false;
-                            UserService.findAllUsers()
-                                .success(function (user) {
-                                    vm.searchResults = user;
-                                });
+                        if (user.role === "ADMIN" || user.role === "TADMIN" || user == null) {
+                            vm.error = "Cannot delete mentioned id";
                         }
                         else {
-                            vm.error = "Could not delete user";
+                            var update = UserService
+                                .deleteUser(delUser._id)
+                                .success(function (user) {
+                                    if (user != null) {
+                                        vm.changeUser = false;
+                                        UserService.findAllUsers()
+                                            .success(function (user) {
+                                                vm.searchResults = user;
+                                            });
+                                    }
+                                    else {
+                                        vm.error = "Could not delete user";
+                                    }
+                                })
                         }
-                    })
+                    });
             }
-
 
             function changedSensor(chgSensor) {
                 vm.addSensor = false;

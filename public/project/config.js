@@ -55,20 +55,38 @@
                 resolve: { loggedin: checkLoggedIn }
             })
             .when("/user/:uid/weather_domain", {
-                templateUrl: "views/weather.domain/templates/weather.domain.view.client.html",
+                templateUrl: "views/dashboard/weather.domain/templates/weather.domain.view.client.html",
                 controller: "weatherDomainController",
                 controllerAs: "model",
                 resolve: { loggedin: checkLoggedIn }
             })
             .when("/user/:uid/traffic_domain", {
-                templateUrl: "views/traffic.domain/templates/traffic.domain.view.client.html",
+                templateUrl: "views/dashboard/traffic.domain/templates/traffic.domain.view.client.html",
                 controller: "trafficDomainController",
                 controllerAs: "model",
                 resolve: {loggedin: checkLoggedIn }
             })
             .when("/user/:uid/admin", {
-                templateUrl: "views/admin/templates/admin.view.client.html",
+                templateUrl: "views/dashboard/admin/templates/admin.view.client.html",
                 controller: "adminController",
+                controllerAs: "model",
+                resolve: {loggedin: checkLoggedIn }
+            })
+            .when("/user/:uid/inbox", {
+                templateUrl: "views/dashboard/email/templates/inbox.view.client.html",
+                controller: "inboxController",
+                controllerAs: "model",
+                resolve: {loggedin: checkLoggedIn }
+            })
+            .when("/user/:uid/compose/:sid", {
+                templateUrl: "views/dashboard/email/templates/compose.view.client.html",
+                controller: "composeController",
+                controllerAs: "model",
+                resolve: {loggedin: checkLoggedIn }
+            })
+            .when("/user/:uid/city", {
+                templateUrl: "views/dashboard/city/templates/city.view.client.html",
+                controller: "cityController",
                 controllerAs: "model",
                 resolve: {loggedin: checkLoggedIn }
             })

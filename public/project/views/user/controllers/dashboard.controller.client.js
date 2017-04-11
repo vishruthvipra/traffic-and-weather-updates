@@ -23,7 +23,7 @@
 
                 $("#drop-down").hide();
                 $("#gov-level-2").hide();
-                $("#parking-level-2").hide();
+                $("#email-level-2").hide();
                 $("#ticketing-level-2").hide();
                 $("#ticketing-level-3").hide();
                 $("#traffic-level-2").hide();
@@ -45,8 +45,8 @@
                     $("#gov-level-2").slideToggle("fast");
                 });
 
-                $("#parking").on('click',function() {
-                    $("#parking-level-2").slideToggle("fast");
+                $("#email").on('click',function() {
+                    $("#email-level-2").slideToggle("fast");
                 });
 
                 $("#ticketing").on('click',function() {

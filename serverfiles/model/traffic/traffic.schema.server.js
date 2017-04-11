@@ -5,6 +5,9 @@ module.exports = function(app, mongoose) {
     var trafficSchema = mongoose.Schema({
         readno: {type: String, required: true},
         noofcars: {type: String},
+        colevel: {type: String},
+        solevel: {type: String},
+        nolevel: {type: String},
         dateCreated: {type: Date, default: Date.now}
     }, {collection: 'TrafficModel'});
 

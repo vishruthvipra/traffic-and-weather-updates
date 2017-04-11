@@ -1,0 +1,51 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <a class="navbar-brand" href="#/user/{{model.user._id}}">
+        <img alt="Brand" src="../../../../images/rsz_11rsz_1rsz_vedoot-logo.png" style="height: 30px;">
+    </a>
+    <div class="navbar-header pull-right">
+        <a class="navbar-brand" href="#/user/{{model.user._id}}/profile">
+            <span class="pull-right glyphicon glyphicon-user"></span>
+        </a>
+        <a class="navbar-brand" href="#/home">
+            <span class="pull-right glyphicon glyphicon-log-out"></span>
+        </a>
+    </div>
+</nav>
+
+<h2></h2>
+
+<div id="inbox-body" class="container-fluid">
+    <div id="messages" ng-repeat="message in model.messages" class="container-fluid">
+        <div>
+            <div ng-click="model.deleteMessage(message._id)" class="pull-right glyphicon glyphicon-remove"></div>
+            <div ng-click="model.reply(message.senderId)" class="pull-right fa fa-reply"></div>
+            <br>
+        </div>
+        <div ng-click="bool = !bool">
+            <p id="sender"><b>From:</b> {{message.username}}</p>
+            <p id="domain"><b>Domain:</b> {{message.domain}}</p>
+            <p id="subject"><b>Subject:</b> {{message.subject}}</p>
+            <p id="date-sent"><b>Date sent:</b> {{message.dateOfMessage}}</p>
+            <div ng-show="bool" id="content"><b>Content:</b> <p id="content-body">{{message.body}}</p></div>
+        </div>
+    </div>
+</div>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#/user/{{model.user._id}}">
+                    <span class="pull-right glyphicon glyphicon-home"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

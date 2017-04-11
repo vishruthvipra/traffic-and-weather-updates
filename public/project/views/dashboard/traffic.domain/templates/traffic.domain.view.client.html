@@ -96,6 +96,10 @@
                     <input ng-model="model.newuser.lastName" type="text" class="form-control" id="last-name" placeholder="Last name">
                 </div>
 
+                <div class="form-group">
+                    <label for="role">Role [NORMAL|TADMIN|WADMIN]</label>
+                    <input ng-model="model.newuser.role" type="text" class="form-control" id="role" placeholder="Last name">
+                </div>
                 <button ng-click="model.createUser(model.newuser)" class="wrap-text btn btn-danger btn-block">Submit</button>
             </form>
             <br>
@@ -134,6 +138,11 @@
                         <label for="lname">Last Name</label>
                         <input ng-model="model.newuser.lastName" type="text" class="form-control" id="lname" placeholder="Last name">
                     </div>
+
+                    <div class="form-group">
+                        <label for="role">Role [NORMAL|TADMIN|WADMIN]</label>
+                        <input ng-model="model.newuser.role" type="text" class="form-control" id="roles" placeholder="Last name">
+                    </div>
                 </div>
                 <button ng-click="model.changedUser(model.newuser)" class="wrap-text btn btn-danger btn-block">Submit</button>
             </form>
@@ -149,6 +158,7 @@
                     <th>Email</th>
                     <th>First Name</th>
                     <th>Last Name</th>
+                    <th>Role</th>
                 </tr>
                 </thead>
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
@@ -158,6 +168,7 @@
                     <td>{{search.email}}</td>
                     <td>{{search.firstName}}</td>
                     <td>{{search.lastName}}</td>
+                    <td>{{search.role}}</td>
                 </tr>
                 </tbody>
 
@@ -168,6 +179,7 @@
                     <td>{{model.search.email}}</td>
                     <td>{{model.search.firstName}}</td>
                     <td>{{model.search.lastName}}</td>
+                    <td>{{model.search.role}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -239,7 +251,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="readings">Weather Reading IDs (separated by commas)</label>
+                    <label for="readings">Traffic Reading IDs (separated by commas)</label>
                     <input ng-model="model.newsensor.weatherReadings"
                            type="text" class="form-control"
                            id="readings" placeholder="12345, 23456">
@@ -281,10 +293,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="reading">Reading IDs</label>
+                        <label for="reading">Traffic Reading IDs (separated by commas)</label>
                         <input ng-model="model.newsensor.readings"
                                type="text" class="form-control"
-                               id="reading" placeholder="Object IDs of weather">
+                               id="reading" placeholder="12345, 4567">
                     </div>
 
                 </div>
@@ -391,6 +403,26 @@
                            id="noc" placeholder="25">
                 </div>
 
+                <div class="form-group">
+                    <label for="colevel">Carbon Dioxide Level</label>
+                    <input ng-model="model.newreading.colevel"
+                           type="text" class="form-control"
+                           id="colevel" placeholder="25">
+                </div>
+
+                <div class="form-group">
+                    <label for="solevel">Sulphur Dioxide Level</label>
+                    <input ng-model="model.newreading.solevel"
+                           type="text" class="form-control"
+                           id="solevel" placeholder="25">
+                </div>
+
+                <div class="form-group">
+                    <label for="nolevel">Nitrous Oxide Level</label>
+                    <input ng-model="model.newreading.nolevel"
+                           type="text" class="form-control"
+                           id="nolevel" placeholder="25">
+                </div>
                 <button ng-click="model.createReading(model.newreading)" class="wrap-text btn btn-danger btn-block">Submit</button>
             </form>
             <br>
@@ -427,6 +459,27 @@
                                type="text" class="form-control"
                                id="nof" placeholder="25">
                     </div>
+
+                    <div class="form-group">
+                        <label for="colevels">Carbon Dioxide Level</label>
+                        <input ng-model="model.newreading.colevel"
+                               type="text" class="form-control"
+                               id="colevels" placeholder="25">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="solevels">Sulphur Dioxide Level</label>
+                        <input ng-model="model.newreading.solevel"
+                               type="text" class="form-control"
+                               id="solevels" placeholder="25">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nolevels">Nitrous Oxide Level</label>
+                        <input ng-model="model.newreading.nolevel"
+                               type="text" class="form-control"
+                               id="nolevels" placeholder="25">
+                    </div>
                 </div>
                 <button ng-click="model.changedReading(model.newreading)" class="wrap-text btn btn-danger btn-block">Submit</button>
             </form>
@@ -440,6 +493,9 @@
                     <th>_id</th>
                     <th>Read number</th>
                     <th>Number of Cars</th>
+                    <th>Carbon Dioxide Level</th>
+                    <th>Sulphur Dioxide Level</th>
+                    <th>Nitrous Oxide Level</th>
                 </tr>
                 </thead>
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
@@ -447,6 +503,9 @@
                     <td>{{search._id}}</td>
                     <td>{{search.readno}}</td>
                     <td>{{search.noofcars}}</td>
+                    <td>{{search.colevel}}</td>
+                    <td>{{search.solevel}}</td>
+                    <td>{{search.nolevel}}</td>
                 </tr>
                 </tbody>
 
@@ -455,6 +514,9 @@
                     <td>{{model.search._id}}</td>
                     <td>{{model.search.readno}}</td>
                     <td>{{model.search.noofcars}}</td>
+                    <td>{{model.search.colevel}}</td>
+                    <td>{{model.search.solevel}}</td>
+                    <td>{{model.search.nolevel}}</td>
                 </tr>
                 </tbody>
             </table>

@@ -12,12 +12,13 @@
             "login": login,
             "logout": logout,
             "register": register,
-            // "createUser": createUser,
             "findUserById": findUserById,
             "findUserByUsername": findUserByUsername,
             "findUserByCredentials": findUserByCredentials,
             "updateUser": updateUser,
             "deleteUser": deleteUser,
+            "addMessage": addMessage,
+            "deleteMessage": deleteMessage,
             "findAllUsers": findAllUsers
         };
 
@@ -34,10 +35,6 @@
         function register(user) {
             return $http.post("/api/register", user);
         }
-
-        /*function createUser(user) {
-            return $http.post("/api/user", user);
-        }*/
 
         function findUserById(userId) {
             return $http.get("/api/user/" + userId);
@@ -57,6 +54,14 @@
         
         function findUserByUsername(username) {
             return $http.get("/api/user?username=" + username);
+        }
+
+        function addMessage(userId, message) {
+            return $http.put("/api/user/" + userId + "/message", message);
+        }
+
+        function deleteMessage(userId, messageId) {
+            return $http.delete("/api/user/" + userId + "/message/" + messageId);
         }
 
         function findAllUsers() {

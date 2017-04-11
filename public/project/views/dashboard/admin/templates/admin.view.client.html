@@ -84,6 +84,11 @@
                     <input ng-model="model.newuser.lastName" type="text" class="form-control" id="last-name" placeholder="Last name">
                 </div>
 
+                <div class="form-group">
+                    <label for="role">Role [NORMAL|TADMIN|WADMIN]</label>
+                    <input ng-model="model.newuser.role" type="text" class="form-control" id="role" placeholder="Last name">
+                </div>
+
                 <button ng-click="model.createUser(model.newuser)" class="wrap-text btn btn-danger btn-block">Submit</button>
             </form>
             <br>
@@ -122,6 +127,11 @@
                         <label for="lname">Last Name</label>
                         <input ng-model="model.newuser.lastName" type="text" class="form-control" id="lname" placeholder="Last name">
                     </div>
+
+                    <div class="form-group">
+                        <label for="roles">Role [NORMAL|TADMIN|WADMIN]</label>
+                        <input ng-model="model.newuser.role" type="text" class="form-control" id="roles" placeholder="Last name">
+                    </div>
                 </div>
                 <button ng-click="model.changedUser(model.newuser)" class="wrap-text btn btn-danger btn-block">Submit</button>
             </form>
@@ -137,6 +147,7 @@
                     <th>Email</th>
                     <th>First Name</th>
                     <th>Last Name</th>
+                    <th>Role</th>
                 </tr>
                 </thead>
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
@@ -146,6 +157,7 @@
                     <td>{{search.email}}</td>
                     <td>{{search.firstName}}</td>
                     <td>{{search.lastName}}</td>
+                    <td>{{search.role}}</td>
                 </tr>
                 </tbody>
 
@@ -156,6 +168,7 @@
                     <td>{{model.search.email}}</td>
                     <td>{{model.search.firstName}}</td>
                     <td>{{model.search.lastName}}</td>
+                    <td>{{model.search.role}}</td>
                 </tr>
                 </tbody>
             </table>
