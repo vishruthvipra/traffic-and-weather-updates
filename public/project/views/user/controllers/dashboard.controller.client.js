@@ -12,7 +12,7 @@
             vm.logout = logout;
             var latitude = "12.9718", longitude = "77.6411";
             var markers = [];
-            var map1, infoWindow, weathermap;
+            var map1, map2, infoWindow, weathermap;
 
             function init() {
                 var promise = UserService.findUserById(userId);
@@ -24,9 +24,9 @@
                 $("#drop-down").hide();
                 $("#gov-level-2").hide();
                 $("#email-level-2").hide();
-                $("#ticketing-level-2").hide();
-                $("#ticketing-level-3").hide();
-                $("#traffic-level-2").hide();
+                $("#gov-level").hide();
+                $("#email-level").hide();
+                $("#navhide").hide();
 
                 uiEvents();
                 initMap();
@@ -37,28 +37,24 @@
 
             function uiEvents() {
 
-                // $(document).on('click','#domains',function(){
-                //     $("#gov-level-2").slideToggle("fast");
-                // });
-
                 $("#domains").on('click',function() {
                     $("#gov-level-2").slideToggle("fast");
                 });
 
-                $("#email").on('click',function() {
+                $("#emails").on('click',function() {
                     $("#email-level-2").slideToggle("fast");
                 });
 
-                $("#ticketing").on('click',function() {
-                    $("#ticketing-level-2").slideToggle("fast");
+                $("#menu").on('click',function() {
+                    $("#navhide").slideToggle("fast");
                 });
 
-                $("#third-level").on('click',function() {
-                    $("#ticketing-level-3").slideToggle("fast");
+                $("#domainnav").on('click',function() {
+                    $("#gov-level").slideToggle("fast");
                 });
 
-                $("#traffic-drop-down").on('click',function() {
-                    $("#traffic-level-2").slideToggle("fast");
+                $("#emailnav").on('click',function() {
+                    $("#email-level").slideToggle("fast");
                 });
             }
 
@@ -67,6 +63,23 @@
                 map1 = new google.maps.Map($("#gmaps")[0], {
                     zoom: 11,
                     center: weathermap
+                });
+
+                map2 = new google.maps.Map($("#gmap")[0], {
+                    zoom: 11,
+                    center: weathermap
+                });
+
+                google.maps.event.addDomListenerOnce(map1, 'idle', function () {
+                    google.maps.event.addDomListener(window, 'resize', function () {
+                        map1.setCenter(weathermap);
+                    });
+                });
+
+                google.maps.event.addDomListenerOnce(map2, 'idle', function () {
+                    google.maps.event.addDomListener(window, 'resize', function () {
+                        map2.setCenter(weathermap);
+                    });
                 });
             }
 
@@ -117,6 +130,7 @@
                 promise.success(function (sensors) {
                     for (var i in sensors) {
                         setMarker(map1, sensors[i].location, sensors[i].area, sensors[i].sensorType);
+                        setMarker(map2, sensors[i].location, sensors[i].area, sensors[i].sensorType);
                     }
 
                 });

@@ -1,5 +1,3 @@
-<!--<input type="hidden" id="refresh" value="no">-->
-
 <nav class="navbar navbar-default navbar-fixed-top">
 
     <div id="regbar" class="hidden-xs">
@@ -42,35 +40,35 @@
     </div>
 
     <div class="login">
-        <!--<div class="login-arrow-up"></div>-->
         <div class="formholder">
             <div class="inside-pad container-fluid">
                 <div ng-show="model.error" class="alert alert-danger" role="alert">
                     <strong>Error!</strong> {{model.error}}
                 </div>
-                <fieldset>
+                <form ng-submit="model.login(user)">
                     <label name="uname">Username</label>
                     <input id="uname"
                            ng-model="user.username"
                            type="text"
                            class="form-control"
-                           placeholder="username"/>
+                           placeholder="john"/>
 
                     <label name="pwd">Password</label>
                     <input id="pwd"
                            ng-model="user.password"
                            type="password"
                            class="form-control"
-                           placeholder="password"/>
+                           placeholder="john123"/>
                     <br>
-                    <a ng-click="model.login(user)" class="btn btn-success btn-block" >Login</a>
+
+                    <input type="submit" value="Login" class="btn btn-success btn-block"/>
                     <a href="/auth/facebook" class="btn btn-primary btn-block">
                         <span class="fa fa-facebook"></span> Login with Facebook
                     </a>
                     <a href="/auth/google" class="btn btn-danger btn-block">
                         <span class="fa fa-google-plus"></span> Login with Google
                     </a>
-                </fieldset>
+                </form>
             </div>
         </div>
     </div>
@@ -83,64 +81,66 @@
                     <strong>Success!</strong> {{model.message}}
                 </div>
 
-                <div ng-show="model.error" class="alert alert-danger" role="alert">
-                    <strong>Error!</strong> {{model.error}}
+                <div ng-show="model.error3" class="alert alert-danger" role="alert">
+                    <strong>Error!</strong> {{model.error3}}
                 </div>
-                <fieldset>
+                <form ng-submit="model.register(user)">
                     <label name="fname">First Name</label>
                     <input id="fname"
                            ng-model="user.firstName"
                            type="text"
                            class="form-control"
-                           placeholder="First Name"/>
+                           placeholder="John"/>
 
                     <label name="lname">Last Name</label>
                     <input id="lname"
                            ng-model="user.lastName"
                            type="text"
                            class="form-control"
-                           placeholder="Last Name"/>
+                           placeholder="Blake"/>
 
                     <label name="username">Username</label>
                     <input id="username"
                            ng-model="user.username"
                            type="text"
                            class="form-control"
-                           placeholder="username"/>
+                           placeholder="john"/>
 
                     <label name="password">Password</label>
                     <input id="password"
                            ng-model="user.password"
                            type="password"
                            class="form-control"
-                           placeholder="password"/>
+                           placeholder="john123"/>
 
                     <label name="verifypassword">Verify Password</label>
                     <input id="verifypassword"
-                           ng-model="user.password"
+                           ng-model="user.vpassword"
                            type="password"
                            class="form-control"
                            placeholder="verify password"/>
 
                     <br>
-                    <a ng-click="model.register(user)" class="btn btn-primary btn-block">Register</a>
-                </fieldset>
+                    <input type="submit" value="Register" class="btn btn-primary btn-block"/>
+                </form>
             </div>
         </div>
     </div>
-
 
 </nav>
 
 <div id="main-container">
     <div id="weather">
         <div>
+            <div ng-show="model.error2" class="alert alert-warning" role="alert">
+                <strong>Error!</strong> {{model.error2}}
+            </div>
             <h2 class="h2-settings">Weather Report</h2>
         </div>
 
         <div class="container-fluid">
             <div class="row">
-                <div class="iframe-container col-xs-8">
+                <div class="col-xs-8">
                     <div class="gmaps"></div>
                 </div>
                 <div class="col-xs-4">
@@ -148,19 +148,43 @@
                         <li id="temperature" class="wrap-text list-group-item">
                             Temperature:
                             <span ng-show="model.temperature">
-                                {{model.temperature}}
+                                {{model.temperature}} °C
                             </span>
                         </li>
                         <li class="wrap-text list-group-item">
                             Humidity:
                             <span ng-show="model.humidity">
-                                {{model.humidity}}
+                                {{model.humidity}}%
+                            </span>
+                        </li>
+                        <li class="wrap-text list-group-item">
+                            Water Level:
+                            <span ng-show="model.waterlevel">
+                                {{model.waterlevel}} cm
+                            </span>
+                        </li>
+                        <li class="wrap-text list-group-item">
+                            UV Level:
+                            <span ng-show="model.uvlevel">
+                                {{model.uvlevel}}
                             </span>
                         </li>
                         <li class="wrap-text list-group-item">
                             Pressure:
                             <span ng-show="model.pressure">
-                                {{model.pressure}}
+                                {{model.pressure}} kPa
+                            </span>
+                        </li>
+                        <li class="wrap-text list-group-item">
+                            Particulate Matter 2.5:
+                            <span ng-show="model.pm2">
+                                {{model.pm2}} µ/m³
+                            </span>
+                        </li>
+                        <li class="wrap-text list-group-item">
+                            Particulate Matter 5.0:
+                            <span ng-show="model.pm5">
+                                {{model.pm5}} µ/m³
                             </span>
                         </li>
                     </ul>
@@ -176,13 +200,34 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="iframe-container col-xs-8">
+                <div class="col-xs-8">
                     <div class="gmaps"></div>
                 </div>
                 <div class="col-xs-4">
                     <ul class="list-group">
-                        <li class="list-group-item">
-                            Number of cars around you: {{model.noofcars}}
+                        <li class="wrap-text list-group-item">
+                            Number of cars around you:
+                            <span ng-show="model.noofcars">
+                                {{model.noofcars}}
+                            </span>
+                        </li>
+                        <li class="wrap-text list-group-item">
+                            Carbon Monoxide:
+                            <span ng-show="model.colevel">
+                                {{model.colevel}} ppm
+                            </span>
+                        </li>
+                        <li class="wrap-text list-group-item">
+                            Sulphur Dioxide:
+                            <span ng-show="model.solevel">
+                                {{model.solevel}} ppm
+                            </span>
+                        </li>
+                        <li class="wrap-text list-group-item">
+                            Nitrous Oxide:
+                            <span ng-show="model.nolevel">
+                                {{model.nolevel}} ppm
+                            </span>
                         </li>
                     </ul>
                     <button ng-click="model.getLocationCoordinates('TRAFFIC')" class="wrap-text btn btn-primary btn-block">What's happening near me?</button>
@@ -194,7 +239,7 @@
     <div id="contact">
         <h2 class="h2-settings">Contact Us</h2>
 
-        <div class="container-fluid">
+        <div class="container-fluid hidden-xs">
             <div class="row">
                 <div class="col-xs-4">
                     <img id="big-image" src="../../../../images/rsz_vedoot-logo.png" alt="">
@@ -208,6 +253,18 @@
                     </address>
                 </div>
             </div>
+        </div>
+
+        <div class="container visible-xs">
+            <div>
+                <img id="big-image2" src="../../../../images/rsz_vedoot-logo.png" alt="">
+            </div>
+            <h3>Vedoot</h3>
+            <address>
+                <p><strong>Address:</strong> No 370, 1st Floor, 1st A Cross, 7th Block Koramangala, Bengaluru, Karnataka - 560095</p>
+                <p><strong>Country:</strong> India</p>
+                <p><strong>E-mail:</strong> info@vedoot.com</p>
+            </address>
         </div>
     </div>
 </div>

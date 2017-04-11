@@ -152,7 +152,7 @@ module.exports = function (app, mongoose) {
                 deferred.resolve(sensor.weatherReadings);
             }
             else {
-            //    deferred.resolve(sensor.trafficReadings);
+               deferred.resolve(sensor.trafficReadings);
             }
         });
         return deferred.promise;
