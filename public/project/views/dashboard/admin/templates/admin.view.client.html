@@ -9,6 +9,8 @@
         <a class="navbar-brand" href="#/home">
             <span class="pull-right glyphicon glyphicon-log-out"></span>
         </a>
+
+
     </div>
 </nav>
 
@@ -49,9 +51,6 @@
             </div>
             <div class="col-xs-4">
                 <button ng-click="model.changeUser = true; model.addUser = false; model.opUser = 1" class="wrap-text btn btn-info btn-block">Update</button>
-            </div>
-            <div class="col-xs-4">
-                <button ng-click="model.changeUser = true; model.addUser = false; model.opUser = 2" class="wrap-text btn btn-danger btn-block">Delete</button>
             </div>
         </div>
         <br>
@@ -143,21 +142,63 @@
                 <thead>
                 <tr>
                     <th>_id</th>
+                    <th ng-show="model.editfields">Edit Username</th>
                     <th>Username</th>
+                    <th ng-show="model.editfields">Edit Email</th>
                     <th>Email</th>
+                    <th ng-show="model.editfields">Edit First Name</th>
                     <th>First Name</th>
+                    <th ng-show="model.editfields">Edit Last Name</th>
                     <th>Last Name</th>
+                    <th ng-show="model.editfields">Edit Role</th>
                     <th>Role</th>
                 </tr>
                 </thead>
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
                 <tr class="success">
                     <td>{{search._id}}</td>
+                    <td ng-show="model.editfields">
+                        <input
+                            ng-model="model.search.role"
+                            type="text"
+                            class="form-control"
+                            placeholder="john"/></td>
                     <td>{{search.username}}</td>
+                    <td ng-show="model.editfields">
+                        <input
+                            ng-model="model.search.role"
+                            type="text"
+                            class="form-control"
+                            placeholder="john"/></td>
                     <td>{{search.email}}</td>
+                    <td ng-show="model.editfields">
+                        <input
+                            ng-model="model.search.role"
+                            type="text"
+                            class="form-control"
+                            placeholder="john"/></td>
                     <td>{{search.firstName}}</td>
+                    <td ng-show="model.editfields">
+                        <input
+                            ng-model="model.search.role"
+                            type="text"
+                            class="form-control"
+                            placeholder="john"/></td>
                     <td>{{search.lastName}}</td>
+                    <td ng-show="model.editfields">
+                        <input
+                            ng-model="model.search.role"
+                            type="text"
+                            class="form-control"
+                            placeholder="john"/></td>
                     <td>{{search.role}}</td>
+                    <td ng-hide="model.editfields">
+                        <span ng-click="model.editfields = true" class="glyphicon glyphicon-pencil"></span>
+                    </td>
+                    <td ng-show="model.editfields">
+                        <span ng-click="model.updateUser(search)" class="glyphicon glyphicon-ok"></span>
+                    </td>
+                    <td><span ng-click="model.deleteUser(search)" class="glyphicon glyphicon-remove"></span></td>
                 </tr>
                 </tbody>
 
@@ -186,13 +227,9 @@
 
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a href="#/user/{{model.user._id}}">
-                    <span class="pull-right glyphicon glyphicon-home"></span>
-                </a>
-            </li>
-        </ul>
+    <div class="navbar-header pull-right">
+        <a class="navbar-brand" href="#/user/{{model.user._id}}">
+            <span class="pull-right glyphicon glyphicon-home"></span>
+        </a>
     </div>
 </nav>

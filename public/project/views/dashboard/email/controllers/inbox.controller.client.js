@@ -26,7 +26,11 @@
             UserService
                 .deleteMessage(userId, messageId)
                 .success(function (message) {
+                    vm.success = "Message successfully deleted!";
                     init();
+                })
+                .error(function (err) {
+                    vm.error = "Message not deleted...";
                 })
         }
 

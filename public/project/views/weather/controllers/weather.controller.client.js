@@ -9,6 +9,8 @@
             var vm = this;
             var userId = $routeParams["uid"];
             vm.getLocationReadings = getLocationReadings;
+
+            // Heart of Bangalore readings if user denies sharing his location
             var latitude = "12.9716", longitude = "77.5946";
             vm.lati = latitude;
             vm.long = longitude;
@@ -25,6 +27,7 @@
 
                 initMap();
                 findAllSensors();
+
             }
             init();
 
@@ -137,6 +140,7 @@
                     var long = position.coords.longitude;
                     latitude = lat.toString();
                     longitude = long.toString();
+                    $(".fa-pulse").show();
                     SensorService
                         .populateReadings(latitude, longitude, "WEATHER")
                         .success(function (readings) {
@@ -153,6 +157,7 @@
                     // }
                 }
 
+                $(".fa-pulse").show();
                 SensorService
                     .populateReadings(latitude, longitude, "WEATHER")
                     .success(function (readings) {
@@ -174,6 +179,7 @@
                 plotUVLevel(readno, uvlevel, "uvCharts");
                 plotPM(readno, pm2, pm5, "pmChart");
                 plotPM(readno, pm2, pm5, "pmCharts");
+                $(".fa-pulse").hide();
             }
 
             function plotTemperature(readno, temperature, id) {
@@ -204,7 +210,7 @@
                                     labelString: 'in °C'
                                 },
                                 ticks: {
-                                    max: 50,
+                                    max: Math.max.apply(Math, temperature),
                                     beginAtZero:true
                                 }
                             }]
@@ -241,7 +247,7 @@
                                     labelString: 'in kPa'
                                 },
                                 ticks: {
-                                    max: 50,
+                                    max: Math.max.apply(Math, pressure),
                                     beginAtZero:true
                                 }
                             }]
@@ -278,7 +284,7 @@
                                     labelString: 'in cm'
                                 },
                                 ticks: {
-                                    max: 100,
+                                    max: Math.max.apply(Math, waterlevel),
                                     beginAtZero:true
                                 }
                             }]
@@ -315,7 +321,7 @@
                                     labelString: 'in %'
                                 },
                                 ticks: {
-                                    max: 100,
+                                    max: Math.max.apply(Math, humidity),
                                     beginAtZero:true
                                 }
                             }]
@@ -352,7 +358,7 @@
                                     labelString: 'in index'
                                 },
                                 ticks: {
-                                    max: 20,
+                                    max: Math.max.apply(Math, uv),
                                     beginAtZero:true
                                 }
                             }]
@@ -363,6 +369,7 @@
 
             function plotPM(readno, pm2, pm5, id) {
                 var chart1 = document.getElementById(id);
+                var max = [Math.max.apply(Math, pm2), Math.max.apply(Math, pm5)];
                 var myChart = new Chart(chart1, {
                     type: 'line',
                     data: {
@@ -396,7 +403,7 @@
                                     labelString: 'in µ/m³'
                                 },
                                 ticks: {
-                                    max: 5,
+                                    max: Math.max.apply(Math, max),
                                     beginAtZero:true
                                 }
                             }]

@@ -221,13 +221,20 @@ ul {
     margin-bottom: 10px;
 }
 
-/*#map {*/
-    /*height: 350px;*/
-    /*background: white;*/
-/*}*/
+#mapdiv {
+    padding-right: 3px;
+}
+
+#weatherlist {
+    padding-left: 0px;
+}
+
+#weatherlist ul {
+    margin-bottom: 0px;
+}
 
 .gmaps {
-    height: 350px;
+    height: 329px;
     color: black;
     background: white;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
@@ -267,16 +274,24 @@ table {
     color: black;
 }
 
+/* from here inbox */
+
 #messages {
-    background: #ffffff;
+    background: #1abc9c;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
     padding: 15px;
     position: relative;
     z-index: 2;
+    border-bottom-left-radius: 25px;
 }
 
 #messages:hover {
-    background-color: #1abc9c;
+    background-color: #ffffff;
+    color: black;
+}
+
+.fa-reply:hover, .glyphicon-remove:hover {
+    color: #1abc9c;
 }
 
 #sender {
@@ -307,6 +322,12 @@ table {
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
+}
+
+#content {
+    border-top: 1px solid #000000;
+    padding-bottom: 0px;
+    padding-top: 5px;
 }
 
 #content-body {

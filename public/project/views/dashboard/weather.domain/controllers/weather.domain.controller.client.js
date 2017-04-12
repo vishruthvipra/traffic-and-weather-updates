@@ -107,6 +107,17 @@
             }
 
             function deleteUser(delUser) {
+
+                // if(delUser.role === "ADMIN"){// || "TADMIN"){
+                //     vm.error = "Rights violation! You are allowed to update only WADMIN or NORMAL users";
+                //     console.log("here");
+                // }
+                // else {
+                //     console.log("came here");
+                // }
+                // console.log(delUser);
+
+
                 UserService
                     .findUserById(delUser._id)
                     .success(function (user) {

@@ -15,17 +15,11 @@
         vm.changedUser = changedUser;
         vm.updateUser = updateUser;
         vm.deleteUser = deleteUser;
-
+        vm.editfields = false;
         vm.modelClicked = modelClicked;
         vm.startSearch = startSearch;
 
         function init() {
-            // var promise = UserService.findUserById(userId);
-            // promise.success(function (user) {
-            //     vm.user = user;
-            //     vm.hidden = true;
-            // });
-
             var promise = UserService.findAllUsers();
             promise
                 .success(function (user) {
@@ -66,20 +60,22 @@
         }
 
         function updateUser(updUser) {
-            var update = UserService
-                .updateUser(updUser._id, updUser)
-                .success(function (user) {
-                    if (update != null) {
-                        vm.changeUser = false;
-                        UserService.findAllUsers()
-                            .success(function (user) {
-                                vm.searchResults = user;
-                            });
-                    }
-                    else {
-                        vm.error = "Unable to update..."
-                    }
-                });
+            vm.editfields = false;
+            console.log(updUser);
+            // var update = UserService
+            //     .updateUser(updUser._id, updUser)
+            //     .success(function (user) {
+            //         if (update != null) {
+            //             vm.changeUser = false;
+            //             UserService.findAllUsers()
+            //                 .success(function (user) {
+            //                     vm.searchResults = user;
+            //                 });
+            //         }
+            //         else {
+            //             vm.error = "Unable to update..."
+            //         }
+            //     });
         }
 
         function deleteUser(delUser) {

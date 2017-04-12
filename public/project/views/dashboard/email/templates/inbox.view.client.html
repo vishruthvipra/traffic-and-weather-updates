@@ -3,6 +3,9 @@
         <img alt="Brand" src="../../../../images/rsz_11rsz_1rsz_vedoot-logo.png" style="height: 30px;">
     </a>
     <div class="navbar-header pull-right">
+        <a class="navbar-brand" href="#/user/{{model.user._id}}/compose/000">
+            <span class="pull-right glyphicon glyphicon-pencil"></span>
+        </a>
         <a class="navbar-brand" href="#/user/{{model.user._id}}/profile">
             <span class="pull-right glyphicon glyphicon-user"></span>
         </a>
@@ -15,6 +18,12 @@
 <h2></h2>
 
 <div id="inbox-body" class="container-fluid">
+    <div ng-show="model.success" class="alert alert-success" role="alert">
+        <strong>Success!</strong> {{model.success}}
+    </div>
+    <div ng-show="model.error" class="alert alert-danger" role="alert">
+        <strong>Error!</strong> {{model.error}}
+    </div>
     <div id="messages" ng-repeat="message in model.messages" class="container-fluid">
         <div>
             <div ng-click="model.deleteMessage(message._id)" class="pull-right glyphicon glyphicon-remove"></div>
@@ -39,13 +48,9 @@
 <br>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a href="#/user/{{model.user._id}}">
-                    <span class="pull-right glyphicon glyphicon-home"></span>
-                </a>
-            </li>
-        </ul>
+    <div class="navbar-header pull-right">
+        <a class="navbar-brand" href="#/user/{{model.user._id}}">
+            <span class="pull-right glyphicon glyphicon-home"></span>
+        </a>
     </div>
 </nav>

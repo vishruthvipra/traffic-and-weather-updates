@@ -77,6 +77,7 @@
                     infoWindow = new google.maps.InfoWindow(infoWindowOptions);
                     infoWindow.open(map, marker);
 
+                    $(".fa-pulse").show();
                     SensorService
                         .populateReadingsById(sensorId, "TRAFFIC")
                         .success(function (readings) {
@@ -127,6 +128,7 @@
                     var long = position.coords.longitude;
                     latitude = lat.toString();
                     longitude = long.toString();
+                    $(".fa-pulse").show();
                     SensorService
                         .populateReadings(latitude, longitude, "TRAFFIC")
                         .success(function (readings) {
@@ -159,6 +161,7 @@
                 plotSoLevel(readno, solevel, "soCharts");
                 plotNoLevel(readno, nolevel, "noChart");
                 plotNoLevel(readno, nolevel, "noCharts");
+                $(".fa-pulse").hide();
             }
 
             function plotNoofcars(readno, noofcars, id) {
@@ -189,7 +192,7 @@
                                     labelString: 'in units'
                                 },
                                 ticks: {
-                                    max: 100,
+                                    max: Math.max.apply(Math, noofcars),
                                     beginAtZero:true
                                 }
                             }]
@@ -226,7 +229,7 @@
                                     labelString: 'in ppm'
                                 },
                                 ticks: {
-                                    max: 60,
+                                    max: Math.max.apply(Math, colevel),
                                     beginAtZero:true
                                 }
                             }]
@@ -263,7 +266,7 @@
                                     labelString: 'in ppm'
                                 },
                                 ticks: {
-                                    max: 60,
+                                    max: Math.max.apply(Math, solevel),
                                     beginAtZero:true
                                 }
                             }]
@@ -300,7 +303,7 @@
                                     labelString: 'in ppm'
                                 },
                                 ticks: {
-                                    max: 60,
+                                    max: Math.max.apply(Math, nolevel),
                                     beginAtZero:true
                                 }
                             }]

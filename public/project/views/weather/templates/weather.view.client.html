@@ -3,6 +3,8 @@
         <img alt="Brand" src="../../../../images/rsz_11rsz_1rsz_vedoot-logo.png" style="height: 30px;">
     </a>
     <div class="navbar-header pull-right">
+
+
         <a class="navbar-brand" href="#/user/{{model.user._id}}/profile">
             <span class="pull-right glyphicon glyphicon-user"></span>
         </a>
@@ -16,14 +18,17 @@
 
 <div class="container-fluid hidden-xs">
     <div class="row">
-        <div class="col-xs-8">
+        <div id="mapdiv" class="col-xs-8">
             <div class="gmaps"></div>
         </div>
 
-        <div class="col-xs-4">
+        <div id="weatherlist" class="col-xs-4">
             <ul class="list-group">
                 <li class="wrap-text list-group-item head">
                     Latest Readings
+                    <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+                    <span class="sr-only"></span>
+
                 </li>
                 <li class="wrap-text list-group-item">
                     Temperature:
@@ -103,6 +108,12 @@
     <div class="gmaps"></div>
 
     <ul class="list-group">
+        <li class="wrap-text list-group-item head">
+            Latest Readings
+            <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+            <span class="sr-only"></span>
+
+        </li>
         <li class="wrap-text list-group-item">
             Temperature:
             <span>{{model.temperature}}</span>
@@ -138,19 +149,19 @@
     </div>
 
     <div class="charts container">
-        <canvas id="pressCharts" width="400" height="200"></canvas>
-    </div>
-
-    <div class="charts container">
         <canvas id="humdCharts" width="400" height="200"></canvas>
     </div>
 
     <div class="charts container">
-        <canvas id="uvCharts" width="400" height="400"></canvas>
+        <canvas id="pressCharts" width="400" height="200"></canvas>
     </div>
 
     <div class="charts container">
-        <canvas id="waterCharts" width="400" height="400"></canvas>
+        <canvas id="uvCharts" width="400" height="200"></canvas>
+    </div>
+
+    <div class="charts container">
+        <canvas id="waterCharts" width="400" height="200"></canvas>
     </div>
 
     <div class="charts container">

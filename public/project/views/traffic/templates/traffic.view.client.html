@@ -16,12 +16,17 @@
 
 <div class="container-fluid hidden-xs">
     <div class="row">
-        <div class="col-xs-4">
+        <div id="mapdiv" class="col-xs-8">
             <div class="gmaps"></div>
         </div>
 
-        <div class="col-xs-4">
+        <div id="weatherlist" class="col-xs-4">
             <ul class="list-group">
+                <li class="wrap-text list-group-item head">
+                    Latest Readings
+                    <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+                    <span class="sr-only"></span>
+                </li>
                 <li class="wrap-text list-group-item">
                     Number of Cars:
                     <span ng-show="model.noofcars">{{model.noofcars}}</span>
@@ -40,22 +45,21 @@
                 </li>
             </ul>
         </div>
-
-        <div class="col-xs-4 charts">
-            <canvas id="carChart" width="400" height="400"></canvas>
-        </div>
     </div>
 
-    <div class="row">
-        <div class="col-xs-4 charts">
+    <div class="row container-fluid">
+        <div class="col-xs-3 charts">
+            <canvas id="carChart" width="400" height="400"></canvas>
+        </div>
+        <div class="col-xs-3 charts">
             <canvas id="coChart" width="400" height="400"></canvas>
         </div>
 
-        <div class="col-xs-4 charts">
+        <div class="col-xs-3 charts">
             <canvas id="soChart" width="400" height="400"></canvas>
         </div>
 
-        <div class="col-xs-4 charts">
+        <div class="col-xs-3 charts">
             <canvas id="noChart" width="400" height="400"></canvas>
         </div>
 
@@ -77,6 +81,11 @@
     <div class="gmaps"></div>
 
     <ul class="list-group">
+        <li class="wrap-text list-group-item head">
+            Latest Readings
+            <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+            <span class="sr-only"></span>
+        </li>
         <li class="wrap-text list-group-item">
             Number of Cars:
             <span ng-show="model.noofcars">{{model.noofcars}}</span>
@@ -85,22 +94,30 @@
             Carbon Dioxide Level:
             <span ng-show="model.colevel">{{model.colevel}}</span>
         </li>
+        <li class="wrap-text list-group-item">
+            Sulphur Dioxide Level:
+            <span ng-show="model.solevel">{{model.solevel}}</span>
+        </li>
+        <li class="wrap-text list-group-item">
+            Nitrous Oxide Level:
+            <span ng-show="model.nolevel">{{model.nolevel}}</span>
+        </li>
     </ul>
 
     <div class="charts container">
         <canvas id="carCharts" width="400" height="200"></canvas>
     </div>
 
-    <div class="col-xs-4 charts">
-        <canvas id="coCharts" width="400" height="400"></canvas>
+    <div class="container charts">
+        <canvas id="coCharts" width="400" height="200"></canvas>
     </div>
 
-    <div class="col-xs-4 charts">
-        <canvas id="soCharts" width="400" height="400"></canvas>
+    <div class="container charts">
+        <canvas id="soCharts" width="400" height="200"></canvas>
     </div>
 
-    <div class="col-xs-4 charts">
-        <canvas id="noCharts" width="400" height="400"></canvas>
+    <div class="container charts">
+        <canvas id="noCharts" width="400" height="200"></canvas>
     </div>
 
     <br>
@@ -115,13 +132,9 @@
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a href="#/user/{{model.user._id}}">
-                    <span class="pull-right glyphicon glyphicon-home"></span>
-                </a>
-            </li>
-        </ul>
+    <div class="navbar-header pull-right">
+        <a class="navbar-brand" href="#/user/{{model.user._id}}">
+            <span class="pull-right glyphicon glyphicon-home"></span>
+        </a>
     </div>
 </nav>
