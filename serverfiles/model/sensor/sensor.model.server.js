@@ -17,7 +17,9 @@ module.exports = function (app, mongoose) {
         findSensorReading: findSensorReading,
         // findReadingsForSensorId: findReadingsForSensorId,
         findAllSensorsForSensorType: findAllSensorsForSensorType,
-        findAllSensors: findAllSensors
+        findAllSensors: findAllSensors,
+        populateReadings: populateReadings,
+        populateReadingsById: populateReadingsById
 
     };
     return api;
@@ -160,17 +162,64 @@ module.exports = function (app, mongoose) {
 
 
 
-    // function findReadingsForSensorId(sensorId) {
-    //     var deferred = q.defer();
-    //     sensorModel.findById(sensorId)
-    //         .populate('weatherReadings')
-    //         .exec(function(err, sensor) {
-    //             if (err || sensor === null) {
-    //                 deferred.reject(new Error(err));
-    //             } else {
-    //                 deferred.resolve(sensor.weatherReadings);
-    //             }
-    //         });
-    //     return deferred.promise;
-    // }
+    function populateReadings(latitude, longitude, sensorType) {
+        var deferred = q.defer();
+        var lat = parseFloat(latitude);
+        var lon = parseFloat(longitude);
+        if (sensorType === "WEATHER") {
+            sensorModel.findOne({location: {$near: [lat, lon]}, sensorType: sensorType})
+                .populate('weatherReadings')
+                .exec(function (err, sensor) {
+                    if (err || sensor === null) {
+                        deferred.reject(new Error(err));
+                    }
+                    else {
+                        deferred.resolve(sensor.weatherReadings);
+                    }
+                });
+        }
+        else {
+            sensorModel.findOne({location: {$near: [lat, lon]}, sensorType: sensorType})
+                .populate('trafficReadings')
+                .exec(function (err, sensor) {
+                    if (err || sensor === null) {
+                        deferred.reject(new Error(err));
+                    }
+                    else {
+                        deferred.resolve(sensor.trafficReadings);
+                    }
+                });
+        }
+        return deferred.promise;
+    }
+
+    function populateReadingsById(sensorId, sensorType) {
+        var deferred = q.defer();
+        if (sensorType === "WEATHER") {
+            sensorModel.findOne({_id: sensorId, sensorType: sensorType})
+                .populate('weatherReadings')
+                .exec(function (err, sensor) {
+                    if (err || sensor === null) {
+                        deferred.reject(new Error(err));
+                    }
+                    else {
+                        deferred.resolve(sensor.weatherReadings);
+                    }
+                });
+        }
+        else {
+            sensorModel.findOne({_id: sensorId, sensorType: sensorType})
+                .populate('trafficReadings')
+                .exec(function (err, sensor) {
+                    if (err || sensor === null) {
+                        deferred.reject(new Error(err));
+                    }
+                    else {
+                        deferred.resolve(sensor.trafficReadings);
+                    }
+                });
+        }
+        return deferred.promise;
+    }
+
 };

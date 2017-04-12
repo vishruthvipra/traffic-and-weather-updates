@@ -9,21 +9,18 @@
             var vm = this;
             var userId = $routeParams["uid"];
             vm.getLocationReadings = getLocationReadings;
-            vm.findReadingsForSensorId = findReadingsForSensorId;
             var latitude = "12.9716", longitude = "77.5946";
             vm.lati = latitude;
             vm.long = longitude;
 
             var markers = [];
             var map1, map2, infoWindow, trafficmap;
-            var stopInit = true;
 
             function init() {
                 var promise = UserService.findUserById(userId);
                 promise.success(function (user) {
                     vm.user = user;
                     getLocationReadings();
-                    stopInit = false;
                 });
 
                 initMap();
@@ -40,6 +37,18 @@
                 map2 = new google.maps.Map($(".gmaps")[1], {
                     zoom: 11,
                     center: trafficmap
+                });
+
+                google.maps.event.addDomListenerOnce(map1, 'idle', function () {
+                    google.maps.event.addDomListener(window, 'resize', function () {
+                        map1.setCenter(trafficmap);
+                    });
+                });
+
+                google.maps.event.addDomListenerOnce(map2, 'idle', function () {
+                    google.maps.event.addDomListener(window, 'resize', function () {
+                        map2.setCenter(trafficmap);
+                    });
                 });
             }
 
@@ -68,8 +77,11 @@
                     infoWindow = new google.maps.InfoWindow(infoWindowOptions);
                     infoWindow.open(map, marker);
 
-                    findReadingsForSensorId(sensorId);
-
+                    SensorService
+                        .populateReadingsById(sensorId, "TRAFFIC")
+                        .success(function (readings) {
+                            dataForCharts(readings);
+                        });
                 });
 
             }
@@ -84,28 +96,61 @@
                 });
             }
 
-            function findReadingsForSensorId(sensorId) {
+            function dataForCharts(readings) {
                 var data = [], noofcars = [], colevel = [], solevel = [], nolevel = [], readno;
-                var promise = SensorService.findSensorByIdWithSensorType(sensorId, "TRAFFIC");
-                promise.success(function (sensors) {
-                    for (var i in sensors.trafficReadings) {
-                        var status = ReadingService.findReadingForId(sensors.trafficReadings[i], "TRAFFIC")
-                            .success(function (reading) {
-                                console.log(reading);
-                                plotChart(data, noofcars, colevel, solevel, nolevel, readno, reading);
-                            })
-                    }
-                });
+                for (var i in readings) {
+                    data.push(parseInt(readings[i].readno));
+                    noofcars.push(parseInt(readings[i].noofcars));
+                    colevel.push(parseInt(readings[i].colevel));
+                    solevel.push(parseInt(readings[i].solevel));
+                    nolevel.push(parseInt(readings[i].nolevel));
+                }
+                readno = data.reverse();
+                vm.noofcars = noofcars[noofcars.length - 1];
+                vm.colevel = colevel[colevel.length - 1];
+                vm.solevel = solevel[solevel.length - 1];
+                vm.nolevel = nolevel[nolevel.length - 1];
+                plotChart(noofcars, colevel, solevel, nolevel, readno);
             }
 
-            function plotChart(data, noofcars, colevel, solevel, nolevel, readno, reading) {
-                data.push(parseInt(reading.readno));
-                noofcars.push(parseInt(reading.noofcars));
-                colevel.push(parseInt(reading.colevel));
-                solevel.push(parseInt(reading.solevel));
-                nolevel.push(parseInt(reading.nolevel));
-                readno = data.reverse();
+            function getLocationReadings() {
+                if (navigator.geolocation) {
+                    var options = {timeout: 60000};
+                    navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
+                }
+                else {
+                    alert("Sorry, browser does not support geolocation!");
+                }
 
+                function showLocation(position) {
+                    var lat = position.coords.latitude;
+                    var long = position.coords.longitude;
+                    latitude = lat.toString();
+                    longitude = long.toString();
+                    SensorService
+                        .populateReadings(latitude, longitude, "TRAFFIC")
+                        .success(function (readings) {
+                            dataForCharts(readings);
+                        });
+                }
+
+                function errorHandler(err) {
+                    // if (err.code == 1) {
+                    //     alert("Error: Access is denied!");
+                    // }
+                    // else if (err.code == 2) {
+                    //     console.log("Error: Position is unavailable!");
+                    // }
+                }
+
+                SensorService
+                    .populateReadings(latitude, longitude, "TRAFFIC")
+                    .success(function (readings) {
+                        dataForCharts(readings);
+                    });
+            }
+
+            function plotChart(noofcars, colevel, solevel, nolevel, readno) {
                 plotNoofcars(readno, noofcars, "carChart");
                 plotNoofcars(readno, noofcars, "carCharts");
                 plotCoLevel(readno, colevel, "coChart");
@@ -114,51 +159,6 @@
                 plotSoLevel(readno, solevel, "soCharts");
                 plotNoLevel(readno, nolevel, "noChart");
                 plotNoLevel(readno, nolevel, "noCharts");
-
-                vm.noofcars = noofcars[noofcars.length - 1];
-                vm.colevel = colevel[colevel.length - 1];
-                vm.solevel = solevel[solevel.length - 1];
-                vm.nolevel = nolevel[nolevel.length - 1];
-            }
-
-            function getLocationReadings() {
-                if (stopInit) {
-                    if (navigator.geolocation) {
-                        var options = {timeout: 60000};
-                        navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
-                    }
-                    else {
-                        alert("Sorry, browser does not support geolocation!");
-                    }
-
-                    function showLocation(position) {
-                        var lat = position.coords.latitude;
-                        var long = position.coords.longitude;
-                        latitude = lat.toString();
-                        longitude = long.toString();
-                    }
-
-                    function errorHandler(err) {
-                        // if (err.code == 1) {
-                        //     alert("Error: Access is denied!");
-                        // }
-                        // else if (err.code == 2) {
-                        //     console.log("Error: Position is unavailable!");
-                        // }
-                    }
-
-                    var data = [], noofcars = [], colevel= [], solevel = [], nolevel = [], readno;
-                    var promise = SensorService
-                        .findSensorByCoordinatesWithSensorType(latitude, longitude, "TRAFFIC")
-                        .success(function (sensor) {
-                            for (var i in sensor.trafficReadings) {
-                                var status = ReadingService.findReadingForId(sensor.trafficReadings[i], "TRAFFIC")
-                                    .success(function (reading) {
-                                        plotChart(data, noofcars, colevel, solevel, nolevel, readno, reading);
-                                    });
-                            }
-                        });
-                }
             }
 
             function plotNoofcars(readno, noofcars, id) {
@@ -186,7 +186,7 @@
                             yAxes: [{
                                 scaleLabel: {
                                     display: true,
-                                    labelString: 'in °C'
+                                    labelString: 'in units'
                                 },
                                 ticks: {
                                     max: 100,
@@ -207,8 +207,8 @@
                         datasets: [{
                             label: 'Carbon Dioxide Level',
                             data: colevel,
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            borderColor: 'rgba(255,99,132,1)',
+                            backgroundColor: 'rgba(204, 204, 0, 0.2)',
+                            borderColor: 'rgba(204, 204, 0, 1)',
                             borderWidth: 1
                         }]
                     },
@@ -223,7 +223,7 @@
                             yAxes: [{
                                 scaleLabel: {
                                     display: true,
-                                    labelString: 'in °C'
+                                    labelString: 'in ppm'
                                 },
                                 ticks: {
                                     max: 60,
@@ -242,10 +242,10 @@
                     data: {
                         labels: readno.sort(),
                         datasets: [{
-                            label: 'Carbon Dioxide Level',
+                            label: 'Suplhur Dioxide Level',
                             data: solevel,
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            borderColor: 'rgba(255,99,132,1)',
+                            backgroundColor: 'rgba(135, 206, 235, 0.2)',
+                            borderColor: 'rgba(135, 206, 235, 1)',
                             borderWidth: 1
                         }]
                     },
@@ -260,7 +260,7 @@
                             yAxes: [{
                                 scaleLabel: {
                                     display: true,
-                                    labelString: 'in °C'
+                                    labelString: 'in ppm'
                                 },
                                 ticks: {
                                     max: 60,
@@ -279,10 +279,10 @@
                     data: {
                         labels: readno.sort(),
                         datasets: [{
-                            label: 'Carbon Dioxide Level',
+                            label: 'Nitrous Oxide Level',
                             data: nolevel,
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            borderColor: 'rgba(255,99,132,1)',
+                            backgroundColor: 'rgba(160, 82 ,45, 0.2)',
+                            borderColor: 'rgba(160, 82 ,45, 1)',
                             borderWidth: 1
                         }]
                     },
@@ -297,7 +297,7 @@
                             yAxes: [{
                                 scaleLabel: {
                                     display: true,
-                                    labelString: 'in °C'
+                                    labelString: 'in ppm'
                                 },
                                 ticks: {
                                     max: 60,

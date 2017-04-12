@@ -13,11 +13,29 @@
             var latitude = "12.9718", longitude = "77.6411";
             var markers = [];
             var map1, map2, infoWindow, weathermap;
+            vm.ADMIN = false;
+            vm.WADMIN = false;
+            vm.TADMIN = false;
 
             function init() {
                 var promise = UserService.findUserById(userId);
                 promise.success(function (user) {
                     vm.user = user;
+                    if (user.role === "WADMIN") {
+                        vm.WADMIN = true;
+                        vm.TADMIN = false;
+                        vm.ADMIN = false;
+                    }
+                    if (user.role === "TADMIN") {
+                        vm.TADMIN = true;
+                        vm.WADMIN = false;
+                        vm.ADMIN = false;
+                    }
+                    if (user.role === "ADMIN") {
+                        vm.WADMIN = false;
+                        vm.TADMIN = false;
+                        vm.ADMIN = true;
+                    }
                     vm.hidden = true;
                 });
 
@@ -135,7 +153,6 @@
 
                 });
             }
-
 
             function logout() {
                 UserService

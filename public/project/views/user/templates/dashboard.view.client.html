@@ -26,13 +26,13 @@
             <li>
                 <a id="domainnav">Domains<span class="pull-right pull-right glyphicon glyphicon-menu-down"></span></a>
                 <ul class="nav nav-second-level nav" id="gov-level">
-                    <li>
+                    <li ng-show="model.WADMIN">
                         <a href="#/user/{{model.user._id}}/weather_domain">Weather Domain</a>
                     </li>
-                    <li>
+                    <li ng-show="model.TADMIN">
                         <a href="#/user/{{model.user._id}}/traffic_domain">Traffic Domain</a>
                     </li>
-                    <li>
+                    <li ng-show="model.ADMIN">
                         <a href="#/user/{{model.user._id}}/admin">Admin</a>
                     </li>
                 </ul>
@@ -65,13 +65,13 @@
                 <li>
                     <a id="domains">Domains<span class="pull-right pull-right glyphicon glyphicon-menu-down"></span></a>
                     <ul class="nav nav-second-level" id="gov-level-2">
-                        <li>
+                        <li ng-show="model.WADMIN">
                             <a href="#/user/{{model.user._id}}/weather_domain">Weather Domain</a>
                         </li>
-                        <li>
+                        <li ng-show="model.TADMIN">
                             <a href="#/user/{{model.user._id}}/traffic_domain">Traffic Domain</a>
                         </li>
-                        <li>
+                        <li ng-show="model.ADMIN">
                             <a href="#/user/{{model.user._id}}/admin">Admin</a>
                         </li>
                     </ul>
@@ -128,10 +128,16 @@
             </div>
         </div>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 </div>
-
-
-
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="navbar-header pull-right">

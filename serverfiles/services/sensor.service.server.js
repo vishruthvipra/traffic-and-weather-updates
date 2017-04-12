@@ -7,12 +7,26 @@ module.exports = function (app, model) {
     app.delete("/api/sensor/:sensorId", deleteSensor);
     app.get("/api/sensor/:sType/reading", findReadingsForCoordinates);
     app.get("/api/sensor", findSensor);
+    app.get("/api/sensor/:latitudeid/:longitudeid/:sType", populateReadings);
     //app.get("/api/:sensorId", findSensorForSensorId);
     app.get("/api/:sensorId/weatherReadings", findReadingsforSensorId);
 
     var sensorModel = model.sensorModel;
     var weatherModel = model.weatherModel;
     var trafficModel = model.trafficModel;
+
+    function populateReadings(req, res) {
+        var latitude = req.params.latitudeid;
+        var longitude = req.params.longitudeid;
+        var sensorType = req.params.sType;
+        sensorModel
+            .populateReadings(latitude, longitude, sensorType)
+            .then(function(sensor) {
+                res.json(sensor);
+            }, function (error) {
+                res.sendStatus(500).send(error);
+            });
+    }
 
     function createSensor(req, res) {
         var newSensor = req.body;
@@ -59,7 +73,8 @@ module.exports = function (app, model) {
                 findSensorForCoordinatesAndSensorType(req, res);
             }
             else if (sensorId) {
-                findSensorForSensorIdAndSensorType(req, res);
+                // findSensorForSensorIdAndSensorType(req, res);
+                populateReadingsById(req, res);
             }
             else {
                 findAllSensorsForSensorType(req,res);
@@ -121,6 +136,18 @@ module.exports = function (app, model) {
             .findAllSensorsForSensorType(sensorType)
             .then(function (sensors) {
                 res.json(sensors);
+            }, function (error) {
+                res.sendStatus(500).send(error);
+            });
+    }
+
+    function populateReadingsById(req, res) {
+        var sensorId = req.query.sensorId;
+        var sensorType = req.query.sensorType;
+        sensorModel
+            .populateReadingsById(sensorId, sensorType)
+            .then(function (sensor) {
+                res.json(sensor);
             }, function (error) {
                 res.sendStatus(500).send(error);
             });

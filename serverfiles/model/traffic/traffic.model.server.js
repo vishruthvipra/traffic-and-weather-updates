@@ -4,7 +4,7 @@
 module.exports = function (app, mongoose) {
     var q = require('q');
     var trafficSchema = require('./traffic.schema.server.js')(app, mongoose);
-    var trafficModel = mongoose.model('trafficModel', trafficSchema);
+    var trafficModel = mongoose.model('TrafficModel', trafficSchema);
 
     var api = {
         createReading: createReading,

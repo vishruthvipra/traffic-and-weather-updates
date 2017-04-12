@@ -320,20 +320,22 @@
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
                     <tr class="success">
                         <td>{{search._id}}</td>
-                        <td>{{search.location.latitude}}</td>
-                        <td>{{search.location.longitude}}</td>
-                        <td>{{search.area}}</td>
-                        <td>{{search.weatherReadings}}</td>
+                        <td contenteditable>{{search.location.latitude}}</td>
+                        <td contenteditable>{{search.location.longitude}}</td>
+                        <td contenteditable>{{search.area}}</td>
+                        <td contenteditable>{{search.weatherReadings}}
+                            <div ng-click="model.updateSensor(search.location.latitude)" class="pull-right glyphicon glyphicon-remove"></div>
+                        </td>
                     </tr>
                 </tbody>
 
                 <tbody ng-show="model.search">
                 <tr class="success">
                     <td>{{model.search._id}}</td>
-                    <td>{{model.search.location.latitude}}</td>
-                    <td>{{model.search.location.longitude}}</td>
-                    <td>{{model.search.area}}</td>
-                    <td>{{model.search.weatherReadings}}</td>
+                    <td contenteditable>{{model.search.location.latitude}}</td>
+                    <td contenteditable>{{model.search.location.longitude}}</td>
+                    <td contenteditable>{{model.search.area}}</td>
+                    <td contenteditable>{{model.search.weatherReadings}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -605,13 +607,9 @@
 
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a href="#/user/{{model.user._id}}">
-                    <span class="pull-right glyphicon glyphicon-home"></span>
-                </a>
-            </li>
-        </ul>
+    <div class="navbar-header pull-right">
+        <a class="navbar-brand" href="#/user/{{model.user._id}}">
+            <span class="pull-right glyphicon glyphicon-home"></span>
+        </a>
     </div>
 </nav>

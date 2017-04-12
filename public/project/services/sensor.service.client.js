@@ -17,7 +17,9 @@
             "findAllSensors" :findAllSensors,
             "findSensorByCoordinatesWithSensorType": findSensorByCoordinatesWithSensorType,
             "findSensorByIdWithSensorType": findSensorByIdWithSensorType,
-            "findAllSensorsForSensorType": findAllSensorsForSensorType
+            "findAllSensorsForSensorType": findAllSensorsForSensorType,
+            "populateReadings": populateReadings,
+            "populateReadingsById": populateReadingsById
         };
 
         return api;
@@ -57,6 +59,14 @@
         function findAllSensorsForSensorType(sensorType) {
             //var sensortype = {stype: sensorType};
             return $http.get("/api/sensor?sensorType=" + sensorType);
+        }
+
+        function populateReadings(latitude, longitude, sensorType) {
+            return $http.get("/api/sensor/" + latitude + "/" + longitude + "/" + sensorType);
+        }
+
+        function populateReadingsById(sensorId, sensorType) {
+            return $http.get("/api/sensor?sensorId=" + sensorId + "&sensorType=" + sensorType);
         }
     }
 })();

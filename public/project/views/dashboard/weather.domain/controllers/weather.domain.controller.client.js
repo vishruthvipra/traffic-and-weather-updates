@@ -158,23 +158,24 @@
             }
 
             function updateSensor(updSensor) {
-                updSensor.weatherReadings = updSensor.weatherReadings.split(/[\s,]+/);
-                updSensor.sensorType = "WEATHER";
-                var update = SensorService
-                    .updateSensor(updSensor._id, updSensor)
-                    .success(function (sensor) {
-                        if(update != null)
-                        {
-                            vm.changeSensor = false;
-                            SensorService.findAllSensors()
-                                .success(function (sensor) {
-                                    vm.searchResults = sensor;
-                                });
-                        }
-                        else {
-                            vm.error = "Unable to update..."
-                        }
-                    });
+                console.log(updSensor);
+                // updSensor.weatherReadings = updSensor.weatherReadings.split(/[\s,]+/);
+                // updSensor.sensorType = "WEATHER";
+                // var update = SensorService
+                //     .updateSensor(updSensor._id, updSensor)
+                //     .success(function (sensor) {
+                //         if(update != null)
+                //         {
+                //             vm.changeSensor = false;
+                //             SensorService.findAllSensors()
+                //                 .success(function (sensor) {
+                //                     vm.searchResults = sensor;
+                //                 });
+                //         }
+                //         else {
+                //             vm.error = "Unable to update..."
+                //         }
+                //     });
             }
 
             function deleteSensor(delSensor) {

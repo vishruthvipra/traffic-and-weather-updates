@@ -4,7 +4,7 @@
 module.exports = function (app, mongoose) {
     var q = require('q');
     var weatherSchema = require('./weather.schema.server.js')(app, mongoose);
-    var weatherModel = mongoose.model('weatherModel', weatherSchema);
+    var weatherModel = mongoose.model('WeatherModel', weatherSchema);
 
     var api = {
         createReading: createReading,
