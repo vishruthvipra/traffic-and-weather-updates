@@ -5,20 +5,20 @@
     angular
         .module("WebAppMaker")
         .controller("inboxController", inboxController)
-    function inboxController($routeParams, $location, UserService) {
+    function inboxController($rootScope, $location, UserService, loggedin, $location) {
         vm = this;
-        var userId = $routeParams["uid"];
+        vm.user = loggedin.data;
+        var user = vm.user;
+        var userId = user._id;
         vm.deleteMessage = deleteMessage;
         vm.reply = reply;
+        vm.logout = logout;
+
         function init() {
-            var promise = UserService.findUserById(userId);
-            promise.success(function (user) {
-                vm.user = user;
-                vm.messages = user.messages;
-                for (var i in user.messages) {
-                    vm.messages[i].dateOfMessage = new Date(user.messages[i].dateOfMessage).toLocaleString();
-                }
-            });
+            vm.messages = user.messages;
+            for (var i in user.messages) {
+                vm.messages[i].dateOfMessage = new Date(user.messages[i].dateOfMessage).toLocaleString();
+            }
         }
         init();
 
@@ -35,7 +35,16 @@
         }
 
         function reply(senderId) {
-            $location.url("/user/" + vm.user._id + "/compose/" + senderId);
+            $location.url("/compose/" + senderId);
+        }
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function (response) {
+                    $rootScope.currentUser = null;
+                    $location.url("/home");
+                });
         }
     }
 })();

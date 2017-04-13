@@ -5,10 +5,13 @@
     angular
         .module("WebAppMaker")
         .controller("WeatherController", weatherController)
-        function weatherController($routeParams, UserService, SensorService, ReadingService) {
+        function weatherController($location, UserService, SensorService, ReadingService, loggedin, $rootScope) {
             var vm = this;
-            var userId = $routeParams["uid"];
+            vm.user = loggedin.data;
+            var user = vm.user;
+            var userId = user._id;
             vm.getLocationReadings = getLocationReadings;
+            vm.logout = logout;
 
             // Heart of Bangalore readings if user denies sharing his location
             var latitude = "12.9716", longitude = "77.5946";
@@ -19,15 +22,9 @@
             var map1, map2, infoWindow, weathermap;
 
             function init() {
-                var promise = UserService.findUserById(userId);
-                promise.success(function (user) {
-                    vm.user = user;
-                    getLocationReadings();
-                });
-
+                getLocationReadings();
                 initMap();
                 findAllSensors();
-
             }
             init();
 
@@ -184,7 +181,10 @@
 
             function plotTemperature(readno, temperature, id) {
                 var chart1 = document.getElementById(id);
-                var myChart = new Chart(chart1, {
+                if(vm[id]) {
+                    vm[id].destroy();
+                }
+                vm[id] = new Chart(chart1, {
                     type: 'line',
                     data: {
                         labels: readno.sort(),
@@ -221,7 +221,10 @@
 
             function plotPressure(readno, pressure, id) {
                 var chart1 = document.getElementById(id);
-                var myChart = new Chart(chart1, {
+                if(vm[id]) {
+                    vm[id].destroy();
+                }
+                vm[id] = new Chart(chart1, {
                     type: 'line',
                     data: {
                         labels: readno.sort(),
@@ -258,7 +261,10 @@
 
             function plotWaterLevel(readno, waterlevel, id) {
                 var chart1 = document.getElementById(id);
-                var myChart = new Chart(chart1, {
+                if(vm[id]) {
+                    vm[id].destroy();
+                }
+                vm[id] = new Chart(chart1, {
                     type: 'line',
                     data: {
                         labels: readno.sort(),
@@ -295,7 +301,10 @@
 
             function plotHumidity(readno, humidity, id) {
                 var chart1 = document.getElementById(id);
-                var myChart = new Chart(chart1, {
+                if(vm[id]) {
+                    vm[id].destroy();
+                }
+                vm[id] = new Chart(chart1, {
                     type: 'line',
                     data: {
                         labels: readno.sort(),
@@ -332,7 +341,10 @@
 
             function plotUVLevel(readno, uv, id) {
                 var chart1 = document.getElementById(id);
-                var myChart = new Chart(chart1, {
+                if(vm[id]) {
+                    vm[id].destroy();
+                }
+                vm[id] = new Chart(chart1, {
                     type: 'line',
                     data: {
                         labels: readno.sort(),
@@ -370,7 +382,10 @@
             function plotPM(readno, pm2, pm5, id) {
                 var chart1 = document.getElementById(id);
                 var max = [Math.max.apply(Math, pm2), Math.max.apply(Math, pm5)];
-                var myChart = new Chart(chart1, {
+                if(vm[id]) {
+                    vm[id].destroy();
+                }
+                vm[id] = new Chart(chart1, {
                     type: 'line',
                     data: {
                         labels: readno.sort(),
@@ -410,6 +425,15 @@
                         }
                     }
                 });
+            }
+
+            function logout() {
+                UserService
+                    .logout()
+                    .then(function (response) {
+                        $rootScope.currentUser = null;
+                        $location.url("/home");
+                    });
             }
         }
 })();

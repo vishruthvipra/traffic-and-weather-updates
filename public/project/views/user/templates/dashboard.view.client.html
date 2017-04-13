@@ -1,14 +1,14 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
 
     <div class="pull-left navbar-header">
-        <a class="navbar-brand" href="#/user/{{model.user._id}}">
+        <a class="navbar-brand" href="#/dashboard">
             <img alt="Brand" src="../../../../images/rsz_11rsz_1rsz_vedoot-logo.png" style="height: 30px;">
         </a>
-        <a class="navbar-brand" href="#/user/{{model.user._id}}">Dashboard</a>
+        <a class="navbar-brand" href="#/dashboard">Dashboard</a>
     </div>
 
     <div class="navbar-header pull-right">
-        <a class="navbar-brand" href="#/user/{{model.user._id}}/profile">
+        <a class="navbar-brand" href="#/profile">
             <span class="pull-right glyphicon glyphicon-user"></span>
         </a>
         <a class="navbar-brand" ng-click="model.logout()">
@@ -27,27 +27,27 @@
                 <a id="domainnav">Domains<span class="pull-right pull-right glyphicon glyphicon-menu-down"></span></a>
                 <ul class="nav nav-second-level nav" id="gov-level">
                     <li ng-show="model.WADMIN">
-                        <a href="#/user/{{model.user._id}}/weather_domain">Weather Domain</a>
+                        <a href="#/weather_domain">Weather Domain</a>
                     </li>
                     <li ng-show="model.TADMIN">
-                        <a href="#/user/{{model.user._id}}/traffic_domain">Traffic Domain</a>
+                        <a href="#/traffic_domain">Traffic Domain</a>
                     </li>
                     <li ng-show="model.ADMIN">
-                        <a href="#/user/{{model.user._id}}/admin">Admin</a>
+                        <a href="#/admin">Admin</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#/user/{{model.user._id}}/city">City Intro</a>
+                <a href="#/city">City Intro</a>
             </li>
             <li>
                 <a id="emailnav">Email<span class="pull-right glyphicon glyphicon-menu-down"></span></a>
                 <ul class="nav nav-second-level" id="email-level">
                     <li>
-                        <a href="#/user/{{model.user._id}}/inbox">Inbox</a>
+                        <a href="#/inbox">Inbox</a>
                     </li>
                     <li>
-                        <a href="#/user/{{model.user._id}}/compose/000">Write Message</a>
+                        <a href="#/compose/000">Write Message</a>
                     </li>
                 </ul>
             </li>
@@ -66,27 +66,27 @@
                     <a id="domains">Domains<span class="pull-right pull-right glyphicon glyphicon-menu-down"></span></a>
                     <ul class="nav nav-second-level" id="gov-level-2">
                         <li ng-show="model.WADMIN">
-                            <a href="#/user/{{model.user._id}}/weather_domain">Weather Domain</a>
+                            <a href="#/weather_domain">Weather Domain</a>
                         </li>
                         <li ng-show="model.TADMIN">
-                            <a href="#/user/{{model.user._id}}/traffic_domain">Traffic Domain</a>
+                            <a href="#/traffic_domain">Traffic Domain</a>
                         </li>
                         <li ng-show="model.ADMIN">
-                            <a href="#/user/{{model.user._id}}/admin">Admin</a>
+                            <a href="#/admin">Admin</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#/user/{{model.user._id}}/city">City Intro</a>
+                    <a href="#/city">City Intro</a>
                 </li>
                 <li>
                     <a id="emails">Email<span class="pull-right glyphicon glyphicon-menu-down"></span></a>
                     <ul class="nav nav-second-level" id="email-level-2">
                         <li>
-                            <a href="#/user/{{model.user._id}}/inbox">Inbox</a>
+                            <a href="#/inbox">Inbox</a>
                         </li>
                         <li>
-                            <a href="#/user/{{model.user._id}}/compose/000">Write Message</a>
+                            <a href="#/compose/000">Write Message</a>
                         </li>
                     </ul>
                 </li>
@@ -98,15 +98,18 @@
 
 <div class="col-xs-9">
     <div class="container-fluid">
+        <div ng-show="model.error" class="alert alert-danger" role="alert">
+            <strong>Error!</strong> {{model.error}}
+        </div>
         <div id="gmaps"></div>
 
         <div class="row">
             <div class="col-xs-6">
-                <a href="#/user/{{model.user._id}}/weather" class="wrap-text btn btn-success btn-block">Weather Updates</a>
+                <a href="#/weather" class="wrap-text btn btn-success btn-block">Weather Updates</a>
             </div>
 
             <div class="col-xs-6">
-                <a href="#/user/{{model.user._id}}/traffic" class="wrap-text btn btn-danger btn-block">Traffic Updates</a>
+                <a href="#/traffic" class="wrap-text btn btn-danger btn-block">Traffic Updates</a>
             </div>
         </div>
     </div>
@@ -116,15 +119,18 @@
 
 <div class="visible-xs">
     <div class="container-fluid">
+        <div ng-show="model.error" class="alert alert-danger" role="alert">
+            <strong>Error!</strong> {{model.error}}
+        </div>
         <div id="gmap"></div>
 
         <div class="row">
             <div class="col-xs-6">
-                <a href="#/user/{{model.user._id}}/weather" class="wrap-text btn btn-success btn-block">Weather Updates</a>
+                <a href="#/weather" class="wrap-text btn btn-success btn-block">Weather Updates</a>
             </div>
 
             <div class="col-xs-6">
-                <a href="#/user/{{model.user._id}}/traffic" class="wrap-text btn btn-danger btn-block">Traffic Updates</a>
+                <a href="#/traffic" class="wrap-text btn btn-danger btn-block">Traffic Updates</a>
             </div>
         </div>
     </div>
@@ -141,7 +147,7 @@
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="navbar-header pull-right">
-        <a class="navbar-brand" href="#/user/{{model.user._id}}">
+        <a class="navbar-brand" href="#/dashboard">
             <span class="pull-right glyphicon glyphicon-home"></span>
         </a>
     </div>

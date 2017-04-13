@@ -5,9 +5,11 @@
     angular
         .module("WebAppMaker")
         .controller("adminController", adminController)
-    function adminController($routeParams, UserService) {
+    function adminController($rootScope, UserService, loggedin, $location) {
         var vm = this;
-        vm.userId = $routeParams["uid"];
+        vm.user = loggedin.data;
+        var user = vm.user;
+        var userId = user._id;
         vm.search = false;
         vm.u = true;
         vm.addUser = false, vm.changeUser = false;
@@ -18,6 +20,7 @@
         vm.editfields = false;
         vm.modelClicked = modelClicked;
         vm.startSearch = startSearch;
+        vm.logout = logout;
 
         function init() {
             var promise = UserService.findAllUsers();
@@ -108,7 +111,6 @@
                 });
         }
 
-
         function startSearch(searchValue, searchText) {
             vm.search = true;
             vm.searchResults = false;
@@ -129,6 +131,15 @@
                     });
             }
 
+        }
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function (response) {
+                    $rootScope.currentUser = null;
+                    $location.url("/home");
+                });
         }
     }
 })();

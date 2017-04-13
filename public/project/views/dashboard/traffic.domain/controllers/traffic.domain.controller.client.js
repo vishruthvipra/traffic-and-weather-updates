@@ -5,9 +5,11 @@
     angular
         .module("WebAppMaker")
         .controller("trafficDomainController", trafficDomainController)
-    function trafficDomainController($routeParams, UserService, SensorService, ReadingService) {
+    function trafficDomainController($rootScope, UserService, SensorService, ReadingService, loggedin, $location) {
         var vm = this;
-        var userId = $routeParams["uid"];
+        vm.user = loggedin.data;
+        var user = vm.user;
+        var userId = user._id;
         vm.u = false, vm.s = false, vm.r = false;
         vm.search = false;
 
@@ -31,13 +33,11 @@
 
         vm.modelClicked = modelClicked;
         vm.startSearch = startSearch;
+        vm.logout = logout;
 
         function init() {
-            var promise = UserService.findUserById(userId);
-            promise.success(function (user) {
-                vm.user = user;
-                vm.hidden = true;
-            });
+            vm.user = user;
+            vm.hidden = true;
         }
 
         init();
@@ -351,6 +351,15 @@
                         vm.search = reading;
                     });
             }
+        }
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function (response) {
+                    $rootScope.currentUser = null;
+                    $location.url("/home");
+                });
         }
     }
 })();

@@ -5,26 +5,26 @@
     angular
         .module("WebAppMaker")
         .controller("ProfileController", profileController)
-        function profileController($routeParams, UserService, $location, $route, $timeout) {
+        function profileController($routeParams, UserService, $location, $route, $timeout, loggedin) {
             var vm = this;
-            var userId = $routeParams["uid"];
+            vm.user = loggedin.data;
+            var user = vm.user;
+            var userId = user._id;
             vm.back = back;
 
-            function init() {
-                var promise = UserService.findUserById(userId);
-                promise.success(function (user) {
-                    vm.user = user;
-                });
-            }
-
-            init();
             vm.updateUser = updateUser;
             vm.deleteUser = deleteUser;
 
-            function back() {
-                // $timeout(function(){$route.reload();},1000);
-                $location.url("/user/" + vm.user._id);
+            function init() {
+
             }
+
+            init();
+
+            // function back() {
+            //     $timeout(function(){$route.reload();},1000);
+            //     $location.url("/user/" + vm.user._id);
+            // }
 
             function updateUser(newUser) {
                 var update = UserService

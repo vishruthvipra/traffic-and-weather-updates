@@ -333,3 +333,18 @@ table {
 #content-body {
     white-space: pre-line;
 }
+
+/* city page */
+
+#city-page img, #city-page p {
+    width: 100%;
+    text-align: justify;
+}
+
+#content.ng-hide-add, #content.ng-hide-remove {
+    transition: all 0.5s linear;
+}
+
+#content.ng-show-add, #content.ng-show-remove {
+    transition: all 0.5s linear;
+}

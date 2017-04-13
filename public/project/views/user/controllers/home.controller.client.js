@@ -185,7 +185,7 @@
                     .login(user)
                     .success(function (user) {
                         $rootScope.currentUser = user;
-                        $location.url("user/" + user._id)
+                        $location.url("/dashboard");
                     })
                     .error(function (err) {
                         vm.error = "Username/password does not match";
@@ -212,7 +212,7 @@
                                 .then(function (response) {
                                     var user = response.data;
                                     $rootScope.currentUser = user;
-                                    $location.url("user/" + user._id + "/profile");
+                                    $location.url("/profile");
                                 });
                         });
                 }

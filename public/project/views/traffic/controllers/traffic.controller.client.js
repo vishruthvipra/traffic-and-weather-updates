@@ -5,10 +5,13 @@
     angular
         .module("WebAppMaker")
         .controller("TrafficController", trafficController)
-        function trafficController($routeParams, UserService, SensorService, ReadingService) {
+        function trafficController($location, UserService, SensorService, ReadingService, loggedin, $rootScope) {
             var vm = this;
-            var userId = $routeParams["uid"];
+            vm.user = loggedin.data;
+            var user = vm.user;
+            var userId = user._id;
             vm.getLocationReadings = getLocationReadings;
+            vm.logout = logout;
             var latitude = "12.9716", longitude = "77.5946";
             vm.lati = latitude;
             vm.long = longitude;
@@ -17,12 +20,7 @@
             var map1, map2, infoWindow, trafficmap;
 
             function init() {
-                var promise = UserService.findUserById(userId);
-                promise.success(function (user) {
-                    vm.user = user;
-                    getLocationReadings();
-                });
-
+                getLocationReadings();
                 initMap();
                 findAllSensors();
             }
@@ -310,6 +308,15 @@
                         }
                     }
                 });
+            }
+
+            function logout() {
+                UserService
+                    .logout()
+                    .then(function (response) {
+                        $rootScope.currentUser = null;
+                        $location.url("/home");
+                    });
             }
         }
 })();

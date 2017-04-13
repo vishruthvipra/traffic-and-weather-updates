@@ -6,9 +6,11 @@
     angular
         .module("WebAppMaker")
         .controller("DashboardController", dashboardController)
-        function dashboardController($routeParams, UserService, SensorService, $location, $rootScope) {
+        function dashboardController(UserService, SensorService, $location, $rootScope, loggedin) {
             var vm = this;
-            var userId = $routeParams["uid"];
+            vm.user = loggedin.data;
+            var user = vm.user;
+            var userId = user._id;
             vm.logout = logout;
             var latitude = "12.9718", longitude = "77.6411";
             var markers = [];
@@ -18,26 +20,23 @@
             vm.TADMIN = false;
 
             function init() {
-                var promise = UserService.findUserById(userId);
-                promise.success(function (user) {
-                    vm.user = user;
-                    if (user.role === "WADMIN") {
-                        vm.WADMIN = true;
-                        vm.TADMIN = false;
-                        vm.ADMIN = false;
-                    }
-                    if (user.role === "TADMIN") {
-                        vm.TADMIN = true;
-                        vm.WADMIN = false;
-                        vm.ADMIN = false;
-                    }
-                    if (user.role === "ADMIN") {
-                        vm.WADMIN = false;
-                        vm.TADMIN = false;
-                        vm.ADMIN = true;
-                    }
-                    vm.hidden = true;
-                });
+                if (user.role === "WADMIN") {
+                    vm.WADMIN = true;
+                    vm.TADMIN = false;
+                    vm.ADMIN = false;
+                }
+                if (user.role === "TADMIN") {
+                    vm.TADMIN = true;
+                    vm.WADMIN = false;
+                    vm.ADMIN = false;
+                }
+                if (user.role === "ADMIN") {
+                    vm.WADMIN = false;
+                    vm.TADMIN = false;
+                    vm.ADMIN = true;
+                }
+                vm.hidden = true;
+
 
                 $("#drop-down").hide();
                 $("#gov-level-2").hide();

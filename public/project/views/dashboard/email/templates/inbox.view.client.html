@@ -1,15 +1,15 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <a class="navbar-brand" href="#/user/{{model.user._id}}">
+    <a class="navbar-brand" href="#dashboard">
         <img alt="Brand" src="../../../../images/rsz_11rsz_1rsz_vedoot-logo.png" style="height: 30px;">
     </a>
     <div class="navbar-header pull-right">
-        <a class="navbar-brand" href="#/user/{{model.user._id}}/compose/000">
+        <a class="navbar-brand" href="#/compose/000">
             <span class="pull-right glyphicon glyphicon-pencil"></span>
         </a>
-        <a class="navbar-brand" href="#/user/{{model.user._id}}/profile">
+        <a class="navbar-brand" href="#/profile">
             <span class="pull-right glyphicon glyphicon-user"></span>
         </a>
-        <a class="navbar-brand" href="#/home">
+        <a class="navbar-brand" ng-click="model.logout()">
             <span class="pull-right glyphicon glyphicon-log-out"></span>
         </a>
     </div>
@@ -49,7 +49,7 @@
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="navbar-header pull-right">
-        <a class="navbar-brand" href="#/user/{{model.user._id}}">
+        <a class="navbar-brand" href="#/dashboard">
             <span class="pull-right glyphicon glyphicon-home"></span>
         </a>
     </div>

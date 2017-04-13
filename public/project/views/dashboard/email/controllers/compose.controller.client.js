@@ -5,19 +5,19 @@
     angular
         .module("WebAppMaker")
         .controller("composeController", composeController)
-    function composeController($routeParams, UserService) {
+    function composeController($routeParams, UserService, loggedin, $rootScope, $location) {
         vm = this;
-        var userId = $routeParams["uid"];
+        vm.user = loggedin.data;
+        var user = vm.user;
+        var userId = user._id;
         var senderId = $routeParams["sid"];
         vm.sendMessage = sendMessage;
+        vm.logout = logout;
         vm.to = null;
         vm.message = {subject: "", body: null} ;
 
         function init() {
-            var promise = UserService.findUserById(userId);
-            promise.success(function (user) {
-                vm.user = user;
-            });
+            vm.user = user;
 
             if(senderId !== "000") {
                 UserService.findUserById(senderId)
@@ -60,6 +60,15 @@
 
             }
 
+        }
+
+        function logout() {
+            UserService
+                .logout()
+                .then(function (response) {
+                    $rootScope.currentUser = null;
+                    $location.url("/home");
+                });
         }
     }
 })();

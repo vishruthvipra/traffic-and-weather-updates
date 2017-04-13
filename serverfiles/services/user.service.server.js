@@ -128,6 +128,9 @@ module.exports = function (app, model, passport) {
     app.post('/api/login', passport.authenticate('local'), login);
     app.post('/api/logout', logout);
     app.get('/api/loggedin', loggedin);
+    app.get('/api/useradmin', checkAdmin);
+    app.get('/api/usertadmin', checkTAdmin);
+    app.get('/api/userwadmin', checkWAdmin);
     app.post('/api/register', register);
     app.put("/api/user/:userId/message", updateMessage);
     app.delete("/api/user/:userId/message/:messageId",deleteMessage);
@@ -177,6 +180,36 @@ module.exports = function (app, model, passport) {
     function login(req, res) {
         var user = req.user;
         res.json(user);
+    }
+
+    function checkAdmin(req, res) {
+        var user = req.user;
+        if(user.role === "ADMIN") {
+            res.json(user);
+        }
+        else {
+            res.send('0');
+        }
+    }
+
+    function checkTAdmin(req, res) {
+        var user = req.user;
+        if(user.role === "TADMIN") {
+            res.json(user);
+        }
+        else {
+            res.send('0');
+        }
+    }
+
+    function checkWAdmin(req, res) {
+        var user = req.user;
+        if(user.role === "WADMIN") {
+            res.json(user);
+        }
+        else {
+            res.send('0');
+        }
     }
 
     function logout(req, res) {
