@@ -120,6 +120,7 @@
                     });
             }
 
+
             function createSensor(newSensor) {
                 vm.changeSensor = false;
                 if(newSensor.weatherReadings) {
@@ -172,13 +173,14 @@
                                 });
                         }
                         else {
-                            vm.error = "Could not delete user";
+                            vm.error = "Could not delete sensor";
                         }
                     })
             }
 
             function createReading(newReading) {
                 vm.changeReading = false;
+                vm.bool = false;
                 ReadingService
                     .createReading(newReading)
                     .success(function (sensor) {

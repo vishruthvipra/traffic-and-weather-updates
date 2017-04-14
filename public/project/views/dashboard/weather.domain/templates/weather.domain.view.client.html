@@ -65,8 +65,8 @@
         </div>
 
         <div ng-show="model.addUser">
+            <h3>Add a new user</h3>
             <form>
-
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input ng-model="model.newuser.username" type="text" class="form-control" id="username" placeholder="Username">
@@ -100,24 +100,6 @@
             <br>
         </div>
 
-        <div class="row">
-            <div class="container-fluid">
-                <button ng-hide="model.bool" ng-click="model.addUser = true; model.bool = true"
-                        class="wrap-text btn btn-primary btn-block">Add a User
-                </button>
-            </div>
-            <div class="col-xs-6">
-                <button ng-hide="!model.bool" ng-click="model.addUser = false; model.bool = false"
-                        class="wrap-text btn btn-danger btn-block">Cancel
-                </button>
-            </div>
-            <div class="col-xs-6">
-                <button ng-hide="!model.bool" ng-click="model.createUser(model.newuser)"
-                        class="wrap-text btn btn-success btn-block">Submit
-                </button>
-            </div>
-        </div>
-
         <br>
 
         <div class="table-responsive">
@@ -130,6 +112,12 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Role</th>
+                    <th ng-hide="model.bool" ><span ng-click="model.addUser = true; model.bool = true"
+                                                    class="glyphicon glyphicon-plus"></span></th>
+                    <th ng-hide="!model.bool"><span ng-click="model.createUser(model.newuser)"
+                                                    class="glyphicon glyphicon-ok"></span></th>
+                    <th ng-hide="!model.bool"><span ng-click="model.addUser = false; model.bool = false"
+                                                    class="glyphicon glyphicon-remove"></span></th>
                 </tr>
                 </thead>
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
@@ -142,6 +130,7 @@
                                 class="form-control"
                                 placeholder="john"/></td>
                     <td ng-hide="search.editfields">{{search.username}}</td>
+
                     <td ng-show="search.editfields">
                         <input
                                 ng-model="model.search.email"
@@ -149,6 +138,7 @@
                                 class="form-control"
                                 placeholder="john@gmail.com"/></td>
                     <td ng-hide="search.editfields">{{search.email}}</td>
+
                     <td ng-show="search.editfields">
                         <input
                                 ng-model="model.search.firstName"
@@ -156,6 +146,7 @@
                                 class="form-control"
                                 placeholder="John"/></td>
                     <td ng-hide="search.editfields">{{search.firstName}}</td>
+
                     <td ng-show="search.editfields">
                         <input
                                 ng-model="model.search.lastName"
@@ -163,6 +154,7 @@
                                 class="form-control"
                                 placeholder="Connor"/></td>
                     <td ng-hide="search.editfields">{{search.lastName}}</td>
+
                     <td ng-show="search.editfields">
                         <input
                                 ng-model="model.search.role"
@@ -170,13 +162,22 @@
                                 class="form-control"
                                 placeholder="NORMAL"/></td>
                     <td ng-hide="search.editfields">{{search.role}}</td>
+
                     <td ng-hide="search.editfields">
                         <span ng-click="search.editfields = true" class="glyphicon glyphicon-pencil"></span>
                     </td>
+
                     <td ng-show="search.editfields">
                         <span ng-click="model.updateUser(search._id, model.search)" class="glyphicon glyphicon-ok"></span>
                     </td>
-                    <td><span ng-click="model.deleteUser(search)" class="glyphicon glyphicon-remove"></span></td>
+
+                    <td ng-show="search.editfields">
+                        <span ng-click="search.editfields = false" class="glyphicon glyphicon-remove"></span>
+                    </td>
+
+                    <td ng-hide="search.editfields">
+                        <span ng-click="model.deleteUser(search)" class="glyphicon glyphicon-trash"></span>
+                    </td>
                 </tr>
                 </tbody>
 
@@ -190,6 +191,7 @@
                                 class="form-control"
                                 placeholder="john"/></td>
                     <td ng-hide="model.search.editfields">{{model.search.username}}</td>
+
                     <td ng-show="model.search.editfields">
                         <input
                                 ng-model="model.search.email"
@@ -197,6 +199,7 @@
                                 class="form-control"
                                 placeholder="john@gmail.com"/></td>
                     <td ng-hide="model.search.editfields">{{model.search.email}}</td>
+
                     <td ng-show="model.search.editfields">
                         <input
                                 ng-model="model.search.firstName"
@@ -204,6 +207,7 @@
                                 class="form-control"
                                 placeholder="John"/></td>
                     <td ng-hide="model.search.editfields">{{model.search.firstName}}</td>
+
                     <td ng-show="model.search.editfields">
                         <input
                                 ng-model="model.search.lastName"
@@ -211,6 +215,7 @@
                                 class="form-control"
                                 placeholder="Connor"/></td>
                     <td ng-hide="model.search.editfields">{{model.search.lastName}}</td>
+
                     <td ng-show="model.search.editfields">
                         <input
                                 ng-model="model.search.role"
@@ -218,13 +223,22 @@
                                 class="form-control"
                                 placeholder="NORMAL"/></td>
                     <td ng-hide="model.search.editfields">{{model.search.role}}</td>
+
                     <td ng-hide="model.search.editfields">
                         <span ng-click="model.search.editfields = true" class="glyphicon glyphicon-pencil"></span>
                     </td>
+
                     <td ng-show="model.search.editfields">
                         <span ng-click="model.updateUser(model.search._id, model.search)" class="glyphicon glyphicon-ok"></span>
                     </td>
-                    <td><span ng-click="model.deleteUser(model.search)" class="glyphicon glyphicon-remove"></span></td>
+
+                    <td ng-show="model.search.editfields">
+                        <span ng-click="model.search.editfields = false" class="glyphicon glyphicon-remove"></span>
+                    </td>
+
+                    <td ng-hide="model.search.editfields">
+                        <span ng-click="model.deleteUser(model.search)" class="glyphicon glyphicon-trash"></span>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -256,8 +270,8 @@
         </div>
 
         <div ng-show="model.addSensor">
+            <h3>Add a new sensor</h3>
             <form>
-
                 <div class="form-group">
                     <label for="loclati">Latitude</label>
                     <input ng-model="model.newsensor.location.latitude"
@@ -289,24 +303,6 @@
             <br>
         </div>
 
-        <div class="row">
-            <div class="container-fluid">
-                <button ng-hide="model.bool" ng-click="model.addSensor = true; model.bool = true"
-                        class="wrap-text btn btn-primary btn-block">Add a Sensor
-                </button>
-            </div>
-            <div class="col-xs-6">
-                <button ng-hide="!model.bool" ng-click="model.addSensor = false; model.bool = false"
-                        class="wrap-text btn btn-danger btn-block">Cancel
-                </button>
-            </div>
-            <div class="col-xs-6">
-                <button ng-hide="!model.bool" ng-click="model.createSensor(model.newsensor)"
-                        class="wrap-text btn btn-success btn-block">Submit
-                </button>
-            </div>
-        </div>
-
         <br>
 
         <div class="table-responsive">
@@ -318,6 +314,12 @@
                     <th>Longitude</th>
                     <th>Area</th>
                     <th>Readings</th>
+                    <th ng-hide="model.bool" ><span ng-click="model.addSensor = true; model.bool = true"
+                                                    class="glyphicon glyphicon-plus"></span></th>
+                    <th ng-hide="!model.bool"><span ng-click="model.createSensor(model.newsensor)"
+                                                    class="glyphicon glyphicon-ok"></span></th>
+                    <th ng-hide="!model.bool"><span ng-click="model.addSensor = false; model.bool = false"
+                                                    class="glyphicon glyphicon-remove"></span></th>
                 </tr>
                 </thead>
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
@@ -354,10 +356,18 @@
                     <td ng-hide="search.editfields">
                         <span ng-click="search.editfields = true" class="glyphicon glyphicon-pencil"></span>
                     </td>
+
                     <td ng-show="search.editfields">
                         <span ng-click="model.updateSensor(search._id, model.search)" class="glyphicon glyphicon-ok"></span>
                     </td>
-                    <td><span ng-click="model.deleteSensor(search)" class="glyphicon glyphicon-remove"></span></td>
+
+                    <td ng-show="search.editfields">
+                        <span ng-click="search.editfields = false" class="glyphicon glyphicon-remove"></span>
+                    </td>
+
+                    <td ng-hide="search.editfields">
+                        <span ng-click="model.deleteSensor(search)" class="glyphicon glyphicon-trash"></span>
+                    </td>
                 </tr>
                 </tbody>
 
@@ -395,10 +405,18 @@
                     <td ng-hide="model.search.editfields">
                         <span ng-click="model.search.editfields = true" class="glyphicon glyphicon-pencil"></span>
                     </td>
+
                     <td ng-show="model.search.editfields">
                         <span ng-click="model.updateSensor(model.search._id, model.search)" class="glyphicon glyphicon-ok"></span>
                     </td>
-                    <td><span ng-click="model.deleteSensor(model.search)" class="glyphicon glyphicon-remove"></span></td>
+
+                    <td ng-show="model.search.editfields">
+                        <span ng-click="model.search.editfields = false" class="glyphicon glyphicon-remove"></span>
+                    </td>
+
+                    <td ng-hide="model.search.editfields">
+                        <span ng-click="model.deleteSensor(model.search)" class="glyphicon glyphicon-trash"></span>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -432,13 +450,8 @@
 
 
         <div ng-show="model.addReading">
+            <h3>Add a new reading</h3>
             <form>
-                <div class="form-group">
-                    <label for="sens">Sensor ID</label>
-                    <input ng-model="model.newreading._sensorId"
-                           type="text" class="form-control"
-                           id="sens" placeholder="12345">
-                </div>
 
                 <div class="form-group">
                     <label for="read">Read number</label>
@@ -503,26 +516,14 @@
                            id="pm5" placeholder="10">
                 </div>
 
+                <div class="form-group">
+                    <label for="sens">Sensor ID</label>
+                    <input ng-model="model.newreading._sensorId"
+                           type="text" class="form-control"
+                           id="sens" placeholder="12345">
+                </div>
             </form>
             <br>
-        </div>
-
-        <div class="row">
-            <div class="container-fluid">
-                <button ng-hide="model.bool" ng-click="model.addReading = true; model.bool = true"
-                        class="wrap-text btn btn-primary btn-block">Add a Reading
-                </button>
-            </div>
-            <div class="col-xs-6">
-                <button ng-hide="!model.bool" ng-click="model.addReading = false; model.bool = false"
-                        class="wrap-text btn btn-danger btn-block">Cancel
-                </button>
-            </div>
-            <div class="col-xs-6">
-                <button ng-hide="!model.bool" ng-click="model.createReading(model.newreading)"
-                        class="wrap-text btn btn-success btn-block">Submit
-                </button>
-            </div>
         </div>
 
         <br>
@@ -540,6 +541,13 @@
                     <th>Pressure</th>
                     <th>Particulate Matter 2.5</th>
                     <th>Particulate Matter 5.0</th>
+                    <th>Sensor ID</th>
+                    <th ng-hide="model.bool" ><span ng-click="model.addReading = true; model.bool = true"
+                              class="glyphicon glyphicon-plus"></span></th>
+                    <th ng-hide="!model.bool"><span ng-click="model.createReading(model.newreading)"
+                              class="glyphicon glyphicon-ok"></span></th>
+                    <th ng-hide="!model.bool"><span ng-click="model.addReading = false; model.bool = false"
+                              class="glyphicon glyphicon-remove"></span></th>
                 </tr>
                 </thead>
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
@@ -599,15 +607,24 @@
                                     type="text"
                                     class="form-control"
                                     placeholder="2"/></td>
-                        <td ng-hide="search.editfields">{{search.pm5}}</td>
+                        <td ng-hide="search.editfields">{{search.pm2}}</td>
 
                         <td ng-show="search.editfields">
                             <input
-                                    ng-model="model.search.temperature"
+                                    ng-model="model.search.pm5"
                                     type="text"
                                     class="form-control"
                                     placeholder="2"/></td>
                         <td ng-hide="search.editfields">{{search.pm5}}</td>
+
+
+                        <td ng-show="search.editfields">
+                            <input
+                                    ng-model="model.search._sensorId"
+                                    type="text"
+                                    class="form-control"
+                                    value="23243"/></td>
+                        <td ng-hide="search.editfields">{{search._sensorId}}</td>
 
                         <td ng-hide="search.editfields">
                             <span ng-click="search.editfields = true" class="glyphicon glyphicon-pencil"></span>
@@ -617,7 +634,13 @@
                             <span ng-click="model.updateReading(search._id, model.search)" class="glyphicon glyphicon-ok"></span>
                         </td>
 
-                        <td><span ng-click="model.deleteReading(search)" class="glyphicon glyphicon-remove"></span></td>
+                        <td ng-show="search.editfields">
+                            <span ng-click="search.editfields = false" class="glyphicon glyphicon-remove"></span>
+                        </td>
+
+                        <td ng-hide="search.editfields">
+                            <span ng-click="model.deleteReading(search)" class="glyphicon glyphicon-trash"></span>
+                        </td>
                     </tr>
                 </tbody>
 
@@ -688,13 +711,29 @@
                                     placeholder="1"/></td>
                         <td ng-hide="model.search.editfields">{{model.search.pm5}}</td>
 
+                        <td ng-show="model.search.editfields">
+                            <input
+                                    ng-model="model.search._sensorId"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="12345"/></td>
+                        <td ng-hide="model.search.editfields">{{model.search._sensorId}}</td>
+
                         <td ng-hide="model.search.editfields">
                             <span ng-click="model.search.editfields = true" class="glyphicon glyphicon-pencil"></span>
                         </td>
+
                         <td ng-show="model.search.editfields">
                             <span ng-click="model.updateReading(model.search._id, model.search)" class="glyphicon glyphicon-ok"></span>
                         </td>
-                        <td><span ng-click="model.deleteReading(model.search)" class="glyphicon glyphicon-remove"></span></td>
+
+                        <td ng-show="model.search.editfields">
+                            <span ng-click="model.search.editfields = false" class="glyphicon glyphicon-remove"></span>
+                        </td>
+
+                        <td ng-hide="model.search.editfields">
+                            <span ng-click="model.deleteReading(model.search)" class="glyphicon glyphicon-trash"></span>
+                        </td>
                     </tr>
                 </tbody>
             </table>
