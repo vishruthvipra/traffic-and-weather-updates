@@ -10,6 +10,7 @@ module.exports = function (app, mongoose) {
         createReading: createReading,
         updateReading: updateReading,
         deleteReading: deleteReading,
+        updateReadingSensorId: updateReadingSensorId,
         findReadingById: findReadingById,
         findAllReadings: findAllReadings
     };
@@ -51,6 +52,17 @@ module.exports = function (app, mongoose) {
         return deferred.promise;
     }
 
+    function updateReadingSensorId(readingId, sensorId) {
+        var deferred = q.defer();
+        trafficModel.update({_id: readingId}, {$set: {_sensorId: sensorId}}, function (err, status) {
+            if (err) {
+                deferred.reject(new Error(err));
+            } else {
+                deferred.resolve(status);
+            }
+        });
+        return deferred.promise;
+    }
 
     function findReadingById(readingId) {
         var deferred = q.defer();

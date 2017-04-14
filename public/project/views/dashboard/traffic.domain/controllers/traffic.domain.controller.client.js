@@ -41,7 +41,7 @@
         init();
 
         function createUser(newUser) {
-            if (user.role === "ADMIN" || user.role === "WADMIN" || user == null) {
+            if (!(user.role === "ADMIN" || user.role === "WADMIN" || user === null)) {
                 vm.changeUser = false;
                 UserService
                     .findUserByUsername(newUser.username)
@@ -58,6 +58,9 @@
                                         vm.searchResults = user;
                                     });
                             })
+                            .error(function (err) {
+                                vm.error = "Could not create user";
+                            })
                     });
             }
             else {
@@ -70,8 +73,8 @@
             UserService
                 .findUserById(oldUserId)
                 .success(function (user) {
-                    if (user.role === "ADMIN" || user.role === "WADMIN" || user == null) {
-                        vm.error = "Cannot delete mentioned id";
+                    if (user.role === "ADMIN" || user.role === "WADMIN" || user === null) {
+                        vm.error = "Cannot update " + user.role;
                     }
                     else {
                         var update = UserService
@@ -84,28 +87,26 @@
                                             vm.searchResults = user;
                                         });
                                 }
-                                else {
-                                    vm.error = "Unable to update..."
-                                }
                             });
                     }
-                }).error(function (err) {
-                vm.error = "Unable to update...";
-            });
+                })
+                .error(function (err) {
+                    vm.error = "Invalid userId";
+                });
         }
 
         function deleteUser(delUser) {
             UserService
                 .findUserById(delUser._id)
                 .success(function (user) {
-                    if (user.role === "ADMIN" || user.role === "WADMIN" || user == null) {
-                        vm.error = "Cannot delete mentioned id";
+                    if (user.role === "ADMIN" || user.role === "WADMIN" || user === null) {
+                        vm.error = "Cannot delete " + user.role;
                     }
                     else {
                         var update = UserService
                             .deleteUser(delUser._id)
                             .success(function (user) {
-                                if (user != null) {
+                                if (user !== null) {
                                     vm.changeUser = false;
                                     UserService.findAllUsers()
                                         .success(function (user) {
@@ -117,14 +118,15 @@
                                 }
                             })
                     }
-                }).error(function (err) {
-                vm.error = "Unable to update...";
-            });
+                })
+                .error(function (err) {
+                    vm.error = "Invalid userId";
+                })
         }
 
         function createSensor(newSensor) {
             vm.changeSensor = false;
-            if(newSensor.trafficReadings) {
+            if (newSensor.trafficReadings) {
                 newSensor.trafficReadings = newSensor.trafficReadings.split(/[\s,]+/);
             }
             newSensor.sensorType = "TRAFFIC";
@@ -132,33 +134,35 @@
                 .createSensor(newSensor)
                 .success(function (sensor) {
                     vm.addSensor = false;
-                    SensorService.findAllSensors()
+                    SensorService.findAllSensorsForSensorType("TRAFFIC")
                         .success(function (sensor) {
                             vm.searchResults = sensor;
                         });
+                })
+                .error(function (err) {
+                    vm.error = "Could not create sensor";
                 });
         }
 
         function updateSensor(oldSensorId, updSensor) {
             vm.editfields = false;
-            if(updSensor.trafficReadings) {
+            if (updSensor.trafficReadings) {
                 updSensor.trafficReadings = updSensor.trafficReadings.split(/[\s,]+/);
             }
             updSensor.sensorType = "TRAFFIC";
             var update = SensorService
                 .updateSensor(oldSensorId, updSensor)
                 .success(function (sensor) {
-                    if(update != null)
-                    {
+                    if (update !== null) {
                         vm.changeSensor = false;
-                        SensorService.findAllSensors()
+                        SensorService.findAllSensorsForSensorType("TRAFFIC")
                             .success(function (sensor) {
                                 vm.searchResults = sensor;
                             });
                     }
-                    else {
-                        vm.error = "Unable to update..."
-                    }
+                })
+                .error(function (err) {
+                    vm.error = "Incorrect sensorId";
                 });
         }
 
@@ -166,17 +170,17 @@
             var update = SensorService
                 .deleteSensor(delSensor._id)
                 .success(function (sensor) {
-                    if (sensor != null) {
+                    if (sensor !== null) {
                         vm.changeSensor = false;
-                        SensorService.findAllSensors()
+                        SensorService.findAllSensorsForSensorType("TRAFFIC")
                             .success(function (sensor) {
                                 vm.searchResults = sensor;
                             });
                     }
-                    else {
-                        vm.error = "Could not delete sensor";
-                    }
                 })
+                .error(function (err) {
+                    vm.error = "Incorrect sensorId";
+                });
         }
 
         function createReading(newReading) {
@@ -189,6 +193,9 @@
                         .success(function (reading) {
                             vm.searchResults = reading;
                         });
+                })
+                .error(function (err) {
+                    vm.error = "Could not create reading";
                 });
         }
 
@@ -197,17 +204,16 @@
             var update = ReadingService
                 .updateReading(oldReadingId, updReading, "TRAFFIC")
                 .success(function (user) {
-                    if(update != null)
-                    {
+                    if (update !== null) {
                         vm.changeReading = false;
                         ReadingService.findAllReadings("TRAFFIC")
                             .success(function (reading) {
                                 vm.searchResults = reading;
                             });
                     }
-                    else {
-                        vm.error = "Unable to update..."
-                    }
+                })
+                .error(function (err) {
+                    vm.error = "Incorrect readingId";
                 });
         }
 
@@ -218,20 +224,18 @@
                     ReadingService
                         .deleteReading(reading)
                         .success(function (user) {
-                            if(update != null)
-                            {
+                            if (update !== null) {
                                 vm.changeReading = false;
                                 ReadingService.findAllReadings("TRAFFIC")
                                     .success(function (reading) {
                                         vm.searchResults = reading;
                                     });
                             }
-                            else {
-                                vm.error = "Could not delete reading";
-                            }
                         });
+                })
+                .error(function (err) {
+                    vm.error = "Incorrect readingId";
                 });
-
         }
 
 
@@ -280,53 +284,71 @@
         }
 
         function startSearch(searchValue, searchText) {
-            vm.search = true;
-            vm.searchResults = false;
-            if(vm.u) {
-                if (searchValue === 1) {
-                    var promise = UserService.findUserById(searchText);
-                    promise
-                        .success(function (user) {
-                            vm.searchResults = null;
-                            vm.search = user;
-                        });
+            if(searchText) {
+                vm.spinner = true;
+                vm.search = true;
+                if (vm.u) {
+                    if (searchValue === 1) {
+                        var promise = UserService.findUserById(searchText);
+                        promise
+                            .success(function (user) {
+                                vm.searchResults = null;
+                                vm.search = user;
+                            })
+                            .error(function (err) {
+                                vm.error = "Incorrect userId";
+                            });
+                    }
+                    else if(searchValue === 2){
+                        var promise = UserService.findUserByUsername(searchText);
+                        promise
+                            .success(function (user) {
+                                vm.searchResults = null;
+                                vm.search = user;
+                            })
+                            .error(function (err) {
+                                vm.error = "Incorrect username";
+                            });
+                    }
                 }
-                else {
-                    var promise = UserService.findUserByUsername(searchText);
+                else if (vm.s) {
+                    if (searchValue === 1) {
+                        var promise = SensorService.findSensorByIdWithSensorType(searchText, "TRAFFIC");
+                        promise
+                            .success(function (sensor) {
+                                vm.searchResults = null;
+                                vm.search = sensor;
+                            })
+                            .error(function (err) {
+                                vm.error = "Incorrect sensorId";
+                            });
+                    }
+                    else if(searchValue === 2){
+                        var coordinates = searchText.split(",");
+                        var promise = SensorService.findSensorByCoordinatesWithSensorType(coordinates[0], coordinates[1], "TRAFFIC");
+                        promise
+                            .success(function (sensor) {
+                                vm.searchResults = null;
+                                vm.search = sensor;
+                            })
+                            .error(function (err) {
+                                vm.error = "Please feed correct coordinates";
+                            });
+                    }
+                }
+                else if (vm.r) {
+                    var promise = ReadingService.findReadingForId(searchText, "TRAFFIC");
                     promise
-                        .success(function (user) {
+                        .success(function (reading) {
                             vm.searchResults = null;
-                            vm.search = user;
+                            vm.search = reading;
+                        })
+                        .error(function (err) {
+                            vm.error = "Incorrect readingId";
                         });
                 }
             }
-            else if(vm.s) {
-                if (searchValue === 1) {
-                    var promise = SensorService.findSensorByIdWithSensorType(searchText, "TRAFFIC");
-                    promise
-                        .success(function (sensor) {
-                            vm.searchResults = null;
-                            vm.search = sensor;
-                        });
-                }
-                else {
-                    var coordinates = searchText.split(",");
-                    var promise = SensorService.findSensorByCoordinatesWithSensorType(coordinates[0], coordinates[1], "TRAFFIC");
-                    promise
-                        .success(function (sensor) {
-                            vm.searchResults = null;
-                            vm.search = sensor;
-                        });
-                }
-            }
-            else if(vm.r) {
-                var promise = ReadingService.findReadingForId(searchText, "TRAFFIC");
-                promise
-                    .success(function (reading) {
-                        vm.searchResults = null;
-                        vm.search = reading;
-                    });
-            }
+            vm.spinner = false;
         }
 
         function logout() {

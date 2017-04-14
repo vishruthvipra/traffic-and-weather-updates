@@ -53,7 +53,7 @@
         }
 
         function findSensorByIdWithSensorType(sensorId, sensorType) {
-            return $http.get("/api/sensor?sensorId=" + sensorId + "&sensorType=" + sensorType);
+            return $http.get("/api/sensor?sensorId=" + sensorId + "&sensorType=" + sensorType + "&forensor=true");
         }
 
         function findAllSensorsForSensorType(sensorType) {

@@ -8,7 +8,6 @@ module.exports = function (app, model) {
     app.get("/api/sensor/:sType/reading", findReadingsForCoordinates);
     app.get("/api/sensor", findSensor);
     app.get("/api/sensor/:latitudeid/:longitudeid/:sType", populateReadings);
-    //app.get("/api/:sensorId", findSensorForSensorId);
     app.get("/api/:sensorId/weatherReadings", findReadingsforSensorId);
 
     var sensorModel = model.sensorModel;
@@ -42,21 +41,59 @@ module.exports = function (app, model) {
     function updateSensor(req, res) {
         var sensorId = req.params.sensorId;
         var sensor = req.body;
-        sensorModel
-            .updateSensor(sensorId, sensor)
-            .then(function (status) {
-                res.sendStatus(200).send(status);
-            }, function (error) {
-                res.sendStatus(500).send(error);
-            });
+
+        if (sensor.sensorType === "WEATHER") {
+            sensorModel
+                .updateSensor(sensorId, sensor)
+                .then(function (sensor) {
+                    for (var i in sensor.weatherReadings) {
+                        weatherModel.updateReadingSensorId(sensor.weatherReadings[i], sensorId);
+                    }
+                    res.sendStatus(200).send(status);
+                }, function (error) {
+                    res.sendStatus(500).send(error);
+                });
+        }
+        else {
+            sensorModel
+                .updateSensor(sensorId, sensor)
+                .then(function (status) {
+                    for (var i in sensor.trafficReadings) {
+                        trafficModel.updateReadingSensorId(sensor.trafficReadings[i], sensorId);
+                    }
+                    res.sendStatus(200).send(status);
+                }, function (error) {
+                    res.sendStatus(500).send(error);
+                });
+        }
+
     }
 
     function deleteSensor(req, res) {
         var sensorId = req.params.sensorId;
         sensorModel
-            .deleteSensor(sensorId)
-            .then(function (status) {
-                res.sendStatus(200).send(status);
+            .findSensorById(sensorId)
+            .then(function (sensor) {
+                if (sensor.sensorType === "WEATHER") {
+                    for (var i in sensor.weatherReadings) {
+                        weatherModel.deleteReading(sensor.weatherReadings[i]);
+                    }
+                    sensorModel
+                        .deleteSensor(sensorId)
+                        .then(function (status) {
+                            res.sendStatus(200).send(status);
+                        });
+                }
+                else {
+                    for (var i in sensor.trafficReadings) {
+                        trafficModel.deleteReading(sensor.trafficReadings[i]);
+                    }
+                    sensorModel
+                        .deleteSensor(sensorId)
+                        .then(function (status) {
+                            res.sendStatus(200).send(status);
+                        });
+                }
             }, function (error) {
                 res.sendStatus(500).send(error);
             });
@@ -67,14 +104,19 @@ module.exports = function (app, model) {
         var longitude = req.query.longitude;
         var sensorType = req.query.sensorType;
         var sensorId = req.query.sensorId;
+        var forSensor = req.query.forSensor;
 
         if (sensorType) {
             if (latitude && longitude) {
                 findSensorForCoordinatesAndSensorType(req, res);
             }
             else if (sensorId) {
-                // findSensorForSensorIdAndSensorType(req, res);
-                populateReadingsById(req, res);
+                if(forSensor) {
+                    findSensorForSensorIdAndSensorType(req, res);
+                }
+                else {
+                    populateReadingsById(req, res);
+                }
             }
             else {
                 findAllSensorsForSensorType(req,res);
@@ -131,7 +173,6 @@ module.exports = function (app, model) {
 
     function findAllSensorsForSensorType(req,res) {
         var sensorType = req.query.sensorType;
-        //var sensorType = sensortype.stype;
         sensorModel
             .findAllSensorsForSensorType(sensorType)
             .then(function (sensors) {

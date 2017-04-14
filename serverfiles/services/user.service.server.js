@@ -8,17 +8,16 @@ module.exports = function (app, model, passport) {
     var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
     var facebookConfig = {
-        // clientID: "1448775658506982",//process.env.FACEBOOK_CLIENT_ID,
         clientID: process.env.FACEBOOK_CLIENT_ID,
-        clientSecret: "1a0732340195b6d4c9e0ab0ca43c2882",//process.env.FACEBOOK_CLIENT_SECRET,
-        callbackURL: "http://webdevproject.herokuapp.com/auth/facebook/callback",//process.env.FACEBOOK_CALLBACK_URL,
+        clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+        callbackURL: process.env.FACEBOOK_CALLBACK_URL,
         profileFields: ['id', 'displayName', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified']
     };
 
     var googleConfig = {
-        clientID: "668761646032-b2298dh6dhsnenpu1joe1h5q3h35beci.apps.googleusercontent.com",//process.env.GOOGLE_CLIENT_ID,
-        clientSecret: "Lyd0Xi48a64Sws_ycTZrBabB",//process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "http://webdevproject.herokuapp.com/auth/google/callback"//process.env.GOOGLE_CALLBACK_URL
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK_URL
     };
 
     passport.use(new LocalStrategy(localStrategy));
@@ -349,9 +348,3 @@ module.exports = function (app, model, passport) {
             });
     }
 };
-
-// app.post("/api/user", createUser);
-// app.get("/api/user", findUser);
-
-// app.put("/api/user/:userId", updateUser);
-// app.delete("/api/user/:userId", deleteUser);

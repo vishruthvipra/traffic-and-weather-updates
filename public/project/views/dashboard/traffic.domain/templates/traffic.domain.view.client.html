@@ -15,17 +15,27 @@
 <h1></h1>
 
 <div class="container-fluid">
-    <ul class="list-group">
-        <button ng-click="model.modelClicked(0)" class="list-group-item">
-            Modify User Model:
-        </button>
-        <button ng-click="model.modelClicked(1)" class="list-group-item">
-            Modify Sensor Model:
-        </button>
-        <button ng-click="model.modelClicked(2)" class="list-group-item">
-            Modify Reading Model:
-        </button>
-    </ul>
+    <div class="row" id="model-select">
+        <div class="col-xs-4">
+            <a ng-click="model.modelClicked(0)" class="wrap-text btn btn-block">
+                Modify User Model
+            </a>
+        </div>
+
+        <div class="col-xs-4">
+            <a ng-click="model.modelClicked(1)" class="wrap-text btn btn-block">
+                Modify Sensor Model
+            </a>
+        </div>
+
+        <div class="col-xs-4">
+            <a ng-click="model.modelClicked(2)" class="wrap-text btn btn-block">
+                Modify Reading Model
+            </a>
+        </div>
+    </div>
+
+    <br>
 
     <div ng-show="model.error" class="alert alert-danger" role="alert">
         <strong>Error!</strong> {{model.error}}
@@ -37,13 +47,10 @@
         <div class="row">
             <div class="col-xs-6">
                 <div class="input-group">
-                    <div class="radio">
-                        <label><input type="radio" ng-model="searchValue" ng-value="1">Search by id</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" ng-model="searchValue" ng-value="2">Search by username</label>
-                    </div>
+                    <label class="radio-inline"><input type="radio" ng-model="searchValue" ng-value="1">Search by id</label>
+                    <label class="radio-inline"><input type="radio" ng-model="searchValue" ng-value="2">Search by username</label>
                 </div>
+                <br>
             </div>
 
             <div class="col-xs-6">
@@ -55,10 +62,13 @@
                         </a>
                     </span>
                 </div>
+                <i ng-show="model.spinner" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+                <span class="sr-only"></span>
             </div>
         </div>
 
         <div ng-show="model.addUser">
+            <h3>Add a new user</h3>
             <form>
 
                 <div class="form-group">
@@ -90,26 +100,9 @@
                     <label for="role">Role [NORMAL|TADMIN|WADMIN]</label>
                     <input ng-model="model.newuser.role" type="text" class="form-control" id="role" placeholder="Last name">
                 </div>
+
             </form>
             <br>
-        </div>
-
-        <div class="row">
-            <div class="container-fluid">
-                <button ng-hide="bool" ng-click="model.addUser = true; bool = true"
-                        class="wrap-text btn btn-primary btn-block">Add a User
-                </button>
-            </div>
-            <div class="col-xs-6">
-                <button ng-hide="!bool" ng-click="model.addUser = false; bool = false"
-                        class="wrap-text btn btn-danger btn-block">Cancel
-                </button>
-            </div>
-            <div class="col-xs-6">
-                <button ng-hide="!bool" ng-click="model.createUser(model.newuser)"
-                        class="wrap-text btn btn-success btn-block">Submit
-                </button>
-            </div>
         </div>
 
         <br>
@@ -117,109 +110,142 @@
         <div class="table-responsive">
             <table class="table table-hover table-bordered">
                 <thead>
-                <tr>
-                    <th>_id</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Role</th>
-                </tr>
+                    <tr>
+                        <th>_id</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Role</th>
+                        <th ng-hide="model.bool" ><span ng-click="model.addUser = true; model.bool = true"
+                                                        class="glyphicon glyphicon-plus"></span></th>
+                        <th ng-hide="!model.bool"><span ng-click="model.createUser(model.newuser)"
+                                                        class="glyphicon glyphicon-ok"></span></th>
+                        <th ng-hide="!model.bool"><span ng-click="model.addUser = false; model.bool = false"
+                                                        class="glyphicon glyphicon-remove"></span></th>
+                    </tr>
                 </thead>
+
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
-                <tr class="success">
-                    <td>{{search._id}}</td>
-                    <td ng-show="search.editfields">
-                        <input
-                                ng-model="model.search.username"
-                                type="text"
-                                class="form-control"
-                                placeholder="john"/></td>
-                    <td ng-hide="search.editfields">{{search.username}}</td>
-                    <td ng-show="search.editfields">
-                        <input
-                                ng-model="model.search.email"
-                                type="email"
-                                class="form-control"
-                                placeholder="john@gmail.com"/></td>
-                    <td ng-hide="search.editfields">{{search.email}}</td>
-                    <td ng-show="search.editfields">
-                        <input
-                                ng-model="model.search.firstName"
-                                type="text"
-                                class="form-control"
-                                placeholder="John"/></td>
-                    <td ng-hide="search.editfields">{{search.firstName}}</td>
-                    <td ng-show="search.editfields">
-                        <input
-                                ng-model="model.search.lastName"
-                                type="text"
-                                class="form-control"
-                                placeholder="Connor"/></td>
-                    <td ng-hide="search.editfields">{{search.lastName}}</td>
-                    <td ng-show="search.editfields">
-                        <input
-                                ng-model="model.search.role"
-                                type="text"
-                                class="form-control"
-                                placeholder="NORMAL"/></td>
-                    <td ng-hide="search.editfields">{{search.role}}</td>
-                    <td ng-hide="search.editfields">
-                        <span ng-click="search.editfields = true" class="glyphicon glyphicon-pencil"></span>
-                    </td>
-                    <td ng-show="search.editfields">
-                        <span ng-click="model.updateUser(search._id, model.search)" class="glyphicon glyphicon-ok"></span>
-                    </td>
-                    <td><span ng-click="model.deleteUser(search)" class="glyphicon glyphicon-remove"></span></td>
-                </tr>
+                    <tr class="success">
+                        <td>{{search._id}}</td>
+                        <td ng-show="search.editfields">
+                            <input
+                                    ng-model="model.search.username"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="john"/></td>
+                        <td ng-hide="search.editfields">{{search.username}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
+                                    ng-model="model.search.email"
+                                    type="email"
+                                    class="form-control"
+                                    placeholder="john@gmail.com"/></td>
+                        <td ng-hide="search.editfields">{{search.email}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
+                                    ng-model="model.search.firstName"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="John"/></td>
+                        <td ng-hide="search.editfields">{{search.firstName}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
+                                    ng-model="model.search.lastName"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Connor"/></td>
+                        <td ng-hide="search.editfields">{{search.lastName}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
+                                    ng-model="model.search.role"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="NORMAL"/></td>
+                        <td ng-hide="search.editfields">{{search.role}}</td>
+
+                        <td ng-hide="search.editfields">
+                            <span ng-click="search.editfields = true" class="glyphicon glyphicon-pencil"></span>
+                        </td>
+
+                        <td ng-show="search.editfields">
+                            <span ng-click="model.updateUser(search._id, model.search)" class="glyphicon glyphicon-ok"></span>
+                        </td>
+
+                        <td ng-show="search.editfields">
+                            <span ng-click="search.editfields = false" class="glyphicon glyphicon-remove"></span>
+                        </td>
+
+                        <td ng-hide="search.editfields">
+                            <span ng-click="model.deleteUser(search)" class="glyphicon glyphicon-trash"></span>
+                        </td>
+                    </tr>
                 </tbody>
 
                 <tbody ng-show="model.search">
-                <tr class="success">
-                    <td>{{model.search._id}}</td>
-                    <td ng-show="model.search.editfields">
-                        <input
-                                ng-model="model.search.username"
-                                type="text"
-                                class="form-control"
-                                placeholder="john"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.username}}</td>
-                    <td ng-show="model.search.editfields">
-                        <input
-                                ng-model="model.search.email"
-                                type="email"
-                                class="form-control"
-                                placeholder="john@gmail.com"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.email}}</td>
-                    <td ng-show="model.search.editfields">
-                        <input
-                                ng-model="model.search.firstName"
-                                type="text"
-                                class="form-control"
-                                placeholder="John"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.firstName}}</td>
-                    <td ng-show="model.search.editfields">
-                        <input
-                                ng-model="model.search.lastName"
-                                type="text"
-                                class="form-control"
-                                placeholder="Connor"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.lastName}}</td>
-                    <td ng-show="model.search.editfields">
-                        <input
-                                ng-model="model.search.role"
-                                type="text"
-                                class="form-control"
-                                placeholder="NORMAL"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.role}}</td>
-                    <td ng-hide="model.search.editfields">
-                        <span ng-click="model.search.editfields = true" class="glyphicon glyphicon-pencil"></span>
-                    </td>
-                    <td ng-show="model.search.editfields">
-                        <span ng-click="model.updateUser(model.search._id, model.search)" class="glyphicon glyphicon-ok"></span>
-                    </td>
-                    <td><span ng-click="model.deleteUser(model.search)" class="glyphicon glyphicon-remove"></span></td>
-                </tr>
+                    <tr class="success">
+                        <td>{{model.search._id}}</td>
+                        <td ng-show="model.search.editfields">
+                            <input
+                                    ng-model="model.search.username"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="john"/></td>
+                        <td ng-hide="model.search.editfields">{{model.search.username}}</td>
+
+                        <td ng-show="model.search.editfields">
+                            <input
+                                    ng-model="model.search.email"
+                                    type="email"
+                                    class="form-control"
+                                    placeholder="john@gmail.com"/></td>
+                        <td ng-hide="model.search.editfields">{{model.search.email}}</td>
+
+                        <td ng-show="model.search.editfields">
+                            <input
+                                    ng-model="model.search.firstName"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="John"/></td>
+                        <td ng-hide="model.search.editfields">{{model.search.firstName}}</td>
+
+                        <td ng-show="model.search.editfields">
+                            <input
+                                    ng-model="model.search.lastName"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Connor"/></td>
+                        <td ng-hide="model.search.editfields">{{model.search.lastName}}</td>
+
+                        <td ng-show="model.search.editfields">
+                            <input
+                                    ng-model="model.search.role"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="NORMAL"/></td>
+                        <td ng-hide="model.search.editfields">{{model.search.role}}</td>
+
+                        <td ng-hide="model.search.editfields">
+                            <span ng-click="model.search.editfields = true" class="glyphicon glyphicon-pencil"></span>
+                        </td>
+
+                        <td ng-show="model.search.editfields">
+                            <span ng-click="model.updateUser(model.search._id, model.search)" class="glyphicon glyphicon-ok"></span>
+                        </td>
+
+                        <td ng-show="model.search.editfields">
+                            <span ng-click="model.search.editfields = false" class="glyphicon glyphicon-remove"></span>
+                        </td>
+
+                        <td ng-hide="model.search.editfields">
+                            <span ng-click="model.deleteUser(model.search)" class="glyphicon glyphicon-trash"></span>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -235,7 +261,7 @@
                         <label><input type="radio" ng-model="searchValue" ng-value="1">Search by id</label>
                     </div>
                     <div class="radio">
-                        <label><input type="radio" ng-model="searchValue" ng-value="2">Search by coordinates [12.9716,77.5946]</label>
+                        <label><input type="radio" ng-model="searchValue" ng-value="2">Search by closest coordinates [12.9716,77.5946]</label>
                     </div>
                 </div>
             </div>
@@ -249,10 +275,13 @@
                         </a>
                     </span>
                 </div>
+                <i ng-show="model.spinner" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+                <span class="sr-only"></span>
             </div>
         </div>
 
         <div ng-show="model.addSensor">
+            <h3>Add a new sensor</h3>
             <form>
 
                 <div class="form-group">
@@ -282,26 +311,9 @@
                            type="text" class="form-control"
                            id="readings" placeholder="12345, 23456">
                 </div>
+
             </form>
         <br>
-        </div>
-
-        <div class="row">
-            <div class="container-fluid">
-                <button ng-hide="bool" ng-click="model.addSensor = true; bool = true"
-                        class="wrap-text btn btn-primary btn-block">Add a User
-                </button>
-            </div>
-            <div class="col-xs-6">
-                <button ng-hide="!bool" ng-click="model.addSensor = false; bool = false"
-                        class="wrap-text btn btn-danger btn-block">Cancel
-                </button>
-            </div>
-            <div class="col-xs-6">
-                <button ng-hide="!bool" ng-click="model.createSensor(model.newsensor)"
-                        class="wrap-text btn btn-success btn-block">Submit
-                </button>
-            </div>
         </div>
 
         <br>
@@ -309,94 +321,131 @@
         <div class="table-responsive">
             <table class="table table-hover table-bordered">
                 <thead>
-                <tr>
-                    <th>_id</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
-                    <th>Area</th>
-                    <th>Readings</th>
-                </tr>
+                    <tr>
+                        <th>_id</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Area</th>
+                        <th>Readings</th>
+                        <th ng-hide="model.bool" ><span ng-click="model.addSensor = true; model.bool = true"
+                                                        class="glyphicon glyphicon-plus"></span></th>
+                        <th ng-hide="!model.bool"><span ng-click="model.createSensor(model.newsensor)"
+                                                        class="glyphicon glyphicon-ok"></span></th>
+                        <th ng-hide="!model.bool"><span ng-click="model.addSensor = false; model.bool = false"
+                                                        class="glyphicon glyphicon-remove"></span></th>
+                    </tr>
                 </thead>
+
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
-                <tr class="success">
-                    <td>{{search._id}}</td>
-                    <td ng-show="search.editfields">
-                        <input
+                    <tr class="success">
+
+                        <td>{{search._id}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
                                 ng-model="model.search.location.latitude"
                                 type="text"
                                 class="form-control"
                                 placeholder="65.4564"/></td>
-                    <td ng-hide="search.editfields">{{search.location.latitude}}</td>
-                    <td ng-show="search.editfields">
-                        <input
+                        <td ng-hide="search.editfields">{{search.location.latitude}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
                                 ng-model="model.search.location.longitude"
                                 type="text"
                                 class="form-control"
                                 placeholder="54.7878"/></td>
-                    <td ng-hide="search.editfields">{{search.location.longitude}}</td>
-                    <td ng-show="search.editfields">
-                        <input
+                        <td ng-hide="search.editfields">{{search.location.longitude}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
                                 ng-model="model.search.area"
                                 type="text"
                                 class="form-control"
                                 placeholder="MG Road"/></td>
-                    <td ng-hide="search.editfields">{{search.area}}</td>
-                    <td ng-show="search.editfields">
-                        <input
+                        <td ng-hide="search.editfields">{{search.area}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
                                 ng-model="model.search.trafficReadings"
                                 type="text"
                                 class="form-control"
                                 placeholder="123,123"/></td>
-                    <td ng-hide="search.editfields">{{search.trafficReadings}}</td>
-                    <td ng-hide="search.editfields">
-                        <span ng-click="search.editfields = true" class="glyphicon glyphicon-pencil"></span>
-                    </td>
-                    <td ng-show="search.editfields">
-                        <span ng-click="model.updateSensor(search._id, model.search)" class="glyphicon glyphicon-ok"></span>
-                    </td>
-                    <td><span ng-click="model.deleteSensor(search)" class="glyphicon glyphicon-remove"></span></td>
-                </tr>
+                        <td ng-hide="search.editfields">{{search.trafficReadings}}</td>
+
+                        <td ng-hide="search.editfields">
+                            <span ng-click="search.editfields = true" class="glyphicon glyphicon-pencil"></span>
+                        </td>
+
+                        <td ng-show="search.editfields">
+                            <span ng-click="model.updateSensor(search._id, model.search)" class="glyphicon glyphicon-ok"></span>
+                        </td>
+
+                        <td ng-show="search.editfields">
+                            <span ng-click="search.editfields = false" class="glyphicon glyphicon-remove"></span>
+                        </td>
+
+                        <td ng-hide="search.editfields">
+                            <span ng-click="model.deleteSensor(search)" class="glyphicon glyphicon-trash"></span>
+                        </td>
+
+                    </tr>
                 </tbody>
 
                 <tbody ng-show="model.search">
-                <tr class="success">
-                    <td>{{model.search._id}}</td>
-                    <td ng-show="model.search.editfields">
-                        <input
+                    <tr class="success">
+
+                        <td>{{model.search._id}}</td>
+
+                        <td ng-show="model.search.editfields">
+                            <input
                                 ng-model="model.search.location.latitude"
                                 type="text"
                                 class="form-control"
                                 placeholder="65.4564"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.location.latitude}}</td>
-                    <td ng-show="search.editfields">
-                        <input
+                        <td ng-hide="model.search.editfields">{{model.search.location.latitude}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
                                 ng-model="model.search.location.longitude"
                                 type="text"
                                 class="form-control"
                                 placeholder="54.7878"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.location.longitude}}</td>
-                    <td ng-show="model.search.editfields">
-                        <input
+                        <td ng-hide="model.search.editfields">{{model.search.location.longitude}}</td>
+
+                        <td ng-show="model.search.editfields">
+                            <input
                                 ng-model="model.search.area"
                                 type="text"
                                 class="form-control"
                                 placeholder="MG Road"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.area}}</td>
-                    <td ng-show="model.search.editfields">
-                        <input
+                        <td ng-hide="model.search.editfields">{{model.search.area}}</td>
+
+                        <td ng-show="model.search.editfields">
+                            <input
                                 ng-model="model.search.trafficReadings"
                                 type="text"
                                 class="form-control"
                                 placeholder="123,456"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.trafficReadings}}</td>
-                    <td ng-hide="model.search.editfields">
-                        <span ng-click="model.search.editfields = true" class="glyphicon glyphicon-pencil"></span>
-                    </td>
-                    <td ng-show="model.search.editfields">
-                        <span ng-click="model.updateSensor(model.search._id, model.search)" class="glyphicon glyphicon-ok"></span>
-                    </td>
-                    <td><span ng-click="model.deleteSensor(model.search)" class="glyphicon glyphicon-remove"></span></td>
-                </tr>
+                        <td ng-hide="model.search.editfields">{{model.search.trafficReadings}}</td>
+
+                        <td ng-hide="model.search.editfields">
+                            <span ng-click="model.search.editfields = true" class="glyphicon glyphicon-pencil"></span>
+                        </td>
+
+                        <td ng-show="model.search.editfields">
+                            <span ng-click="model.updateSensor(model.search._id, model.search)" class="glyphicon glyphicon-ok"></span>
+                        </td>
+
+                        <td ng-show="model.search.editfields">
+                            <span ng-click="model.search.editfields = false" class="glyphicon glyphicon-remove"></span>
+                        </td>
+
+                        <td ng-hide="model.search.editfields">
+                            <span ng-click="model.deleteSensor(model.search)" class="glyphicon glyphicon-trash"></span>
+                        </td>
+
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -424,11 +473,14 @@
                         </a>
                     </span>
                 </div>
+                <i ng-show="model.spinner" class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+                <span class="sr-only"></span>
             </div>
         </div>
 
         <div ng-show="model.addReading">
             <form>
+
                 <div class="form-group">
                     <label for="sens">Sensor ID</label>
                     <input ng-model="model.newreading._sensorId"
@@ -475,147 +527,169 @@
             <br>
         </div>
 
-        <div class="row">
-            <div class="container-fluid">
-                <button ng-hide="bool" ng-click="model.addReading = true; bool = true"
-                        class="wrap-text btn btn-primary btn-block">Add a User
-                </button>
-            </div>
-            <div class="col-xs-6">
-                <button ng-hide="!bool" ng-click="model.addReading = false; bool = false"
-                        class="wrap-text btn btn-danger btn-block">Cancel
-                </button>
-            </div>
-            <div class="col-xs-6">
-                <button ng-hide="!bool" ng-click="model.createReading(model.newreading)"
-                        class="wrap-text btn btn-success btn-block">Submit
-                </button>
-            </div>
-        </div>
-
         <br>
 
         <div class="table-responsive">
             <table class="table table-hover table-bordered">
                 <thead>
-                <tr>
-                    <th>_id</th>
-                    <th>Read number</th>
-                    <th>Number of Cars</th>
-                    <th>Carbon Dioxide Level</th>
-                    <th>Sulphur Dioxide Level</th>
-                    <th>Nitrous Oxide Level</th>
-                    <th>Parent Sensor</th>
-                </tr>
+                    <tr>
+                        <th>_id</th>
+                        <th>Read number</th>
+                        <th>Number of Cars</th>
+                        <th>Carbon Dioxide Level</th>
+                        <th>Sulphur Dioxide Level</th>
+                        <th>Nitrous Oxide Level</th>
+                        <th>Parent Sensor ID</th>
+                        <th ng-hide="model.bool" ><span ng-click="model.addReading = true; model.bool = true"
+                                                        class="glyphicon glyphicon-plus"></span></th>
+                        <th ng-hide="!model.bool"><span ng-click="model.createReading(model.newreading)"
+                                                        class="glyphicon glyphicon-ok"></span></th>
+                        <th ng-hide="!model.bool"><span ng-click="model.addReading = false; model.bool = false"
+                                                        class="glyphicon glyphicon-remove"></span></th>
+                    </tr>
                 </thead>
+
                 <tbody ng-show="model.searchResults" ng-repeat="search in model.searchResults">
-                <tr class="success">
-                    <td>{{search._id}}</td>
-                    <td ng-show="search.editfields">
-                        <input
+                    <tr class="success">
+
+                        <td>{{search._id}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
                                 ng-model="model.search.readno"
                                 type="text"
                                 class="form-control"
                                 placeholder="1"/></td>
-                    <td ng-hide="search.editfields">{{search.readno}}</td>
-                    <td ng-show="search.editfields">
-                        <input
+                        <td ng-hide="search.editfields">{{search.readno}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
                                 ng-model="model.search.noofcars"
                                 type="text"
                                 class="form-control"
                                 placeholder="2"/></td>
-                    <td ng-hide="search.editfields">{{search.noofcars}}</td>
-                    <td ng-show="search.editfields">
-                        <input
+                        <td ng-hide="search.editfields">{{search.noofcars}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
                                 ng-model="model.search.colevel"
                                 type="text"
                                 class="form-control"
                                 placeholder="3"/></td>
-                    <td ng-hide="search.editfields">{{search.colevel}}</td>
-                    <td ng-show="search.editfields">
-                        <input
+                        <td ng-hide="search.editfields">{{search.colevel}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
                                 ng-model="model.search.solevel"
                                 type="text"
                                 class="form-control"
                                 placeholder="4"/></td>
-                    <td ng-hide="search.editfields">{{search.solevel}}</td>
-                    <td ng-show="search.editfields">
-                        <input
+                        <td ng-hide="search.editfields">{{search.solevel}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
                                 ng-model="model.search.nolevel"
                                 type="text"
                                 class="form-control"
                                 placeholder="5"/></td>
-                    <td ng-hide="search.editfields">{{search.nolevel}}</td>
-                    <td ng-show="search.editfields">
-                        <input
+                        <td ng-hide="search.editfields">{{search.nolevel}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
                                 ng-model="model.search._sensorId"
                                 type="text"
                                 class="form-control"
                                 placeholder="12345"/></td>
-                    <td ng-hide="search.editfields">{{search._sensorId}}</td>
-                    <td ng-hide="search.editfields">
-                        <span ng-click="search.editfields = true" class="glyphicon glyphicon-pencil"></span>
-                    </td>
-                    <td ng-show="search.editfields">
-                        <span ng-click="model.updateReading(search._id, model.search)" class="glyphicon glyphicon-ok"></span>
-                    </td>
-                    <td><span ng-click="model.deleteReading(search)" class="glyphicon glyphicon-remove"></span></td>
-                </tr>
+                        <td ng-hide="search.editfields">{{search._sensorId}}</td>
+
+                        <td ng-hide="search.editfields">
+                            <span ng-click="search.editfields = true" class="glyphicon glyphicon-pencil"></span>
+                        </td>
+
+                        <td ng-show="search.editfields">
+                            <span ng-click="model.updateReading(search._id, model.search)" class="glyphicon glyphicon-ok"></span>
+                        </td>
+
+                        <td ng-show="search.editfields">
+                            <span ng-click="search.editfields = false" class="glyphicon glyphicon-remove"></span>
+                        </td>
+
+                        <td ng-hide="search.editfields">
+                            <span ng-click="model.deleteReading(search)" class="glyphicon glyphicon-trash"></span>
+                        </td>
+                    </tr>
                 </tbody>
 
                 <tbody ng-show="model.search">
-                <tr class="success">
-                    <td>{{model.search._id}}</td>
-                    <td ng-show="model.search.editfields">
-                        <input
+                    <tr class="success">
+
+                        <td>{{model.search._id}}</td>
+
+                        <td ng-show="model.search.editfields">
+                            <input
                                 ng-model="model.search.readno"
                                 type="text"
                                 class="form-control"
                                 placeholder="1"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.readno}}</td>
-                    <td ng-show="search.editfields">
-                        <input
+                        <td ng-hide="model.search.editfields">{{model.search.readno}}</td>
+
+                        <td ng-show="search.editfields">
+                            <input
                                 ng-model="model.search.noofcars"
                                 type="text"
                                 class="form-control"
                                 placeholder="2"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.noofcars}}</td>
-                    <td ng-show="model.search.editfields">
-                        <input
+                        <td ng-hide="model.search.editfields">{{model.search.noofcars}}</td>
+
+                        <td ng-show="model.search.editfields">
+                            <input
                                 ng-model="model.search.colevel"
                                 type="text"
                                 class="form-control"
                                 placeholder="3"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.colevel}}</td>
-                    <td ng-show="model.search.editfields">
-                        <input
+                        <td ng-hide="model.search.editfields">{{model.search.colevel}}</td>
+
+                        <td ng-show="model.search.editfields">
+                            <input
                                 ng-model="model.search.solevel"
                                 type="text"
                                 class="form-control"
                                 placeholder="4"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.solevel}}</td>
-                    <td ng-show="model.search.editfields">
-                        <input
+                        <td ng-hide="model.search.editfields">{{model.search.solevel}}</td>
+
+                        <td ng-show="model.search.editfields">
+                            <input
                                 ng-model="model.search.nolevel"
                                 type="text"
                                 class="form-control"
                                 placeholder="5"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search.nolevel}}</td>
-                    <td ng-show="model.search.editfields">
-                        <input
-                                ng-model="model.search._sensorId"
-                                type="text"
-                                class="form-control"
-                                placeholder="12345"/></td>
-                    <td ng-hide="model.search.editfields">{{model.search._sensorId}}</td>
-                    <td ng-hide="model.search.editfields">
-                        <span ng-click="model.search.editfields = true" class="glyphicon glyphicon-pencil"></span>
-                    </td>
-                    <td ng-show="model.search.editfields">
-                        <span ng-click="model.updateReading(model.search._id, model.search)" class="glyphicon glyphicon-ok"></span>
-                    </td>
-                    <td><span ng-click="model.deleteReading(model.search)" class="glyphicon glyphicon-remove"></span></td>
-                </tr>
+                        <td ng-hide="model.search.editfields">{{model.search.nolevel}}</td>
+
+                        <td ng-show="model.search.editfields">
+                            <input
+                                    ng-model="model.search._sensorId"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="12345"/></td>
+                        <td ng-hide="model.search.editfields">{{model.search._sensorId}}</td>
+
+                        <td ng-hide="model.search.editfields">
+                            <span ng-click="model.search.editfields = true" class="glyphicon glyphicon-pencil"></span>
+                        </td>
+
+                        <td ng-show="model.search.editfields">
+                            <span ng-click="model.updateReading(model.search._id, model.search)" class="glyphicon glyphicon-ok"></span>
+                        </td>
+
+                        <td ng-show="model.search.editfields">
+                            <span ng-click="model.search.editfields = false" class="glyphicon glyphicon-remove"></span>
+                        </td>
+
+                        <td ng-hide="model.search.editfields">
+                            <span ng-click="model.deleteReading(model.search)" class="glyphicon glyphicon-trash"></span>
+                        </td>
+
+                    </tr>
                 </tbody>
             </table>
         </div>

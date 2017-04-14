@@ -15,7 +15,6 @@ module.exports = function (app, mongoose) {
         findSensorById: findSensorById,
         findSensorByIdAndSensorType: findSensorByIdAndSensorType,
         findSensorReading: findSensorReading,
-        // findReadingsForSensorId: findReadingsForSensorId,
         findAllSensorsForSensorType: findAllSensorsForSensorType,
         findAllSensors: findAllSensors,
         populateReadings: populateReadings,
