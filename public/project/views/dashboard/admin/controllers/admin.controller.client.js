@@ -12,9 +12,8 @@
         var userId = user._id;
         vm.search = false;
         vm.u = true;
-        vm.addUser = false, vm.changeUser = false;
+        vm.addUser = false;
         vm.createUser = createUser;
-        vm.changedUser = changedUser;
         vm.updateUser = updateUser;
         vm.deleteUser = deleteUser;
         vm.editfields = false;
@@ -31,16 +30,6 @@
         }
 
         init();
-
-        function changedUser(chgUser) {
-            vm.addUser = false;
-            if (vm.opUser === 1) {
-                updateUser(chgUser);
-            }
-            else {
-                deleteUser(chgUser);
-            }
-        }
 
         function createUser(newUser) {
             vm.changeUser = false;
@@ -62,23 +51,23 @@
                 });
         }
 
-        function updateUser(updUser) {
+        function updateUser(oldUserId, updUser) {
             vm.editfields = false;
-            console.log(updUser);
-            // var update = UserService
-            //     .updateUser(updUser._id, updUser)
-            //     .success(function (user) {
-            //         if (update != null) {
-            //             vm.changeUser = false;
-            //             UserService.findAllUsers()
-            //                 .success(function (user) {
-            //                     vm.searchResults = user;
-            //                 });
-            //         }
-            //         else {
-            //             vm.error = "Unable to update..."
-            //         }
-            //     });
+            var update = UserService
+                .updateUser(oldUserId, updUser)
+                .success(function (user) {
+                    if (update != null) {
+                        vm.changeUser = false;
+                        UserService.findAllUsers()
+                            .success(function (user) {
+                                vm.searchResults = user;
+                                vm.search = false;
+                            });
+                    }
+                    else {
+                        vm.error = "Unable to update..."
+                    }
+                });
         }
 
         function deleteUser(delUser) {

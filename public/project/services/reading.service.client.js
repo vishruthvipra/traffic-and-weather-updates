@@ -24,8 +24,8 @@
             return $http.post("/api/reading", reading);
         }
 
-        function updateReading(reading, sType) {
-            return $http.put("/api/reading/sType/" + sType, reading);
+        function updateReading(readingId, reading, sType) {
+            return $http.put("/api/reading/" + readingId + "sType/" + sType, reading);
         }
 
         function deleteReading(reading) {

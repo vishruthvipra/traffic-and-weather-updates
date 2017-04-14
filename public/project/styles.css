@@ -348,3 +348,18 @@ table {
 #content.ng-show-add, #content.ng-show-remove {
     transition: all 0.5s linear;
 }
+
+/* domains */
+
+#model-select {
+    background: #36a3a1;
+}
+
+.table td, th {
+    border: 1px solid #000000;
+    text-align: center;
+}
+
+.table tr:hover {
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+}

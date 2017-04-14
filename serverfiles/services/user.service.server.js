@@ -184,7 +184,7 @@ module.exports = function (app, model, passport) {
 
     function checkAdmin(req, res) {
         var user = req.user;
-        if(user.role === "ADMIN") {
+        if(user.role === null || user.role === "ADMIN") {
             res.json(user);
         }
         else {

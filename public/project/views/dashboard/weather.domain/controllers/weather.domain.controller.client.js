@@ -15,18 +15,15 @@
 
             vm.addUser = false, vm.changeUser = false;
             vm.createUser = createUser;
-            vm.changedUser = changedUser;
             vm.updateUser = updateUser;
             vm.deleteUser = deleteUser;
 
             vm.addSensor = false, vm.changeSensor = false;
-            vm.changedSensor = changedSensor;
             vm.createSensor = createSensor;
             vm.updateSensor = updateSensor;
             vm.deleteSensor = deleteSensor;
 
             vm.addReading = false, vm.changeReading = false;
-            vm.changedReading = changedReading;
             vm.createReading = createReading;
             vm.updateReading = updateReading;
             vm.deleteReading = deleteReading;
@@ -41,18 +38,6 @@
             }
 
             init();
-
-            function changedUser(chgUser) {
-
-                    vm.addUser = false;
-                    if (vm.opUser === 1) {
-                        updateUser(chgUser);
-                    }
-                    else {
-                        deleteUser(chgUser);
-                    }
-
-            }
 
             function createUser(newUser) {
                 if (user.role === "ADMIN" || user.role === "TADMIN" || user == null) {
@@ -79,16 +64,17 @@
                 }
             }
 
-            function updateUser(updUser) {
+            function updateUser(oldUserId, updUser) {
+                vm.editfields = false;
                 UserService
-                    .findUserById(updUser._id)
+                    .findUserById(oldUserId)
                     .success(function (user) {
                         if (user.role === "ADMIN" || user.role === "TADMIN" || user == null) {
-                            vm.error = "Cannot delete mentioned id";
+                            vm.error = "Cannot update " + user.role;
                         }
                         else {
                             var update = UserService
-                                .updateUser(updUser._id, updUser)
+                                .updateUser(oldUserId, updUser)
                                 .success(function (user) {
                                     if (update != null) {
                                         vm.changeUser = false;
@@ -102,27 +88,18 @@
                                     }
                                 });
                         }
-                    });
+                    }).error(function (err) {
+                    vm.error = "Unable to update...";
+                });
 
             }
 
             function deleteUser(delUser) {
-
-                // if(delUser.role === "ADMIN"){// || "TADMIN"){
-                //     vm.error = "Rights violation! You are allowed to update only WADMIN or NORMAL users";
-                //     console.log("here");
-                // }
-                // else {
-                //     console.log("came here");
-                // }
-                // console.log(delUser);
-
-
                 UserService
                     .findUserById(delUser._id)
                     .success(function (user) {
                         if (user.role === "ADMIN" || user.role === "TADMIN" || user == null) {
-                            vm.error = "Cannot delete mentioned id";
+                            vm.error = "Cannot delete " + user.role;
                         }
                         else {
                             var update = UserService
@@ -143,19 +120,11 @@
                     });
             }
 
-            function changedSensor(chgSensor) {
-                vm.addSensor = false;
-                if (vm.opSensor === 1) {
-                    updateSensor(chgSensor);
-                }
-                else {
-                    deleteSensor(chgSensor);
-                }
-            }
-
             function createSensor(newSensor) {
                 vm.changeSensor = false;
-                newSensor.weatherReadings = newSensor.weatherReadings.split(/[\s,]+/);
+                if(newSensor.weatherReadings) {
+                    newSensor.weatherReadings = newSensor.weatherReadings.split(/[\s,]+/);
+                }
                 newSensor.sensorType = "WEATHER";
                 SensorService
                     .createSensor(newSensor)
@@ -168,25 +137,27 @@
                     });
             }
 
-            function updateSensor(updSensor) {
-                console.log(updSensor);
-                // updSensor.weatherReadings = updSensor.weatherReadings.split(/[\s,]+/);
-                // updSensor.sensorType = "WEATHER";
-                // var update = SensorService
-                //     .updateSensor(updSensor._id, updSensor)
-                //     .success(function (sensor) {
-                //         if(update != null)
-                //         {
-                //             vm.changeSensor = false;
-                //             SensorService.findAllSensors()
-                //                 .success(function (sensor) {
-                //                     vm.searchResults = sensor;
-                //                 });
-                //         }
-                //         else {
-                //             vm.error = "Unable to update..."
-                //         }
-                //     });
+            function updateSensor(oldSensorId, updSensor) {
+                vm.editfields = false;
+                if(updSensor.weatherReadings) {
+                    updSensor.weatherReadings = updSensor.weatherReadings.split(/[\s,]+/);
+                }
+                updSensor.sensorType = "WEATHER";
+                var update = SensorService
+                    .updateSensor(oldSensorId, updSensor)
+                    .success(function (sensor) {
+                        if(update != null)
+                        {
+                            vm.changeSensor = false;
+                            SensorService.findAllSensors()
+                                .success(function (sensor) {
+                                    vm.searchResults = sensor;
+                                });
+                        }
+                        else {
+                            vm.error = "Unable to update..."
+                        }
+                    });
             }
 
             function deleteSensor(delSensor) {
@@ -206,17 +177,6 @@
                     })
             }
 
-
-            function changedReading(chgReading) {
-                vm.addReading = false;
-                if (vm.opReading === 1) {
-                    updateReading(chgReading);
-                }
-                else {
-                    deleteReading(chgReading);
-                }
-            }
-
             function createReading(newReading) {
                 vm.changeReading = false;
                 ReadingService
@@ -230,12 +190,12 @@
                     });
             }
 
-            function updateReading(updReading) {
+            function updateReading(oldReadingId, updReading) {
+                vm.editfields = false;
                 var update = ReadingService
-                    .updateReading(updReading, "WEATHER")
+                    .updateReading(oldReadingId, updReading, "WEATHER")
                     .success(function (user) {
-                        if(update != null)
-                        {
+                        if (update != null) {
                             vm.changeReading = false;
                             ReadingService.findAllReadings("WEATHER")
                                 .success(function (reading) {
@@ -273,6 +233,7 @@
 
 
             function modelClicked(num) {
+                vm.bool = false;
                 vm.search = false;
                 if (num === 0) {
                     vm.addUser = false;

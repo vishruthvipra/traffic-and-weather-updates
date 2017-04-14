@@ -3,7 +3,7 @@
  */
 module.exports = function (app, model) {
     app.post("/api/reading", createReading);
-    app.put("/api/reading/sType/:sType", updateReading);
+    app.put("/api/reading/:readingId/sType/:sType", updateReading);
     app.delete("/api/reading/:readingId/sensor/:sensorId", deleteReading);
     app.get("/api/reading/:readingId/sType/:sType", findReadingForId);
     app.get("/api/reading/sType/:sType", findAllReadings);
@@ -57,7 +57,7 @@ module.exports = function (app, model) {
 
     function updateReading(req, res) {
         var reading = req.body;
-        var readingId = reading._id;
+        var readingId = req.params.readingId;
         var sType = req.params.sType;
         if (sType === "WEATHER") {
             weatherModel

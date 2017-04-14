@@ -10,7 +10,7 @@
             vm.user = loggedin.data;
             var user = vm.user;
             var userId = user._id;
-            vm.back = back;
+            // vm.back = back;
 
             vm.updateUser = updateUser;
             vm.deleteUser = deleteUser;

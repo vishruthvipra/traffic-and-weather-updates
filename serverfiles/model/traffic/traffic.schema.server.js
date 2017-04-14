@@ -3,6 +3,7 @@
  */
 module.exports = function(app, mongoose) {
     var trafficSchema = mongoose.Schema({
+        _sensorId: {type: String, required: true},
         readno: {type: String, required: true},
         noofcars: {type: String},
         colevel: {type: String},
