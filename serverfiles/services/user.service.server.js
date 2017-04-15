@@ -32,7 +32,7 @@ module.exports = function (app, model, passport) {
     app.get('/auth/facebook/callback', passport.authenticate('facebook', {
         failureRedirect: 'http://webdevproject.herokuapp.com/project/#/home'
     }), function (req, res) {
-        var url = 'http://webdevproject.herokuapp.com/project/#/user/' + req.user._id.toString();
+        var url = 'http://webdevproject.herokuapp.com/project/#/dashboard';
         res.redirect(url);
     });
 
@@ -40,7 +40,7 @@ module.exports = function (app, model, passport) {
     app.get('/auth/google/callback', passport.authenticate('google', {
         failureRedirect: 'http://webdevproject.herokuapp.com/project/#/home'
     }), function (req, res) {
-            var url = 'http://webdevproject.herokuapp.com/project/#/user/' + req.user._id.toString();
+            var url = 'http://webdevproject.herokuapp.com/project/#/dashboard';
             res.redirect(url);
         });
 

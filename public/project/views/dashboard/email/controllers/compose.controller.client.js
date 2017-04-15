@@ -18,12 +18,11 @@
 
         function init() {
             vm.user = user;
-
             if(senderId !== "000") {
                 UserService.findUserById(senderId)
                     .success(function (user) {
-                    vm.to = user.username;
-                });
+                        vm.to = user.username;
+                    });
             }
         }
         init();
