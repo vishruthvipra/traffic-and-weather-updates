@@ -14,7 +14,7 @@
 
             var latitude = "12.9718", longitude = "77.6411";
             var markers = [];
-            var map1, map2, weathermap, trafficmap;
+            var map1, map2, map3, map4, weathermap, trafficmap, infoWindow;
             var stopInit = true;
 
             function init() {
@@ -106,7 +106,7 @@
                 }
 
                 function errorHandler(err) {
-
+                    // left intentionally
                 }
 
                 getLocationReadings("WEATHER");
@@ -138,38 +138,87 @@
             }
 
             function initWeatherMap() {
-                if (stopInit) {
+                if(stopInit) {
                     weathermap = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
                     map1 = new google.maps.Map($(".gmaps")[0], {
                         zoom: 13,
                         center: weathermap
                     });
+
+                    map3 = new google.maps.Map($(".gmaps")[1], {
+                        zoom: 13,
+                        center: weathermap
+                    });
                 }
+
+                google.maps.event.addDomListenerOnce(map1, 'idle', function () {
+                    google.maps.event.addDomListener(window, 'resize', function () {
+                        map1.setCenter(weathermap);
+                    });
+                });
+
+                google.maps.event.addDomListenerOnce(map3, 'idle', function () {
+                    google.maps.event.addDomListener(window, 'resize', function () {
+                        map3.setCenter(weathermap);
+                    });
+                });
             }
 
             function initTrafficMap() {
-                if (stopInit) {
+                if(stopInit) {
                     trafficmap = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
-                    map2 = new google.maps.Map($(".gmaps")[1], {
+                    map2 = new google.maps.Map($(".gmaps")[2], {
+                        zoom: 13,
+                        center: trafficmap
+                    });
+
+                    map4 = new google.maps.Map($(".gmaps")[3], {
                         zoom: 13,
                         center: trafficmap
                     });
                 }
+
+                google.maps.event.addDomListenerOnce(map2, 'idle', function () {
+                    google.maps.event.addDomListener(window, 'resize', function () {
+                        map2.setCenter(trafficmap);
+                    });
+                });
+
+                google.maps.event.addDomListenerOnce(map4, 'idle', function () {
+                    google.maps.event.addDomListener(window, 'resize', function () {
+                        map4.setCenter(trafficmap);
+                    });
+                });
             }
 
             function setMarker(map, position) {
                 var markerOptions = {
                     position: position,
                     map: map,
-                    title: "Your nearest location"
+                    title: "Nearest sensor from your location"
                 };
 
                 var marker = new google.maps.Marker(markerOptions);
                 markers.push(marker);
+
+                google.maps.event.addListener(marker, 'click', function () {
+                    // close window if not undefined
+                    if (infoWindow !== void 0) {
+                        infoWindow.close();
+                    }
+                    // create new window
+                    var infoWindowOptions = {
+                        content: "Nearest sensor from your location"
+                    };
+                    infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+                    infoWindow.open(map, marker);
+                });
             }
 
             setMarker(map1, weathermap);
+            setMarker(map3, weathermap);
             setMarker(map2, trafficmap);
+            setMarker(map4, trafficmap);
 
 
             function login(user) {

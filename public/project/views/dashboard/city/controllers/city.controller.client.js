@@ -5,20 +5,12 @@
     angular
         .module("WebAppMaker")
         .controller("cityController", cityController)
-    function cityController(wikiService, $rootScope, $location) {
+    function cityController(UserService, $rootScope, $location) {
         vm = this;
         vm.logout = logout;
 
         function init() {
-            // wikiService.get()
-            //     .then(function(data) {
-            //         vm.pageDetails = data.data.query.pages;
-            //         // var parser = new DOMParser();
-            //         // var doc = parser.parseFromString(pageDetails, "text/html");
-            //         // vm.docu = doc.body.firstChild;
-            //
-            //         vm.wikiData = data.data;
-            //     });
+
         }
         init();
 

@@ -135,13 +135,70 @@
             <h2 class="h2-settings">Weather Report</h2>
         </div>
 
-        <div class="container-fluid">
+        <div class="container-fluid visible-xs">
+
+            <div class="gmaps"></div>
+            <ul class="list-group">
+                <li class="wrap-text list-group-item head">
+                    Latest Readings
+                </li>
+                <li id="temperatures" class="wrap-text list-group-item">
+                    Temperature:
+                    <span>
+                            {{model.temperature}} °C
+                        </span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    Humidity:
+                    <span>
+                            {{model.humidity}}%
+                        </span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    Water Level:
+                    <span>
+                            {{model.waterlevel}} cm
+                        </span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    UV Level:
+                    <span>
+                            {{model.uvlevel}}
+                        </span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    Pressure:
+                    <span>
+                            {{model.pressure}} kPa
+                        </span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    Particulate Matter 2.5:
+                    <span>
+                            {{model.pm2}} µ/m³
+                        </span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    Particulate Matter 5.0:
+                    <span>
+                            {{model.pm5}} µ/m³
+                        </span>
+                </li>
+            </ul>
+            <button ng-click="model.getLocationCoordinates('WEATHER')" class="wrap-text btn btn-info btn-block">What's happening near me?</button>
+
+        </div>
+
+        <div class="container-fluid hidden-xs">
             <div class="row">
                 <div class="col-xs-8">
                     <div class="gmaps"></div>
                 </div>
                 <div class="col-xs-4">
                     <ul class="list-group">
+                        <li class="wrap-text list-group-item head">
+                            Latest Readings
+                        </li>
                         <li id="temperature" class="wrap-text list-group-item">
                             Temperature:
                             <span>
@@ -195,13 +252,51 @@
     <div id="traffic">
         <h2 class="h2-settings">Traffic Report</h2>
 
-        <div class="container-fluid">
+        <div class="container-fluid visible-xs">
+            <div class="gmaps"></div>
+            <ul class="list-group">
+                <li class="wrap-text list-group-item head">
+                    Latest Readings
+                </li>
+                <li class="wrap-text list-group-item">
+                    Number of cars around you:
+                    <span ng-show="model.noofcars">
+                                {{model.noofcars}}
+                            </span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    Carbon Monoxide:
+                    <span ng-show="model.colevel">
+                                {{model.colevel}} ppm
+                            </span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    Sulphur Dioxide:
+                    <span ng-show="model.solevel">
+                                {{model.solevel}} ppm
+                            </span>
+                </li>
+                <li class="wrap-text list-group-item">
+                    Nitrous Oxide:
+                    <span ng-show="model.nolevel">
+                                {{model.nolevel}} ppm
+                            </span>
+                </li>
+            </ul>
+            <button ng-click="model.getLocationCoordinates('TRAFFIC')" class="wrap-text btn btn-primary btn-block">What's happening near me?</button>
+        </div>
+
+        <div class="container-fluid hidden-xs">
+
             <div class="row">
                 <div class="col-xs-8">
                     <div class="gmaps"></div>
                 </div>
                 <div class="col-xs-4">
                     <ul class="list-group">
+                        <li class="wrap-text list-group-item head">
+                            Latest Readings
+                        </li>
                         <li class="wrap-text list-group-item">
                             Number of cars around you:
                             <span ng-show="model.noofcars">
