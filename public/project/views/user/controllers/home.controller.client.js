@@ -88,9 +88,6 @@
                     var options = {timeout: 60000};
                     navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
                 }
-                else {
-                    vm.error2 = "Sorry, browser does not support geolocation!";
-                }
 
                 function showLocation(position) {
                     var lat = position.coords.latitude;
@@ -109,12 +106,7 @@
                 }
 
                 function errorHandler(err) {
-                    if (err.code == 1) {
-                        vm.error2 = "Error: Access is denied!";
-                    }
-                    else if (err.code == 2) {
-                        vm.error2 = "Error: Position is unavailable!";
-                    }
+
                 }
 
                 getLocationReadings("WEATHER");
