@@ -135,7 +135,7 @@ module.exports = function (app, model, passport) {
     app.delete("/api/user/:userId/message/:messageId",deleteMessage);
     app.get("/api/user", findUser);
     app.get("/api/user/:userId", findUserById);
-    app.get("api/createuser", createUser);
+    app.post("/api/createuser", createUser);
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
 
