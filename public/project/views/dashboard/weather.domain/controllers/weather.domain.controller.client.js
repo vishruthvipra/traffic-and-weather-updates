@@ -49,9 +49,9 @@
                     })
                     .error(function (err) {
                         UserService
-                            .register(newUser)
+                            .createUser(newUser)
                             .success(function (user) {
-                                vm.add = false;
+                                vm.addUser = false;
                                 UserService.findAllUsers()
                                     .success(function (user) {
                                         vm.searchResults = user;
