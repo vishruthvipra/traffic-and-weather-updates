@@ -36,7 +36,6 @@ var connectionString = 'mongodb://username:password@ds149040.mlab.com:49040/proj
 // }
 //
 
-console.log(connectionString);
 mongoose.connect(connectionString);
 
 require("./serverfiles/models.server.js")(app, mongoose, passport);

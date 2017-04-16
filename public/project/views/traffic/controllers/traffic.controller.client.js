@@ -12,6 +12,8 @@
             var userId = user._id;
             vm.getLocationReadings = getLocationReadings;
             vm.logout = logout;
+
+            // Heart of Bangalore readings if user denies sharing his location
             var latitude = "12.9716", longitude = "77.5946";
             vm.lati = latitude;
             vm.long = longitude;
@@ -135,12 +137,6 @@
                 }
 
                 function errorHandler(err) {
-                    // if (err.code == 1) {
-                    //     alert("Error: Access is denied!");
-                    // }
-                    // else if (err.code == 2) {
-                    //     console.log("Error: Position is unavailable!");
-                    // }
                 }
 
                 SensorService

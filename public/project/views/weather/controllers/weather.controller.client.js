@@ -146,12 +146,6 @@
                 }
 
                 function errorHandler(err) {
-                    // if (err.code == 1) {
-                    //     alert("Error: Access is denied!");
-                    // }
-                    // else if (err.code == 2) {
-                    //     console.log("Error: Position is unavailable!");
-                    // }
                 }
 
                 $(".fa-pulse").show();

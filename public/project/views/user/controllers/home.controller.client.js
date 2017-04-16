@@ -15,15 +15,15 @@
             var latitude = "12.9718", longitude = "77.6411";
             var markers = [];
             var map1, map2, map3, map4, weathermap, trafficmap, infoWindow;
-            var stopInit = true;
 
             function init() {
                 $("#drop-down").hide();
                 uiEvents();
-                getLocationCoordinates("init");
+                getLocationReadings("WEATHER");
+                getLocationReadings("TRAFFIC");
+                getLocationCoordinates();
                 initWeatherMap();
                 initTrafficMap();
-                stopInit = false;
             }
 
             init();
@@ -83,7 +83,7 @@
                 });
             }
 
-            function getLocationCoordinates(mapType) {
+            function getLocationCoordinates() {
                 if (navigator.geolocation) {
                     var options = {timeout: 60000};
                     navigator.geolocation.getCurrentPosition(showLocation, errorHandler, options);
@@ -95,22 +95,17 @@
                     latitude = lat.toString();
                     longitude = long.toString();
 
-                    if (mapType === "WEATHER")
-                        initWeatherMap();
-                    if (mapType === "TRAFFIC")
-                        initTrafficMap();
-                    else {
-                        initWeatherMap();
-                        initTrafficMap();
-                    }
+                    initWeatherMap();
+                    initTrafficMap();
+
+                    getLocationReadings("WEATHER");
+                    getLocationReadings("TRAFFIC");
                 }
 
                 function errorHandler(err) {
                     // left intentionally
                 }
 
-                getLocationReadings("WEATHER");
-                getLocationReadings("TRAFFIC");
             }
 
             function getLocationReadings(sensorType) {
@@ -138,18 +133,17 @@
             }
 
             function initWeatherMap() {
-                if(stopInit) {
-                    weathermap = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
-                    map1 = new google.maps.Map($(".gmaps")[0], {
-                        zoom: 13,
-                        center: weathermap
-                    });
+                weathermap = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+                map1 = new google.maps.Map($(".gmaps")[0], {
+                    zoom: 13,
+                    center: weathermap
+                });
 
-                    map3 = new google.maps.Map($(".gmaps")[1], {
-                        zoom: 13,
-                        center: weathermap
-                    });
-                }
+                map3 = new google.maps.Map($(".gmaps")[1], {
+                    zoom: 13,
+                    center: weathermap
+                });
+
 
                 google.maps.event.addDomListenerOnce(map1, 'idle', function () {
                     google.maps.event.addDomListener(window, 'resize', function () {
@@ -162,21 +156,23 @@
                         map3.setCenter(weathermap);
                     });
                 });
+
+                setMarker(map1, weathermap);
+                setMarker(map3, weathermap);
             }
 
             function initTrafficMap() {
-                if(stopInit) {
-                    trafficmap = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
-                    map2 = new google.maps.Map($(".gmaps")[2], {
-                        zoom: 13,
-                        center: trafficmap
-                    });
+                trafficmap = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+                map2 = new google.maps.Map($(".gmaps")[2], {
+                    zoom: 13,
+                    center: trafficmap
+                });
 
-                    map4 = new google.maps.Map($(".gmaps")[3], {
-                        zoom: 13,
-                        center: trafficmap
-                    });
-                }
+                map4 = new google.maps.Map($(".gmaps")[3], {
+                    zoom: 13,
+                    center: trafficmap
+                });
+
 
                 google.maps.event.addDomListenerOnce(map2, 'idle', function () {
                     google.maps.event.addDomListener(window, 'resize', function () {
@@ -189,13 +185,16 @@
                         map4.setCenter(trafficmap);
                     });
                 });
+
+                setMarker(map2, trafficmap);
+                setMarker(map4, trafficmap);
             }
 
             function setMarker(map, position) {
                 var markerOptions = {
                     position: position,
                     map: map,
-                    title: "Nearest sensor from your location"
+                    title: "Your location"
                 };
 
                 var marker = new google.maps.Marker(markerOptions);
@@ -208,7 +207,7 @@
                     }
                     // create new window
                     var infoWindowOptions = {
-                        content: "Nearest sensor from your location"
+                        content: "Your location"
                     };
                     infoWindow = new google.maps.InfoWindow(infoWindowOptions);
                     infoWindow.open(map, marker);

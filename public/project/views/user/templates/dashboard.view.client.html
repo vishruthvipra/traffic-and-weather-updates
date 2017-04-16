@@ -22,9 +22,9 @@
                 <span id="menu" class="pull-right glyphicon glyphicon-th"></span>
             </a>
         </div>
-        <ul id="navhide" class="nav">
+        <ul ng-hide="model.NORMAL" id="navhide" class="nav">
             <li>
-                <a id="domainnav">Domains<span class="pull-right pull-right glyphicon glyphicon-menu-down"></span></a>
+                <a id="domainnav">Domains<span class="pull-right glyphicon glyphicon-menu-down"></span></a>
                 <ul class="nav nav-second-level nav" id="gov-level">
                     <li ng-show="model.WADMIN">
                         <a href="#/weather_domain">Weather Domain</a>
@@ -63,7 +63,7 @@
         <div class="sidebar-nav">
             <ul class="nav">
                 <li>
-                    <a id="domains">Domains<span class="pull-right pull-right glyphicon glyphicon-menu-down"></span></a>
+                    <a ng-hide="model.NORMAL" id="domains">Domains<span class="pull-right pull-right glyphicon glyphicon-menu-down"></span></a>
                     <ul class="nav nav-second-level" id="gov-level-2">
                         <li ng-show="model.WADMIN">
                             <a href="#/weather_domain">Weather Domain</a>

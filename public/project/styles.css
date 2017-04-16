@@ -86,7 +86,7 @@ a:hover {
     padding: 10px;
     padding-top: 20px;
     margin-bottom: 10px;
-    border-bottom-left-radius: 5px;
+    border-bottom-left-radius: 20px;
 }
 
 ul {
@@ -351,8 +351,12 @@ table {
 
 /* domains */
 
-#model-select {
+#model-select .col-xs-4 a{
     background: #36a3a1;
+}
+
+.table-bordered {
+    margin-bottom: 0px;
 }
 
 .table td, th {
@@ -361,6 +365,14 @@ table {
 }
 
 .table tr:hover {
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+}
+
+.input-group input{
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+}
+
+.table-responsive {
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
 }
 

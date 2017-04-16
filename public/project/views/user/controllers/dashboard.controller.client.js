@@ -18,25 +18,28 @@
             vm.ADMIN = false;
             vm.WADMIN = false;
             vm.TADMIN = false;
+            vm.NORMAL = true;
 
             function init() {
                 if (user.role === "WADMIN") {
                     vm.WADMIN = true;
                     vm.TADMIN = false;
                     vm.ADMIN = false;
+                    vm.NORMAL = false;
                 }
                 if (user.role === "TADMIN") {
                     vm.TADMIN = true;
                     vm.WADMIN = false;
                     vm.ADMIN = false;
+                    vm.NORMAL = false;
                 }
                 if (user.role === "ADMIN") {
                     vm.WADMIN = false;
                     vm.TADMIN = false;
                     vm.ADMIN = true;
+                    vm.NORMAL = false;
                 }
                 vm.hidden = true;
-
 
                 $("#drop-down").hide();
                 $("#gov-level-2").hide();
