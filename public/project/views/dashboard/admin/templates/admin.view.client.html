@@ -36,8 +36,8 @@
             <div class="input-group">
                 <input ng-model="searchText" type="text" class="form-control" placeholder="Search here">
                 <span class="input-group-btn">
-                    <a class="btn btn-default" type="button">
-                        <span ng-click="model.startSearch(searchValue, searchText)" class="glyphicon glyphicon-search"></span>
+                    <a ng-click="model.startSearch(searchValue, searchText)" class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
                     </a>
                 </span>
             </div>
@@ -51,12 +51,12 @@
         <form>
 
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username">Username*</label>
                 <input ng-model="model.newuser.username" type="text" class="form-control" id="username" placeholder="Username">
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">Password*</label>
                 <input ng-model="model.newuser.password" type="password" class="form-control" id="password" placeholder="Password">
             </div>
 
@@ -66,17 +66,17 @@
             </div>
 
             <div class="form-group">
-                <label for="first-name">First Name</label>
+                <label for="first-name">First Name*</label>
                 <input ng-model="model.newuser.firstName" type="text" class="form-control" id="first-name" placeholder="First name">
             </div>
 
             <div class="form-group">
-                <label for="last-name">Last Name</label>
+                <label for="last-name">Last Name*</label>
                 <input ng-model="model.newuser.lastName" type="text" class="form-control" id="last-name" placeholder="Last name">
             </div>
 
             <div class="form-group">
-                <label for="role">Role [NORMAL|TADMIN|WADMIN]</label>
+                <label for="role">Role [NORMAL|ADMIN|TADMIN|WADMIN]*</label>
                 <input ng-model="model.newuser.role" type="text" class="form-control" id="role" placeholder="Last name">
             </div>
 

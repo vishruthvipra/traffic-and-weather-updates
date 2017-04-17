@@ -5,12 +5,11 @@
     angular
         .module("WebAppMaker")
         .controller("ProfileController", profileController)
-        function profileController($routeParams, UserService, $location, $route, $timeout, loggedin) {
+        function profileController($rootScope, UserService, $location, loggedin) {
             var vm = this;
             vm.user = loggedin.data;
             var user = vm.user;
             var userId = user._id;
-            // vm.back = back;
 
             vm.updateUser = updateUser;
             vm.deleteUser = deleteUser;
@@ -21,16 +20,11 @@
 
             init();
 
-            // function back() {
-            //     $timeout(function(){$route.reload();},1000);
-            //     $location.url("/user/" + vm.user._id);
-            // }
-
             function updateUser(newUser) {
                 var update = UserService
                     .updateUser(userId, newUser)
                     .success(function (user) {
-                        if(update != null)
+                        if(update !== null)
                         {
                             vm.message = "User succesfully updated!"
                         }
@@ -44,8 +38,13 @@
                 var update = UserService
                     .deleteUser(userId)
                     .success(function (user) {
-                        if (user != null) {
-                            $location.url("login");
+                        if (user !== null) {
+                            UserService
+                                .logout()
+                                .then(function (response) {
+                                    $rootScope.currentUser = null;
+                                    $location.url("/home");
+                                });
                         }
                         else {
                             vm.error = "Could not delete user";

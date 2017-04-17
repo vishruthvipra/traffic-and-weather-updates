@@ -4,7 +4,7 @@
         <a class="navbar-brand" href="#/dashboard">
             <img alt="Brand" src="../../../../images/rsz_11rsz_1rsz_vedoot-logo.png" style="height: 30px;">
         </a>
-        <a class="navbar-brand" href="#/dashboard">Dashboard</a>
+        <a class="navbar-brand hidden-xs" href="#/dashboard">Dashboard</a>
     </div>
 
     <div class="navbar-header pull-right">
@@ -18,10 +18,12 @@
 
     <div class="visible-xs">
         <div class="navbar-header pull-right">
-            <a class="navbar-brand">
-                <span id="menu" class="pull-right glyphicon glyphicon-th"></span>
+            <a id="menu" class="navbar-brand">
+                <span class="pull-right glyphicon glyphicon-th"></span>
             </a>
         </div>
+
+
         <ul ng-hide="model.NORMAL" id="navhide" class="nav">
             <li>
                 <a id="domainnav">Domains<span class="pull-right glyphicon glyphicon-menu-down"></span></a>

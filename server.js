@@ -24,17 +24,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
 // var connectionString = 'mongodb://username:password@ds143900.mlab.com:43900/project';
-var connectionString = 'mongodb://username:password@ds149040.mlab.com:49040/project';
+// var connectionString = 'mongodb://username:password@ds149040.mlab.com:49040/project';
 
 // mongoose.connect(connectionString);
-// if(process.env.MLAB_USERNAME) {
-//     connectionString = process.env.MLAB_USERNAME + ":" +
-//         process.env.MLAB_PASSWORD + "@" +
-//         process.env.MLAB_HOST + ':' +
-//         process.env.MLAB_PORT + '/' +
-//         process.env.MLAB_APP_NAME;
-// }
-//
+
+var connectionString = "mongodb://";
+
+if(process.env.MLAB_USERNAME) {
+    connectionString += process.env.MLAB_USERNAME + ":" +
+        process.env.MLAB_PASSWORD + "@" +
+        process.env.MLAB_HOST + ':' +
+        process.env.MLAB_PORT + '/' +
+        process.env.MLAB_APP_NAME;
+}
+
 
 mongoose.connect(connectionString);
 

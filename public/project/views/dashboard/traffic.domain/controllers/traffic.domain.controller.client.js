@@ -64,7 +64,7 @@
                     });
             }
             else {
-                vm.error = "Role cannot be Admin or WAdmin";
+                vm.error = "Role cannot be other than NORMAL and TADMIN";
             }
         }
 
@@ -73,14 +73,14 @@
             UserService
                 .findUserById(oldUserId)
                 .success(function (user) {
-                    if (user.role === "ADMIN" || user.role === "WADMIN" || user === null) {
-                        vm.error = "Cannot update " + user.role;
+                    if (user.role !== "NORMAL" || user.role !== "TADMIN" || user === null) {
+                        vm.error = "Incorrect user role:  " + user.role;
                     }
                     else {
                         var update = UserService
                             .updateUser(oldUserId, updUser)
                             .success(function (user) {
-                                if (update != null) {
+                                if (update !== null) {
                                     vm.changeUser = false;
                                     UserService.findAllUsers()
                                         .success(function (user) {

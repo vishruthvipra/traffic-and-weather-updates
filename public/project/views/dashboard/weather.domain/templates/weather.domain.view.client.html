@@ -57,8 +57,8 @@
                 <div class="input-group">
                     <input ng-model="searchText" type="text" class="form-control" placeholder="Search here">
                     <span class="input-group-btn">
-                        <a class="btn btn-default" type="button">
-                            <span ng-click="model.startSearch(searchValue, searchText)" class="glyphicon glyphicon-search"></span>
+                        <a ng-click="model.startSearch(searchValue, searchText)" class="btn btn-default" type="button">
+                            <span class="glyphicon glyphicon-search"></span>
                         </a>
                     </span>
                 </div>
@@ -72,12 +72,12 @@
             <form>
 
                 <div class="form-group">
-                    <label for="username">Username</label>
+                    <label for="username">Username*</label>
                     <input ng-model="model.newuser.username" type="text" class="form-control" id="username" placeholder="Username">
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="password">Password*</label>
                     <input ng-model="model.newuser.password" type="password" class="form-control" id="password" placeholder="Password">
                 </div>
 
@@ -87,17 +87,17 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="first-name">First Name</label>
+                    <label for="first-name">First Name*</label>
                     <input ng-model="model.newuser.firstName" type="text" class="form-control" id="first-name" placeholder="First name">
                 </div>
 
                 <div class="form-group">
-                    <label for="last-name">Last Name</label>
+                    <label for="last-name">Last Name*</label>
                     <input ng-model="model.newuser.lastName" type="text" class="form-control" id="last-name" placeholder="Last name">
                 </div>
 
                 <div class="form-group">
-                    <label for="role">Role [NORMAL|TADMIN|WADMIN]</label>
+                    <label for="role">Role [NORMAL|WADMIN]*</label>
                     <input ng-model="model.newuser.role" type="text" class="form-control" id="role" placeholder="Last name">
                 </div>
 
@@ -271,8 +271,8 @@
                 <div  class="input-group">
                     <input ng-model="searchText" type="text" class="form-control" placeholder="Search here">
                     <span class="input-group-btn">
-                        <a class="btn btn-default" type="button">
-                            <span ng-click="model.startSearch(searchValue, searchText)" class="glyphicon glyphicon-search"></span>
+                        <a ng-click="model.startSearch(searchValue, searchText)" class="btn btn-default" type="button">
+                            <span class="glyphicon glyphicon-search"></span>
                         </a>
                     </span>
                 </div>
@@ -285,14 +285,14 @@
             <h3>Add a new sensor</h3>
             <form>
                 <div class="form-group">
-                    <label for="loclati">Latitude</label>
+                    <label for="loclati">Latitude*</label>
                     <input ng-model="model.newsensor.location.latitude"
                            type="text" class="form-control"
                            id="loclati" placeholder="12.0000">
                 </div>
 
                 <div class="form-group">
-                    <label for="loclong">Longitude</label>
+                    <label for="loclong">Longitude*</label>
                     <input ng-model="model.newsensor.location.longitude"
                            type="text" class="form-control"
                            id="loclong" placeholder="77.0000">
@@ -464,8 +464,8 @@
                 <div  class="input-group">
                     <input ng-model="searchText" type="text" class="form-control" placeholder="Search here">
                     <span class="input-group-btn">
-                        <a class="btn btn-default" type="button">
-                            <span ng-click="model.startSearch(searchValue, searchText)" class="glyphicon glyphicon-search"></span>
+                        <a ng-click="model.startSearch(searchValue, searchText)" class="btn btn-default" type="button">
+                            <span class="glyphicon glyphicon-search"></span>
                         </a>
                     </span>
                 </div>
@@ -480,7 +480,7 @@
             <form>
 
                 <div class="form-group">
-                    <label for="read">Read number</label>
+                    <label for="read">Read number*</label>
                     <input ng-model="model.newreading.readno"
                            type="text" class="form-control"
                            id="read" placeholder="1">
@@ -543,7 +543,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="sens">Sensor ID</label>
+                    <label for="sens">Sensor ID*</label>
                     <input ng-model="model.newreading._sensorId"
                            type="text" class="form-control"
                            id="sens" placeholder="12345">

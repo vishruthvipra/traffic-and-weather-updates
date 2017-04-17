@@ -341,14 +341,6 @@ table {
     text-align: justify;
 }
 
-#content.ng-hide-add, #content.ng-hide-remove {
-    transition: all 0.5s linear;
-}
-
-#content.ng-show-add, #content.ng-show-remove {
-    transition: all 0.5s linear;
-}
-
 /* domains */
 
 #model-select .col-xs-4 a{

@@ -33,25 +33,33 @@
 
         function createUser(newUser) {
             vm.changeUser = false;
-            UserService
-                .findUserByUsername(newUser.username)
-                .success(function (user) {
-                    vm.error = "User already exists";
-                })
-                .error(function (err) {
-                    UserService
-                        .createUser(newUser)
-                        .success(function (user) {
-                            vm.addUser = false;
-                            UserService.findAllUsers()
-                                .success(function (user) {
-                                    vm.searchResults = user;
-                                });
-                        })
-                        .error(function (err) {
-                            vm.error = "Could not create user";
-                        })
-                });
+            if (newUser.role !== "ADMIN" &&
+                newUser.role !=="TADMIN" &&
+                newUser.role !=="WADMIN" &&
+                newUser.role !=="NORMAL") {
+                vm.error = "User role should be one of ADMIN|TADMIN|WADMIN|NORMAL";
+            }
+            else {
+                UserService
+                    .findUserByUsername(newUser.username)
+                    .success(function (user) {
+                        vm.error = "User already exists";
+                    })
+                    .error(function (err) {
+                        UserService
+                            .createUser(newUser)
+                            .success(function (user) {
+                                vm.addUser = false;
+                                UserService.findAllUsers()
+                                    .success(function (user) {
+                                        vm.searchResults = user;
+                                    });
+                            })
+                            .error(function (err) {
+                                vm.error = "Could not create user";
+                            })
+                    });
+            }
         }
 
         function updateUser(oldUserId, updUser) {
