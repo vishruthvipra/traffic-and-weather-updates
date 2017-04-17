@@ -24,9 +24,9 @@
         </div>
 
 
-        <ul ng-hide="model.NORMAL" id="navhide" class="nav">
+        <ul id="navhide" class="nav">
             <li>
-                <a id="domainnav">Domains<span class="pull-right glyphicon glyphicon-menu-down"></span></a>
+                <a ng-hide="model.NORMAL" id="domainnav">Domains<span class="pull-right glyphicon glyphicon-menu-down"></span></a>
                 <ul class="nav nav-second-level nav" id="gov-level">
                     <li ng-show="model.WADMIN">
                         <a href="#/weather_domain">Weather Domain</a>
