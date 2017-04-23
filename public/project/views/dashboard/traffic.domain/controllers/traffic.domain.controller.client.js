@@ -5,7 +5,7 @@
     angular
         .module("WebAppMaker")
         .controller("trafficDomainController", trafficDomainController)
-    function trafficDomainController($rootScope, UserService, SensorService, ReadingService, loggedin, $location) {
+    function trafficDomainController(UserService, SensorService, ReadingService, loggedin, $location) {
         var vm = this;
         vm.user = loggedin.data;
         var user = vm.user;
@@ -355,7 +355,6 @@
             UserService
                 .logout()
                 .then(function (response) {
-                    $rootScope.currentUser = null;
                     $location.url("/home");
                 });
         }
