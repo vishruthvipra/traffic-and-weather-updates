@@ -6,7 +6,7 @@
         .module("WebAppMaker")
         .factory("UserService", userService);
 
-    function userService($http) {
+    function userService($http, $rootScope) {
 
         var api = {
             "login": login,
@@ -30,6 +30,7 @@
         }
 
         function logout() {
+            $rootScope.currentUser = null;
             return $http.post("/api/logout");
         }
 
