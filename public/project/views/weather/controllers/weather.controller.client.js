@@ -5,7 +5,7 @@
     angular
         .module("WebAppMaker")
         .controller("WeatherController", weatherController)
-        function weatherController($location, UserService, SensorService, ReadingService, loggedin, $rootScope) {
+        function weatherController($location, UserService, SensorService, loggedin) {
             var vm = this;
             vm.user = loggedin.data;
             var user = vm.user;
@@ -425,7 +425,6 @@
                 UserService
                     .logout()
                     .then(function (response) {
-                        $rootScope.currentUser = null;
                         $location.url("/home");
                     });
             }
