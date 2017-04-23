@@ -5,7 +5,7 @@
     angular
         .module("WebAppMaker")
         .controller("adminController", adminController)
-    function adminController($rootScope, UserService, loggedin, $location) {
+    function adminController(UserService, loggedin, $location) {
         var vm = this;
         vm.user = loggedin.data;
         var user = vm.user;
@@ -131,8 +131,7 @@
             UserService
                 .logout()
                 .then(function (response) {
-                    $rootScope.currentUser = null;
-                    $location.url("/home");
+                   $location.url("/home");
                 });
         }
     }
