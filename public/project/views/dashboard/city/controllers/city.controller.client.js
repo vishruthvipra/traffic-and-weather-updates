@@ -5,7 +5,7 @@
     angular
         .module("WebAppMaker")
         .controller("cityController", cityController)
-    function cityController(UserService, $rootScope, $location) {
+    function cityController(UserService, $location) {
         vm = this;
         vm.logout = logout;
 
@@ -18,7 +18,6 @@
             UserService
                 .logout()
                 .then(function (response) {
-                    $rootScope.currentUser = null;
                     $location.url("/home");
                 });
         }
