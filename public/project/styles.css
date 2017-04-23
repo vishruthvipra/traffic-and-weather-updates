@@ -6,7 +6,7 @@ body {
     padding-top: 36px;
     padding-bottom: 50px;
     height: 100%;
-    background: #ffffff; /*#2c3e50*/
+    background: #ffffff;
 }
 
 html {
@@ -163,7 +163,6 @@ li:hover {
 body {
     background-color: #1a8786;
     color: white;
-    /*text-align: center;*/
 }
 
 .sidebar ul li {
@@ -175,10 +174,6 @@ body {
 #pxmargin {
     margin-top: 50px !important;
 }
-
-/*label {*/
-    /*color: #777;*/
-/*}*/
 
 .sidebar .nav-second-level li,
 .sidebar .nav-third-level li {
@@ -204,14 +199,6 @@ body {
         padding-left: 0px;
     }
 }
-/*@media (max-width: 595px) {*/
-    /*.sidebar {*/
-        /*display: none;*/
-    /*}*/
-    /*.col-xs-9 {*/
-        /*width: 100%;*/
-    /*}*/
-/*}*/
 
 .navbar-fixed-bottom {
     z-index: 5;
@@ -220,7 +207,6 @@ body {
 ul {
     color: black;
 }
-
 
 /* ----------- upto here for dashboard styles ----------- */
 
@@ -346,14 +332,14 @@ table {
     white-space: pre-line;
 }
 
-/* city page */
+/* from here city page */
 
 #city-page img, #city-page p {
     width: 100%;
     text-align: justify;
 }
 
-/* domains */
+/* from here domains */
 
 #model-select .col-xs-4 a{
     background: #36a3a1;
@@ -380,7 +366,7 @@ table {
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
 }
 
-/* city */
+/* from here city */
 
 .cityphotos {
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
