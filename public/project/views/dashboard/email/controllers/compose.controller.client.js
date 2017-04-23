@@ -5,7 +5,7 @@
     angular
         .module("WebAppMaker")
         .controller("composeController", composeController)
-    function composeController($routeParams, UserService, loggedin, $rootScope, $location) {
+    function composeController($routeParams, UserService, loggedin, $location) {
         vm = this;
         vm.user = loggedin.data;
         var user = vm.user;
@@ -65,7 +65,6 @@
             UserService
                 .logout()
                 .then(function (response) {
-                    $rootScope.currentUser = null;
                     $location.url("/home");
                 });
         }
