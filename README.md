@@ -7,10 +7,10 @@
 ```https://webdevproject.herokuapp.com/project/#/home```
 
 2. Login credentials:
-username: alice password: alice
-username: bob password: bob
-username: charlie password: charlie
-username: dan password: dan
+```username: alice password: alice```
+```username: bob password: bob```
+```username: charlie password: charlie```
+```username: dan password: dan```
 
 ## Steps to download and run
 
